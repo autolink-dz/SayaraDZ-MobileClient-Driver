@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 
 
 
-
 class BrandsFragment: Fragment() {
 
     companion object {
@@ -42,15 +41,11 @@ class BrandsFragment: Fragment() {
 
 
 
-
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         brands_recycler_view.layoutManager =  LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         brands_recycler_view.adapter = mBrandsAdapter
-
 
 
 
@@ -65,15 +60,18 @@ class BrandsFragment: Fragment() {
         })
 
         mBrandsViewModel.networkState.observe(this, Observer {
-            mBrandsAdapter.setNetworkState(it)
-
         })
 
         mBrandsViewModel.refreshState.observe(this, Observer {
-            mBrandsAdapter.setNetworkState(it)
         })
 
+
         initSwipeToRefresh()
+        val dividerItemDecoration = DividerItemDecoration(
+            brands_recycler_view.context,
+            RecyclerView.VERTICAL
+        )
+        brands_recycler_view.addItemDecoration(dividerItemDecoration)
 
 
 
