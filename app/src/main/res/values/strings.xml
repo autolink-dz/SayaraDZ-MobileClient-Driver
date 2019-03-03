@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">SayaraDz</string>
+
+    <string name="slogan">voitures à portée de main</string>
+    <string name="intro_title_1">Explorer</string>
+    <string name="intro_title_2">Vendre</string>
+    <string name="intro_title_3">Suivre</string>
+
+    <string name="intro_content_1">Laissez-nous vous aider à acheter \nla voiture parfaire pour vous </string>
+    <string name="intro_content_2">Obtenir un devis instantané \npour votre voiture  </string>
+    <string name="intro_content_3">Rester en courant avec \nles opportunités dans le marché </string>
+    <string name="skip_text">Passer</string>
+    <string name="web_client_id">455736782811-6mtr17dvh8ph4rk6d6u6s8egk8ppntrd.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">355496821964693</string>
+    <string name="fb_login_protocol_scheme">fb355496821964693</string>
+    <string name="auth_error_message">quelque chose s\'est mal passé pouvez-vous essayer plus tard</string>
+
+
 </resources>

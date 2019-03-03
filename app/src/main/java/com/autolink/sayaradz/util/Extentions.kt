@@ -1,0 +1,77 @@
+package com.autolink.sayaradz.util
+
+import android.content.Context
+import android.preference.PreferenceManager
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEachIndexed
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.*
+import com.autolink.sayaradz.repository.brand.BrandsRepository
+import com.autolink.sayaradz.repository.user.UserRepository
+import com.github.paolorotolo.appintro.AppIntro
+import com.autolink.sayaradz.viewmodel.*
+
+inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, index:Int)->Unit){
+
+    this.forEachIndexed { index, view ->
+           if(view is T) action(view,index)
+    }
+
+}
+
+
+fun AppIntro.isFirstRun(context:Context):Boolean{
+
+     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+     val result  =  sharedPreferences.getBoolean("FirstRun",true)
+
+     if(result)  sharedPreferences.edit()
+                        .putBoolean("FirstRun",false)
+                        .apply()
+
+     return  result
+
+}
+
+
+
+
+fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
+
+    return ViewModelProviders.of(activity!!, object : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            val repo = ServiceLocator.instance(activity!!)
+                .getRepository(type)
+            @Suppress("UNCHECKED_CAST")
+            return when(type){
+                RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
+                RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+            }
+        }
+    })[when(type){
+        RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
+        RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
+    }]
+}
+
+fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryKey): ViewModel {
+
+    return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            val repo = ServiceLocator.instance(activity)
+                .getRepository(type)
+            @Suppress("UNCHECKED_CAST")
+            return when(type){
+                RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
+                RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+            }
+        }
+    })[when(type){
+        RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
+        RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
+    }]
+
+}
