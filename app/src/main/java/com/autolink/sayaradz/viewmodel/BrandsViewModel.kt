@@ -1,13 +1,16 @@
 package com.autolink.sayaradz.viewmodel
 
+import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import com.autolink.sayaradz.repository.brand.BrandsRepository
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 
 class BrandsViewModel(private val brandsRepository: BrandsRepository):ViewModel(){
 
     private val compositeDisposable = CompositeDisposable()
+
 
 
     init {

@@ -13,6 +13,8 @@ import com.autolink.sayaradz.repository.brand.BrandsRepository
 import com.autolink.sayaradz.repository.user.UserRepository
 import com.github.paolorotolo.appintro.AppIntro
 import com.autolink.sayaradz.viewmodel.*
+import com.google.android.gms.auth.api.credentials.IdToken
+import com.google.firebase.auth.FirebaseAuth
 
 inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, index:Int)->Unit){
 
@@ -23,7 +25,7 @@ inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, in
 }
 
 
-fun AppIntro.isFirstRun(context:Context):Boolean{
+fun AppCompatActivity.isFirstRun(context:Context):Boolean{
 
      val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
      val result  =  sharedPreferences.getBoolean("FirstRun",true)
@@ -35,6 +37,20 @@ fun AppIntro.isFirstRun(context:Context):Boolean{
      return  result
 
 }
+
+fun Context.writeToSharedPreference(key:String, value:String){
+    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+    sharedPreferences.edit()
+        .putString(key,value)
+        .apply()
+}
+
+fun Context.readFromSharedPreference(key:String):String?{
+    return PreferenceManager.getDefaultSharedPreferences(this)
+        .getString(key,"")
+}
+
 
 
 

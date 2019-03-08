@@ -4,32 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.fragment.AuthFragment
 import com.autolink.sayaradz.ui.fragment.IntroFragment
-import com.autolink.sayaradz.util.CostumePageTransformer
-import com.autolink.sayaradz.util.RepositoryKey
-import com.autolink.sayaradz.util.getViewModel
-import com.autolink.sayaradz.util.isFirstRun
+import com.autolink.sayaradz.util.*
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.autolink.sayaradz.vo.CarDriver
 import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.github.paolorotolo.appintro.AppIntro
-import com.github.paolorotolo.appintro.AppIntro2
-import com.github.paolorotolo.appintro.AppIntroBase
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.FirebaseApp
 
 class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebookSignIn {
 
@@ -55,6 +42,7 @@ class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebo
         mUserViewModel = getViewModel(this,RepositoryKey.USER_REPOSITORY) as UserViewModel
 
 
+
         mUserViewModel.getCarDriverLiveData().observe(this, Observer<CarDriver> {
               val intent = Intent(this,MainActivity::class.java)
               intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -63,7 +51,7 @@ class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebo
         })
 
         mUserViewModel.getAuthErrorLiveData().observe(this,Observer<String>{
-            Toast.makeText(this,R.string.auth_error_message,Toast.LENGTH_SHORT).show()
+            Log.d(TAG,it)
         })
 
 

@@ -11,18 +11,30 @@ import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
+import durdinapps.rxfirebase2.RxFirebaseAuth
+import io.reactivex.disposables.CompositeDisposable
 
-class UserViewModel(val userRepository: UserRepository): ViewModel() {
+class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
     companion object {
         private const val TAG = "UserViewModel"
-        private const val GOOGLE_PROVIDER_ID = "google.com"
     }
 
     private val carDriver:MutableLiveData<CarDriver>  = MutableLiveData()
-
     private val authError:MutableLiveData<String> = MutableLiveData()
 
+    private val compositeDisposable = CompositeDisposable()
+
+
+    init {
+        userRepository.compositeDisposable = compositeDisposable
+        userRepository.getAuthUser()
+            .subscribe({
+                carDriver.postValue(it)
+            },{
+                authError.postValue(it.message)
+            })
+    }
 
     fun getCarDriverLiveData():LiveData<CarDriver> = carDriver
 
@@ -33,9 +45,9 @@ class UserViewModel(val userRepository: UserRepository): ViewModel() {
 
             userRepository.signInUser(GoogleAuthProvider.getCredential(account.idToken,null))
                 .subscribe({
-                    carDriver.value = it
+                    carDriver.postValue(it)
                 },{
-                    authError.value = it.message
+                    authError.postValue(it.message)
                 })
 
 
@@ -45,7 +57,7 @@ class UserViewModel(val userRepository: UserRepository): ViewModel() {
     fun signInUserWithFacebook(token:AccessToken){
             userRepository.signInUser(FacebookAuthProvider.getCredential(token.token))
                 .subscribe({
-                    carDriver.value = it
+                    carDriver.postValue(it)
                 },{
                    Log.d(TAG,it.message)
                 })
@@ -57,5 +69,10 @@ class UserViewModel(val userRepository: UserRepository): ViewModel() {
 
     fun isUserSignIn():Boolean{
         return userRepository.isUserSignIn()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.fragment.BrandsFragment
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
+import com.autolink.sayaradz.util.writeToSharedPreference
 import com.autolink.sayaradz.viewmodel.BrandsViewModel
 import com.autolink.sayaradz.viewmodel.UserViewModel
 
@@ -19,6 +21,7 @@ class MainActivity:AppCompatActivity(){
 
     private lateinit var mUserViewModel: UserViewModel
     private lateinit var mBrandsViewModel: BrandsViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,11 @@ class MainActivity:AppCompatActivity(){
             startActivity(intent)
             finish()
         }
+
+        mUserViewModel.getCarDriverLiveData().observe(this, Observer {
+            Log.d(TAG,"updating the user token")
+            it.token?.let { it1 -> writeToSharedPreference("TOKEN", it1) }
+        })
 
         setUpToolBar()
 

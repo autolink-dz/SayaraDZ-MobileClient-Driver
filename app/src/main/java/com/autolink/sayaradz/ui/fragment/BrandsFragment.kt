@@ -21,8 +21,7 @@ import kotlinx.android.synthetic.main.fragment_brands.*
 import java.lang.Exception
 import com.autolink.sayaradz.R
 import androidx.recyclerview.widget.DividerItemDecoration
-
-
+import com.autolink.sayaradz.viewmodel.UserViewModel
 
 
 class BrandsFragment: Fragment() {
@@ -31,6 +30,7 @@ class BrandsFragment: Fragment() {
         private const val TAG  = "BrandsFragment"
     }
     private lateinit var mBrandsViewModel: BrandsViewModel
+
     private val mBrandsAdapter by lazy {
         BrandsAdapter(Glide.with(context!!))
     }
@@ -64,6 +64,8 @@ class BrandsFragment: Fragment() {
 
         mBrandsViewModel.refreshState.observe(this, Observer {
         })
+
+
 
 
         initSwipeToRefresh()

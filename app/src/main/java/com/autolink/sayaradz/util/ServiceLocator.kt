@@ -29,7 +29,7 @@ interface ServiceLocator{
         fun instance(context: Context): ServiceLocator {
             synchronized(LOCK) {
                 if (instance == null) {
-                    instance = DefaultServiceLocator()
+                    instance = DefaultServiceLocator(context)
                 }
                 return instance!!
             }
@@ -45,7 +45,7 @@ interface ServiceLocator{
 }
 
 
-open class DefaultServiceLocator:ServiceLocator{
+open class DefaultServiceLocator(val context:Context):ServiceLocator{
 
     companion object {
         private const val SAYARA_DZ_API_BASE_URL = "https://us-central1-sayaradz-75240.cloudfunctions.net/sayaraDzApi/api/v1/"
@@ -55,7 +55,7 @@ open class DefaultServiceLocator:ServiceLocator{
     private val NETWORK_IO  = Executors.newFixedThreadPool(3)
 
     private val restApi by lazy {
-        ApiBuilder.create(SAYARA_DZ_API_BASE_URL,SayaraDzApi::class.java)
+        ApiBuilder.create(SAYARA_DZ_API_BASE_URL,SayaraDzApi::class.java,context = context)
     }
 
 

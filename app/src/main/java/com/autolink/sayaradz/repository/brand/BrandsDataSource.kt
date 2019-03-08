@@ -1,17 +1,20 @@
 package com.autolink.sayaradz.repository.brand
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.utils.NetworkState
 import com.autolink.sayaradz.repository.BaseDataSource
 import com.autolink.sayaradz.vo.Brand
+import com.google.android.gms.auth.api.credentials.IdToken
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
 
-class BrandsDataSource( api:SayaraDzApi,
-                        networkExecutor:Executor,
-                        compositeDisposable: CompositeDisposable):
+class BrandsDataSource(api:SayaraDzApi,
+                       networkExecutor:Executor,
+                       compositeDisposable: CompositeDisposable):
     BaseDataSource<Brand>(api,networkExecutor,compositeDisposable){
 
 
@@ -21,8 +24,10 @@ class BrandsDataSource( api:SayaraDzApi,
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
+
         api.GetBrandsList()
             .subscribeOn(Schedulers.from(networkExecutor))
+            .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe {
                 compositeDisposable.add(it)
             }
@@ -49,6 +54,7 @@ class BrandsDataSource( api:SayaraDzApi,
 
         api.GetBrandsList(params.key)
             .subscribeOn(Schedulers.from(networkExecutor))
+            .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe {
                 compositeDisposable.add(it)
             }
