@@ -65,7 +65,9 @@ class BrandsRepository(private val api:SayaraDzApi,
 
     }
 
+    override fun clear() {
 
+    }
 
 
 }

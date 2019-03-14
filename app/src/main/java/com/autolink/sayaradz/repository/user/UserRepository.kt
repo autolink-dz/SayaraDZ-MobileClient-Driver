@@ -1,7 +1,9 @@
 package com.autolink.sayaradz.repository.user
 
+import android.content.Context
 import android.util.Log
 import com.autolink.sayaradz.repository.IRepository
+import com.autolink.sayaradz.util.writeToSharedPreference
 import com.autolink.sayaradz.vo.CarDriver
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -12,25 +14,30 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
+import javax.security.auth.Subject
 
-class UserRepository(override val networkExecutor: Executor,
+class UserRepository(val context: Context,
+                     override val networkExecutor: Executor,
                      override val diskExecutor: Executor) : IRepository {
     companion object {
         private const val TAG = "UserRepository"
+        const val USER_TOKEN_KEY  = "TOKEN"
     }
 
 
-
     lateinit var compositeDisposable: CompositeDisposable
-
+    val tokenListener = FirebaseAuth.IdTokenListener {
+        Log.d(TAG,"token is updated")
+        it.currentUser?.getIdToken(false)?.addOnCompleteListener {
+            Log.d(TAG,"updating the token in the shared preferences")
+            context.writeToSharedPreference(USER_TOKEN_KEY,it.result?.token.toString())
+        }
+    }
 
     init {
 
-        RxFirebaseAuth.addIdTokenListener(FirebaseAuth.getInstance()) {auth ->
-            auth.currentUser?.getIdToken(true)?.addOnCompleteListener {
-                    Log.d(TAG,it.result?.token)
-            }
-        }
+        FirebaseAuth.getInstance().addIdTokenListener(tokenListener)
+
     }
 
 
@@ -51,14 +58,9 @@ class UserRepository(override val networkExecutor: Executor,
                      .observeOn(Schedulers.from(networkExecutor))
                      .doOnSubscribe { compositeDisposable.add(it) }
                      .map { it.currentUser}
-                     .switchMap {user->
-                         Observable.create<CarDriver> {emitter->
-                             user.getIdToken(true).addOnCompleteListener {
-                                 emitter.onNext(CarDriver(user.uid,user.displayName!!,user.email!!,user.photoUrl.toString(),it.result?.token))
-                                }
-                            }
+                     .map {
+                            CarDriver(it.uid,it.displayName!!,it.email!!,it.photoUrl.toString())
                      }
-
 
     }
 
@@ -70,5 +72,9 @@ class UserRepository(override val networkExecutor: Executor,
 
     fun isUserSignIn():Boolean{
         return FirebaseAuth.getInstance().currentUser != null
+    }
+
+    override fun clear() {
+        FirebaseAuth.getInstance().removeIdTokenListener(tokenListener)
     }
 }

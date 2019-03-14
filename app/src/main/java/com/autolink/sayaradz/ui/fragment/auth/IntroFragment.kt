@@ -1,4 +1,4 @@
-package com.autolink.sayaradz.ui.fragment
+package com.autolink.sayaradz.ui.fragment.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater

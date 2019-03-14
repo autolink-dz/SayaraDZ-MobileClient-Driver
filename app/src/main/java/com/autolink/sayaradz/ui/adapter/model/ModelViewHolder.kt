@@ -25,8 +25,7 @@ class ModelViewHolder(view: View,glide: RequestManager): BaseViewHolder<Model>(v
 
     val modelImage: ImageView = view.findViewById(R.id.model_image)
     val modelName: TextView = view.findViewById(R.id.model_name)
-    val modelOptionsNumber: TextView = view.findViewById(R.id.model_options_number)
-    val modelColorsNumber: TextView = view.findViewById(R.id.model_colors_number)
+
 
 
 

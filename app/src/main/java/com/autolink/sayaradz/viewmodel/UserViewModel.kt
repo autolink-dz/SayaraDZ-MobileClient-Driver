@@ -73,6 +73,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        userRepository.clear()
         compositeDisposable.clear()
     }
 }

@@ -2,6 +2,7 @@ package com.autolink.sayaradz.api
 
 import android.content.Context
 import android.util.Log
+import com.autolink.sayaradz.repository.user.UserRepository
 import com.autolink.sayaradz.util.readFromSharedPreference
 import com.google.firebase.auth.FirebaseAuth
 import okhttp3.HttpUrl
@@ -18,7 +19,7 @@ companion object {
         val client =  OkHttpClient
             .Builder()
             .addInterceptor {
-                val token  = context.readFromSharedPreference("TOKEN")
+                val token  = context.readFromSharedPreference(UserRepository.USER_TOKEN_KEY)
 
                 val request  = it.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")

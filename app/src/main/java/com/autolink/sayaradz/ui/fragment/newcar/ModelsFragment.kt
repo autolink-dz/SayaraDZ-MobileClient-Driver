@@ -1,7 +1,6 @@
-package com.autolink.sayaradz.ui.fragment
+package com.autolink.sayaradz.ui.fragment.newcar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,14 +20,13 @@ import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.ModelsViewModel
 import com.autolink.sayaradz.vo.Brand
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_brands.*
 import kotlinx.android.synthetic.main.fragment_models.*
 
 class ModelsFragment: Fragment(){
 
     companion object {
         private const val TAG  = "ModelsFragment"
+        const val BRAND_OBJECT_ARG_KEY = "brand"
     }
 
     private val mModelsViewModel by lazy {
@@ -41,7 +38,7 @@ class ModelsFragment: Fragment(){
     }
 
     private val mBrand by lazy {
-        arguments!!["brand"] as Brand
+        arguments!![BRAND_OBJECT_ARG_KEY] as Brand
     }
 
     private lateinit var mToolbar:Toolbar

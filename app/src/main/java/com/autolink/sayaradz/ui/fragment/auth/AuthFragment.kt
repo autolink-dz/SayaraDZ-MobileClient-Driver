@@ -1,4 +1,4 @@
-package com.autolink.sayaradz.ui.fragment
+package com.autolink.sayaradz.ui.fragment.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.autolink.sayaradz.ui.activity.AuthActivity
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import kotlinx.android.synthetic.main.fragment_auth.*
 
 class AuthFragment: Fragment() {
@@ -68,7 +66,10 @@ class AuthFragment: Fragment() {
             (context as OnGoogleSignIn).onGoogleSignIn()
         }
 
-        facebook_sign_in_button.setReadPermissions(EMAIL,PUBLIC_PROFILE)
+        facebook_sign_in_button.setReadPermissions(
+            EMAIL,
+            PUBLIC_PROFILE
+        )
         facebook_sign_in_button.fragment = this
 
         mCallbackManager = CallbackManager.Factory.create()

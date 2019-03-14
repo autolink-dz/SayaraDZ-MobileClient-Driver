@@ -7,21 +7,19 @@
 
     <fragment
               android:id="@+id/brandsFragment"
-              android:name="com.autolink.sayaradz.ui.fragment.BrandsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.newcar.BrandsFragment"
               tools:layout="@layout/fragment_brands">
 
         <action android:id="@+id/action_brandsFragment_to_modelsFragment"
                 app:destination="@id/modelsFragment"
-
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"
-                app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"/>
+        />
 
     </fragment>
 
 
     <fragment
               android:id="@+id/modelsFragment"
-              android:name="com.autolink.sayaradz.ui.fragment.ModelsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.newcar.ModelsFragment"
               tools:layout="@layout/fragment_models">
 
     </fragment>

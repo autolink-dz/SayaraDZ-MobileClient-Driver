@@ -7,4 +7,6 @@ import java.util.concurrent.Executor
 interface IRepository{
     val networkExecutor:Executor
     val diskExecutor:Executor
+
+    fun clear()
 }

@@ -2,25 +2,21 @@ package com.autolink.sayaradz.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.brand.BrandsAdapter
-import com.autolink.sayaradz.ui.fragment.ModelsFragment
+import com.autolink.sayaradz.ui.fragment.newcar.ModelsFragment
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.util.setupWithNavController
-import com.autolink.sayaradz.util.writeToSharedPreference
-import com.autolink.sayaradz.viewmodel.BrandsViewModel
-import com.autolink.sayaradz.viewmodel.ModelsViewModel
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.autolink.sayaradz.vo.Brand
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -62,17 +58,47 @@ class MainActivity:AppCompatActivity(),BrandsAdapter.OnBrandsClickListener{
             finish()
         }
 
-        mUserViewModel.getCarDriverLiveData().observe(this, Observer {
-            Log.d(TAG,"updating the user token")
-            it.token?.let { it1 -> writeToSharedPreference("TOKEN", it1) }
-        })
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.logout -> {
+                mUserViewModel.signOutUser()
+                val intent = Intent(this,AuthActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
+        }
+        return true
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
+    }
+
+    override fun onBrandClick(brand:Brand) {
+        val bundle = Bundle()
+        bundle.putParcelable(ModelsFragment.BRAND_OBJECT_ARG_KEY,brand)
+        currentNavController?.value?.navigate(R.id.action_brandsFragment_to_modelsFragment,bundle)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    override fun onBackPressed() {
+        if (currentNavController?.value?.popBackStack() != true) {
+            super.onBackPressed()
+        }
     }
 
     private fun setupBottomNavigationBar() {
@@ -101,21 +127,5 @@ class MainActivity:AppCompatActivity(),BrandsAdapter.OnBrandsClickListener{
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         findViewById<Toolbar>(R.id.toolbar)
             .setupWithNavController(navController, appBarConfiguration)
-    }
-
-    override fun onBrandClick(brand:Brand) {
-        val bundle = Bundle()
-        bundle.putParcelable("brand",brand)
-        currentNavController?.value?.navigate(R.id.action_brandsFragment_to_modelsFragment,bundle)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return currentNavController?.value?.navigateUp() ?: false
-    }
-
-    override fun onBackPressed() {
-        if (currentNavController?.value?.popBackStack() != true) {
-            super.onBackPressed()
-        }
     }
 }

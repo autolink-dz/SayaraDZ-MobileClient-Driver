@@ -3,11 +3,10 @@ package com.autolink.sayaradz.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.autolink.sayaradz.R
-import com.autolink.sayaradz.ui.fragment.AuthFragment
-import com.autolink.sayaradz.ui.fragment.IntroFragment
+import com.autolink.sayaradz.ui.fragment.auth.AuthFragment
+import com.autolink.sayaradz.ui.fragment.auth.IntroFragment
 import com.autolink.sayaradz.util.*
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.autolink.sayaradz.vo.CarDriver
@@ -18,7 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 
-class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebookSignIn {
+class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
+    AuthFragment.OnFacebookSignIn {
 
 
     companion object {
@@ -29,7 +29,13 @@ class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebo
 
 
     private lateinit var mUserViewModel:UserViewModel
+    val listner = object : PagerOnPageChangeListener(){
 
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            isProgressButtonEnabled = position != (INTRO_SLIDE_NUMBER-1)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,26 +60,18 @@ class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebo
             Log.d(TAG,it)
         })
 
-
     }
 
     private fun setUpIntroActivityLayout(){
 
         showSkipButton(false)
-        showStatusBar(false)
         setIndicatorColor(resources.getColor(R.color.colorPrimary),resources.getColor(R.color.grey))
         setNextArrowColor(resources.getColor(R.color.colorPrimary))
         showSeparator(false)
 
         setCustomTransformer(CostumePageTransformer())
 
-        getPager().addOnPageChangeListener(object : PagerOnPageChangeListener(){
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                isProgressButtonEnabled = position != (INTRO_SLIDE_NUMBER-1)
-            }
-        })
+        getPager().addOnPageChangeListener(listner)
     }
 
     private fun setUpIntroPosters(){
@@ -119,6 +117,10 @@ class AuthActivity: AppIntro(),AuthFragment.OnGoogleSignIn,AuthFragment.OnFacebo
         mUserViewModel.signInUserWithFacebook(token)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        getPager().removeOnPageChangeListener(listner)
+    }
 
 
 

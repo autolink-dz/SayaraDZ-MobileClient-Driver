@@ -17,8 +17,8 @@
     <string name="facebook_app_id">355496821964693</string>
     <string name="fb_login_protocol_scheme">fb355496821964693</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="options">%1$s Options</string>
+    <string name="colors">%1$s Couleurs</string>
 
 
 </resources>

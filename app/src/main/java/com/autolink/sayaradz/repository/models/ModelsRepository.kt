@@ -69,4 +69,8 @@ class ModelsRepository(private val api: SayaraDzApi,
         return listing
     }
 
+    override fun clear() {
+
+    }
+
 }

@@ -7,7 +7,7 @@
 
     <fragment
               android:id="@+id/announcementsFragment"
-              android:name="com.autolink.sayaradz.ui.fragment.AnnouncementsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFragment"
               tools:layout="@layout/fragment_announcements"/>
 
 </navigation>
