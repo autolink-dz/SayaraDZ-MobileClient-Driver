@@ -1,28 +1,25 @@
-package com.autolink.sayaradz.repository.brand
+package com.autolink.sayaradz.repository.models
 
 import android.annotation.SuppressLint
 import com.autolink.sayaradz.api.SayaraDzApi
-import com.autolink.sayaradz.repository.utils.NetworkState
 import com.autolink.sayaradz.repository.BaseDataSource
-import com.autolink.sayaradz.vo.Brand
+import com.autolink.sayaradz.repository.utils.NetworkState
+import com.autolink.sayaradz.vo.Model
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
 
-class BrandsDataSource(api:SayaraDzApi,
-                       networkExecutor:Executor,
-                       compositeDisposable: CompositeDisposable):
-    BaseDataSource<Brand>(api,networkExecutor,compositeDisposable){
-
+class ModelsDataSource(val brandId:String,
+                       api: SayaraDzApi,
+                       networkExecutor: Executor,
+                       compositeDisposable: CompositeDisposable): BaseDataSource<Model>(api,networkExecutor,compositeDisposable){
 
     @SuppressLint("CheckResult")
-    override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Brand>) {
-
+    override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Model>) {
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
-
-        api.getBrandsList()
+        api.getModelsList(brandId=brandId)
             .subscribeOn(Schedulers.from(networkExecutor))
             .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe {
@@ -35,21 +32,21 @@ class BrandsDataSource(api:SayaraDzApi,
                 networkState.postValue(NetworkState.LOADED)
                 initialLoad.postValue(NetworkState.LOADED)
                 callback.onResult(data,"0",key)
-             },{
-                    retry = {
-                        loadInitial(params,callback) }
+            },{
+                retry = {
+                    loadInitial(params,callback) }
 
-                    val error  = NetworkState.error(it.message)
-                    networkState.postValue(error)
-                    initialLoad.postValue(error)
-             })
+                val error  = NetworkState.error(it.message)
+                networkState.postValue(error)
+                initialLoad.postValue(error)
+            })
     }
 
     @SuppressLint("CheckResult")
-    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Brand>) {
+    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Model>) {
         networkState.postValue(NetworkState.LOADING)
 
-        api.getBrandsList(params.key)
+        api.getModelsList(key = params.key, brandId=brandId)
             .subscribeOn(Schedulers.from(networkExecutor))
             .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe {
@@ -70,10 +67,9 @@ class BrandsDataSource(api:SayaraDzApi,
                 val error  = NetworkState.error(it.message)
                 networkState.postValue(error)
             })
-
     }
 
-    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<String, Brand>) {
-    }
+
+    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<String, Model>) {}
 
 }

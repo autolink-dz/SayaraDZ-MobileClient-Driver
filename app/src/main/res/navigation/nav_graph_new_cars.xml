@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/new_cars"
+            app:startDestination="@id/brandsFragment">
+
+    <fragment
+              android:id="@+id/brandsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.BrandsFragment"
+              tools:layout="@layout/fragment_brands">
+
+        <action android:id="@+id/action_brandsFragment_to_modelsFragment"
+                app:destination="@id/modelsFragment"
+
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"
+                app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"/>
+
+    </fragment>
+
+
+    <fragment
+              android:id="@+id/modelsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.ModelsFragment"
+              tools:layout="@layout/fragment_models">
+
+    </fragment>
+
+</navigation>

@@ -1,6 +1,7 @@
 package com.autolink.sayaradz.api
 
 import com.autolink.sayaradz.vo.Brand
+import com.autolink.sayaradz.vo.Model
 import com.google.gson.annotations.SerializedName
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -14,7 +15,11 @@ interface SayaraDzApi{
 
 
     @GET("marques")
-    fun GetBrandsList(@Query("next")key:String="0"):Observable<ResponseListing<Brand>>
+    fun getBrandsList(@Query("next")key:String="0"):Observable<ResponseListing<Brand>>
+
+    @GET("modeles")
+    fun getModelsList(@Query("next")key:String="0",
+                      @Query("id_marque")brandId:String?=null):Observable<ResponseListing<Model>>
 
 
     data class ResponseListing<T>(

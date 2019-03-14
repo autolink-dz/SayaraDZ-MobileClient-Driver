@@ -5,6 +5,7 @@ import com.autolink.sayaradz.api.ApiBuilder
 import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.IRepository
 import com.autolink.sayaradz.repository.brand.BrandsRepository
+import com.autolink.sayaradz.repository.models.ModelsRepository
 import com.autolink.sayaradz.repository.user.UserRepository
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -12,7 +13,8 @@ import java.util.concurrent.Executors
 
 enum class RepositoryKey{
         USER_REPOSITORY,
-        BRANDS_REPOSITORY
+        BRANDS_REPOSITORY,
+        MODELS_REPOSITORY
 }
 
 enum class ApiKey{
@@ -66,6 +68,11 @@ open class DefaultServiceLocator(val context:Context):ServiceLocator{
                     getDiskIOExecutor()
                 )
                 RepositoryKey.BRANDS_REPOSITORY ->  BrandsRepository(
+                    getSayaraDzApi(),
+                    getNetworkExecutor(),
+                    getDiskIOExecutor()
+                )
+                RepositoryKey.MODELS_REPOSITORY ->  ModelsRepository(
                     getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()

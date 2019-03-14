@@ -42,4 +42,9 @@
         <item name="android:lineSpacingExtra">0.8sp</item>
     </style>
 
+    <style name="AppTheme.ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
 </resources>

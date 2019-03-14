@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.autolink.sayaradz.repository.brand.BrandsRepository
+import com.autolink.sayaradz.repository.models.ModelsRepository
 import com.autolink.sayaradz.repository.user.UserRepository
 import com.github.paolorotolo.appintro.AppIntro
 import com.autolink.sayaradz.viewmodel.*
@@ -57,7 +58,7 @@ fun Context.readFromSharedPreference(key:String):String?{
 
 fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
 
-    return ViewModelProviders.of(activity!!, object : ViewModelProvider.Factory {
+    return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             val repo = ServiceLocator.instance(activity!!)
                 .getRepository(type)
@@ -65,11 +66,13 @@ fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
             return when(type){
                 RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
                 RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+                RepositoryKey.MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
             }
         }
     })[when(type){
         RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
         RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
+        RepositoryKey.MODELS_REPOSITORY -> ModelsViewModel::class.java
     }]
 }
 
@@ -83,11 +86,13 @@ fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryK
             return when(type){
                 RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
                 RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+                RepositoryKey.MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
             }
         }
     })[when(type){
         RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
         RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
+        RepositoryKey.MODELS_REPOSITORY -> ModelsViewModel::class.java
     }]
 
 }

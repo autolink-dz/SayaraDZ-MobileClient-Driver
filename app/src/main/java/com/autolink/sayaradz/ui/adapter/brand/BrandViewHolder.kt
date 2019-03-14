@@ -5,20 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.autolink.sayaradz.R
+import com.autolink.sayaradz.ui.adapter.BaseViewHolder
 import com.autolink.sayaradz.vo.Brand
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 
 
-class BrandViewHolder(val view:View, private val glide:RequestManager): RecyclerView.ViewHolder(view) {
+class BrandViewHolder(view:View,
+                      glide:RequestManager,
+                      val listener:BrandsAdapter.OnBrandsClickListener): BaseViewHolder<Brand>(view,glide) {
+
+    init {
+        view.setOnClickListener {
+            val brand  = it.tag as Brand
+            listener.onBrandClick(brand)
+        }
+    }
 
     companion object {
-        fun create(parent: ViewGroup, glide: RequestManager): BrandViewHolder {
+        fun create(parent: ViewGroup, glide: RequestManager, listener: BrandsAdapter.OnBrandsClickListener): BrandViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item_brand, parent, false)
-            return BrandViewHolder(view, glide)
+            return BrandViewHolder(view, glide,listener)
         }
     }
 
@@ -27,11 +35,12 @@ class BrandViewHolder(val view:View, private val glide:RequestManager): Recycler
     val brandTitle: TextView = view.findViewById(R.id.brand_name)
 
 
-    fun bindTo(brand: Brand) {
-        with(brand) {
+    override fun bindTo(o: Brand) {
+        with(o) {
             brandTitle.text = name
             glide.load(photoURL)
                 .into(brandImage)
+            view.tag = o
         }
     }
 

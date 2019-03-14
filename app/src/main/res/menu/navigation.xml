@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/new_cars"
+            android:title="Neufs"
+            android:icon="@drawable/ic_new"/>
+    <item
+            android:id="@+id/old_cars"
+            android:title="Occasions"
+            android:icon="@drawable/ic_occasion"/>
+    <item
+            android:id="@+id/journal"
+            android:title="Journal"
+            android:icon="@drawable/ic_journal"/>
+</menu>

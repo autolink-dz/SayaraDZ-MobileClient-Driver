@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,7 +22,10 @@ import kotlinx.android.synthetic.main.fragment_brands.*
 import java.lang.Exception
 import com.autolink.sayaradz.R
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.autolink.sayaradz.util.RepositoryKey
+import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.UserViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class BrandsFragment: Fragment() {
@@ -29,10 +33,13 @@ class BrandsFragment: Fragment() {
     companion object {
         private const val TAG  = "BrandsFragment"
     }
-    private lateinit var mBrandsViewModel: BrandsViewModel
+
+    private val mBrandsViewModel by lazy {
+        getViewModel(RepositoryKey.BRANDS_REPOSITORY) as BrandsViewModel
+    }
 
     private val mBrandsAdapter by lazy {
-        BrandsAdapter(Glide.with(context!!))
+        BrandsAdapter(Glide.with(context!!),context as BrandsAdapter.OnBrandsClickListener)
     }
 
 
@@ -47,37 +54,17 @@ class BrandsFragment: Fragment() {
         brands_recycler_view.layoutManager =  LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         brands_recycler_view.adapter = mBrandsAdapter
 
-
-
-        mBrandsViewModel = activity?.run {
-            ViewModelProviders.of(this).get(BrandsViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
-
-
-
-        mBrandsViewModel.brandsList.observe(this, Observer{
-            mBrandsAdapter.submitList(it)
-        })
-
-        mBrandsViewModel.networkState.observe(this, Observer {
-        })
-
-        mBrandsViewModel.refreshState.observe(this, Observer {
-        })
-
-
-
-
-        initSwipeToRefresh()
-        val dividerItemDecoration = DividerItemDecoration(
-            brands_recycler_view.context,
-            RecyclerView.VERTICAL
-        )
+        val dividerItemDecoration = DividerItemDecoration(brands_recycler_view.context, RecyclerView.VERTICAL)
         brands_recycler_view.addItemDecoration(dividerItemDecoration)
 
 
+        mBrandsViewModel.brandsList.observe(viewLifecycleOwner, Observer{
+            mBrandsAdapter.submitList(it)
+        })
 
 
+        initSwipeToRefresh()
+        activity?.findViewById<TextView>(R.id.toolbar_title)?.text = resources.getString(R.string.app_name)
 
 
     }
@@ -85,10 +72,10 @@ class BrandsFragment: Fragment() {
 
     private fun initSwipeToRefresh() {
         mBrandsViewModel.refreshState.observe(this, Observer {
-            swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+            brand_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
         })
 
-        swipe_to_refresh_layout.setOnRefreshListener {
+        brand_swipe_to_refresh_layout.setOnRefreshListener {
             mBrandsViewModel.refresh()
         }
     }
