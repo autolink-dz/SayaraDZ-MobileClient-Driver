@@ -7,18 +7,22 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.autolink.sayaradz.repository.model.ModelsRepository
 import com.autolink.sayaradz.repository.utils.Listing
+import com.autolink.sayaradz.repository.version.VersionsRepository
 import com.autolink.sayaradz.vo.Model
+import com.autolink.sayaradz.vo.Version
 import io.reactivex.disposables.CompositeDisposable
 
-class ModelsViewModel(private val modelsRepository: ModelsRepository): ViewModel(){
+class VersionsViewModel(private val versionsRepository: VersionsRepository): ViewModel(){
 
     private val compositeDisposable = CompositeDisposable()
-    private val brandId  = MutableLiveData<String>()
-    private val repoResult:LiveData<Listing<Model>> = Transformations.switchMap(brandId){
-        modelsRepository.getModels(brandId = it)
+
+    private val model  = MutableLiveData<Model>()
+
+    private val repoResult: LiveData<Listing<Version>> = Transformations.switchMap(model){
+        versionsRepository.getVersions(modelId = it.id)
     }
 
-    val modelsList: LiveData<PagedList<Model>> by lazy {
+    val versionList: LiveData<PagedList<Version>> by lazy {
         Transformations.switchMap(repoResult) {
             it.pagedList
         }
@@ -35,9 +39,14 @@ class ModelsViewModel(private val modelsRepository: ModelsRepository): ViewModel
         }
     }
 
+
+
     init {
-        modelsRepository.compositeDisposable  = compositeDisposable
+        versionsRepository.compositeDisposable  = compositeDisposable
     }
+
+
+
 
     fun refresh() {
         repoResult.value?.refresh?.invoke()
@@ -46,10 +55,13 @@ class ModelsViewModel(private val modelsRepository: ModelsRepository): ViewModel
         val listing = repoResult.value
         listing?.retry?.invoke()
     }
-    fun setBrandId(id:String){
-        if(id == this.brandId.value) return
-        this.brandId.value = id
+
+    fun setModel(model:Model){
+        if(model == this.model.value) return
+        this.model.value = model
     }
+
+
 
     override fun onCleared() {
         super.onCleared()

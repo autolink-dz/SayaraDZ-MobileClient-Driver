@@ -26,7 +26,6 @@ class ModelsFragment: Fragment(){
 
     companion object {
         private const val TAG  = "ModelsFragment"
-        const val BRAND_OBJECT_ARG_KEY = "brand"
     }
 
     private val mModelsViewModel by lazy {
@@ -34,14 +33,13 @@ class ModelsFragment: Fragment(){
     }
 
     private val mModelsAdapter by lazy {
-        ModelsAdapter(Glide.with(context!!))
+        ModelsAdapter(Glide.with(context!!),context as ModelsAdapter.OnModelClickListener)
     }
 
     private val mBrand by lazy {
-        arguments!![BRAND_OBJECT_ARG_KEY] as Brand
+        arguments!![BrandsFragment.BRAND_OBJECT_ARG_KEY] as Brand
     }
 
-    private lateinit var mToolbar:Toolbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
             = inflater.inflate(R.layout.fragment_models,container,false)

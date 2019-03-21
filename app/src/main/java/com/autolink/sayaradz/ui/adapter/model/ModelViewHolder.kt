@@ -12,13 +12,23 @@ import com.autolink.sayaradz.vo.Model
 import com.bumptech.glide.RequestManager
 
 
-class ModelViewHolder(view: View,glide: RequestManager): BaseViewHolder<Model>(view,glide) {
+class ModelViewHolder(view: View,
+                      glide: RequestManager,
+                      val listener:ModelsAdapter.OnModelClickListener): BaseViewHolder<Model>(view,glide) {
+
+    init {
+        view.setOnClickListener {
+            val brand  = it.tag as Model
+            listener.onModelClick(brand)
+        }
+    }
+
 
     companion object {
-        fun create(parent: ViewGroup, glide: RequestManager): ModelViewHolder {
+        fun create(parent: ViewGroup, glide: RequestManager,listener:ModelsAdapter.OnModelClickListener): ModelViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_list_model, parent, false)
-            return ModelViewHolder(view, glide)
+            return ModelViewHolder(view, glide,listener = listener)
         }
     }
 
@@ -34,6 +44,7 @@ class ModelViewHolder(view: View,glide: RequestManager): BaseViewHolder<Model>(v
             modelName.text = name
             glide.load(photoURL)
                 .into(modelImage)
+            view.tag = o
         }
     }
 }

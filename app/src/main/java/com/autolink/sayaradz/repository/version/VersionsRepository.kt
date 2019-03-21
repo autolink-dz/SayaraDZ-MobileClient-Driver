@@ -1,4 +1,4 @@
-package com.autolink.sayaradz.repository.models
+package com.autolink.sayaradz.repository.version
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,16 +8,17 @@ import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.DataSourceFactory
 import com.autolink.sayaradz.repository.DataSourceKey
 import com.autolink.sayaradz.repository.IRepository
-import com.autolink.sayaradz.repository.brand.BrandsRepository
 import com.autolink.sayaradz.repository.utils.Listing
 import com.autolink.sayaradz.vo.Model
+import com.autolink.sayaradz.vo.Version
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
 
 
-class ModelsRepository(private val api: SayaraDzApi,
-                       override val networkExecutor: Executor,
-                       override val diskExecutor: Executor): IRepository {
+class VersionsRepository(private val api: SayaraDzApi,
+                         override val networkExecutor: Executor,
+                         override val diskExecutor: Executor
+): IRepository {
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -25,17 +26,17 @@ class ModelsRepository(private val api: SayaraDzApi,
         private const val DEFAULT_PAGE_SIZE  = 20
     }
 
-    fun getModels(brandId:String,pageSize :Int = DEFAULT_PAGE_SIZE):LiveData<Listing<Model>>{
+    fun getVersions(modelId:String,pageSize :Int = DEFAULT_PAGE_SIZE): LiveData<Listing<Version>> {
 
-        val listing = MutableLiveData<Listing<Model>>()
+        val listing = MutableLiveData<Listing<Version>>()
         val params  = hashMapOf<String,String>()
 
-        params["brandId"] = brandId
+        params["modelId"] = modelId
 
-        val sourceFactory = DataSourceFactory<Model>(
+        val sourceFactory = DataSourceFactory<Version>(
             api,
             networkExecutor,
-            DataSourceKey.Models,
+            DataSourceKey.Versions,
             compositeDisposable,
             params
         )

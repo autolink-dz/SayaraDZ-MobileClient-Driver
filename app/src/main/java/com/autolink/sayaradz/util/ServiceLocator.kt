@@ -5,8 +5,11 @@ import com.autolink.sayaradz.api.ApiBuilder
 import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.IRepository
 import com.autolink.sayaradz.repository.brand.BrandsRepository
-import com.autolink.sayaradz.repository.models.ModelsRepository
+import com.autolink.sayaradz.repository.model.ModelsRepository
+import com.autolink.sayaradz.repository.tariff.TariffRepository
 import com.autolink.sayaradz.repository.user.UserRepository
+import com.autolink.sayaradz.repository.version.VersionsRepository
+import com.autolink.sayaradz.util.RepositoryKey.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
@@ -14,12 +17,9 @@ import java.util.concurrent.Executors
 enum class RepositoryKey{
         USER_REPOSITORY,
         BRANDS_REPOSITORY,
-        MODELS_REPOSITORY
-}
-
-enum class ApiKey{
-    SAYARA_DZ_API
-
+        MODELS_REPOSITORY,
+        VERSIONS_REPOSITORY,
+        TARIFF_REPOSITORY
 }
 
 interface ServiceLocator{
@@ -63,17 +63,27 @@ open class DefaultServiceLocator(val context:Context):ServiceLocator{
 
     override fun getRepository(key: RepositoryKey): IRepository {
             return when(key){
-                RepositoryKey.USER_REPOSITORY -> UserRepository(
+                USER_REPOSITORY -> UserRepository(
                     context,
                     getNetworkExecutor(),
                     getDiskIOExecutor()
                 )
-                RepositoryKey.BRANDS_REPOSITORY ->  BrandsRepository(
+                BRANDS_REPOSITORY ->  BrandsRepository(
                     getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()
                 )
-                RepositoryKey.MODELS_REPOSITORY ->  ModelsRepository(
+                MODELS_REPOSITORY ->  ModelsRepository(
+                    getSayaraDzApi(),
+                    getNetworkExecutor(),
+                    getDiskIOExecutor()
+                )
+                VERSIONS_REPOSITORY -> VersionsRepository(
+                    getSayaraDzApi(),
+                    getNetworkExecutor(),
+                    getDiskIOExecutor()
+                )
+                TARIFF_REPOSITORY -> TariffRepository(
                     getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()

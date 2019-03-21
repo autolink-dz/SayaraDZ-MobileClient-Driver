@@ -1,4 +1,4 @@
-package com.autolink.sayaradz.repository.models
+package com.autolink.sayaradz.repository.model
 
 import android.annotation.SuppressLint
 import com.autolink.sayaradz.api.SayaraDzApi

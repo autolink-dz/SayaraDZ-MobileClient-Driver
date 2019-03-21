@@ -23,6 +23,7 @@ class BrandsFragment: Fragment() {
 
     companion object {
         private const val TAG  = "BrandsFragment"
+        const val BRAND_OBJECT_ARG_KEY = "brand"
     }
 
     private val mBrandsViewModel by lazy {

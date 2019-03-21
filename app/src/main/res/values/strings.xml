@@ -19,6 +19,14 @@
 
     <string name="options">%1$s Options</string>
     <string name="colors">%1$s Couleurs</string>
+    <string name="specs_list_title">Moteur et Véhicule</string>
+    <string name="options_list_title">Options</string>
+    <string name="colors_list_title">Couleurs</string>
+    <string name="order_title">commander</string>
+    <string name="follow_title">Suivre</string>
+    <string name="color_price_title">Prix Couleur</string>
+    <string name="version_price_title">Prix Version</string>
+    <string name="full_price_title">Prix Totale</string>
 
 
 </resources>

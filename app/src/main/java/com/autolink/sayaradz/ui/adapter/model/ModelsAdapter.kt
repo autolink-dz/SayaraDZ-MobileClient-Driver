@@ -9,7 +9,8 @@ import com.autolink.sayaradz.vo.Model
 import com.bumptech.glide.RequestManager
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 
-class ModelsAdapter(private val glide: RequestManager): BaseAdapter<Model>(glide,MODEL_COMPARATOR){
+class ModelsAdapter(private val glide: RequestManager,
+                    private val listener:OnModelClickListener): BaseAdapter<Model>(glide,MODEL_COMPARATOR){
 
     companion object {
         private const val TAG  = "ModelsAdapter"
@@ -25,8 +26,12 @@ class ModelsAdapter(private val glide: RequestManager): BaseAdapter<Model>(glide
         }
     }
 
+    interface OnModelClickListener{
+        fun onModelClick(model:Model)
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModelViewHolder.create(parent,glide)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModelViewHolder.create(parent,glide,listener)
 
 
 

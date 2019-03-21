@@ -3,9 +3,7 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
-                                                   android:background="?android:attr/selectableItemBackground"
-                                                   android:focusable="true"
-                                                   android:clickable="true"
+
                                                    android:paddingStart="16dp"
                                                    android:paddingEnd="16dp"
                                                    android:paddingTop="8dp"
@@ -16,21 +14,23 @@
             android:layout_height="75dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars[0]"
-            android:id="@+id/model_image"
+            android:id="@+id/version_image"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
             android:text="Chevrolet"
             android:fontFamily="sans-serif-medium"
             style="@style/AppTheme.Intro.Text.content.medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/model_name" app:layout_constraintStart_toEndOf="@+id/model_image"
+            android:id="@+id/version_name"
+            app:layout_constraintStart_toEndOf="@+id/version_image"
             android:layout_marginStart="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="@+id/model_image"/>
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/version_image"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

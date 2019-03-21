@@ -3,18 +3,17 @@ package com.autolink.sayaradz.repository
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.autolink.sayaradz.api.SayaraDzApi
+import com.autolink.sayaradz.repository.DataSourceKey.*
 import com.autolink.sayaradz.repository.brand.BrandsDataSource
-import com.autolink.sayaradz.repository.models.ModelsDataSource
-import com.autolink.sayaradz.vo.CarDriver
-import com.google.android.gms.auth.api.credentials.IdToken
-import com.google.firebase.auth.FirebaseAuth
-import io.reactivex.Observable
+import com.autolink.sayaradz.repository.model.ModelsDataSource
+import com.autolink.sayaradz.repository.version.VersionsDataSource
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
 
 enum class DataSourceKey private constructor(s: String) {
     Brands("Brands"),
-    Models("Modles")
+    Models("Models"),
+    Versions("Versions")
 }
 
 
@@ -29,8 +28,9 @@ class DataSourceFactory<T:Any>(val api:SayaraDzApi,
 
     override fun create(): DataSource<String, T> {
         val dataSource: BaseDataSource<T> = when(dataSourceKey){
-            DataSourceKey.Brands -> BrandsDataSource(api,networkExecutor,compositeDisposable) as BaseDataSource<T>
-            DataSourceKey.Models -> ModelsDataSource(params!!["brandId"]!!,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Brands -> BrandsDataSource(api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Models -> ModelsDataSource(params!!["brandId"]!!,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Versions ->  VersionsDataSource(params!!["modelId"]!!,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
         }
         dataSourceLiveData.postValue(dataSource)
         return dataSource

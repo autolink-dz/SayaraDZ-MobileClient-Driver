@@ -2,26 +2,40 @@ package com.autolink.sayaradz.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.brand.BrandsAdapter
+import com.autolink.sayaradz.ui.adapter.model.ModelsAdapter
+import com.autolink.sayaradz.ui.adapter.version.VersionsAdapter
+import com.autolink.sayaradz.ui.fragment.newcar.BrandsFragment
 import com.autolink.sayaradz.ui.fragment.newcar.ModelsFragment
+import com.autolink.sayaradz.ui.fragment.newcar.VersionProfileFragment
+import com.autolink.sayaradz.ui.fragment.newcar.VersionsFragment
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.util.setupWithNavController
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.autolink.sayaradz.vo.Brand
+import com.autolink.sayaradz.vo.Model
+import com.autolink.sayaradz.vo.Version
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity:AppCompatActivity(),BrandsAdapter.OnBrandsClickListener{
+class MainActivity: AppCompatActivity(),
+                    BrandsAdapter.OnBrandsClickListener,
+                    ModelsAdapter.OnModelClickListener,
+                    VersionsAdapter.OnVersionClickListener{
 
     companion object {
         private const val TAG  = "MainActivity"
@@ -85,12 +99,6 @@ class MainActivity:AppCompatActivity(),BrandsAdapter.OnBrandsClickListener{
         setupBottomNavigationBar()
     }
 
-    override fun onBrandClick(brand:Brand) {
-        val bundle = Bundle()
-        bundle.putParcelable(ModelsFragment.BRAND_OBJECT_ARG_KEY,brand)
-        currentNavController?.value?.navigate(R.id.action_brandsFragment_to_modelsFragment,bundle)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
     }
@@ -128,4 +136,25 @@ class MainActivity:AppCompatActivity(),BrandsAdapter.OnBrandsClickListener{
         findViewById<Toolbar>(R.id.toolbar)
             .setupWithNavController(navController, appBarConfiguration)
     }
+
+    override fun onBrandClick(brand:Brand) {
+        val bundle = Bundle()
+        bundle.putParcelable(BrandsFragment.BRAND_OBJECT_ARG_KEY,brand)
+        currentNavController?.value?.navigate(R.id.action_brandsFragment_to_modelsFragment,bundle)
+    }
+
+    override fun onModelClick(model: Model) {
+        val bundle = Bundle()
+        bundle.putParcelable(VersionsFragment.MODEL_OBJECT_ARG_KEY,model)
+        currentNavController?.value?.navigate(R.id.action_modelsFragment_to_versionsFragment,bundle)
+    }
+
+    override fun onVersionClick(version: Version,imageView: ImageView) {
+        val bundle = Bundle()
+
+        val extras = FragmentNavigatorExtras(imageView to "header_image")
+        bundle.putParcelable(VersionProfileFragment.VERSION_OBJECT_ARG_KEY,version)
+        currentNavController?.value?.navigate(R.id.action_versionsFragment_to_versionProfileFragment,bundle,null,extras)
+    }
+
 }

@@ -5,8 +5,7 @@
             android:id="@+id/new_cars"
             app:startDestination="@id/brandsFragment">
 
-    <fragment
-              android:id="@+id/brandsFragment"
+    <fragment android:id="@+id/brandsFragment"
               android:name="com.autolink.sayaradz.ui.fragment.newcar.BrandsFragment"
               tools:layout="@layout/fragment_brands">
 
@@ -17,11 +16,23 @@
     </fragment>
 
 
-    <fragment
-              android:id="@+id/modelsFragment"
+    <fragment android:id="@+id/modelsFragment"
               android:name="com.autolink.sayaradz.ui.fragment.newcar.ModelsFragment"
               tools:layout="@layout/fragment_models">
 
+        <action android:id="@+id/action_modelsFragment_to_versionsFragment" app:destination="@id/versionsFragment"/>
     </fragment>
 
+    <fragment android:id="@+id/versionsFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.newcar.VersionsFragment"
+              tools:layout="@layout/fragment_versions">
+        <action android:id="@+id/action_versionsFragment_to_versionProfileFragment"
+                app:destination="@id/versionProfileFragment"
+                app:popUpTo="@+id/versionProfileFragment" app:launchSingleTop="false" app:popUpToInclusive="false"
+                app:enterAnim="@anim/slide_up"/>
+    </fragment>
+
+    <fragment android:id="@+id/versionProfileFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.newcar.VersionProfileFragment"
+              tools:layout="@layout/fragment_version_profile"/>
 </navigation>

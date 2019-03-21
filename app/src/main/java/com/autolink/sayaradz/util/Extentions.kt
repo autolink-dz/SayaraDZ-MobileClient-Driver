@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.autolink.sayaradz.repository.brand.BrandsRepository
-import com.autolink.sayaradz.repository.models.ModelsRepository
+import com.autolink.sayaradz.repository.model.ModelsRepository
+import com.autolink.sayaradz.repository.tariff.TariffRepository
 import com.autolink.sayaradz.repository.user.UserRepository
-import com.github.paolorotolo.appintro.AppIntro
+import com.autolink.sayaradz.repository.version.VersionsRepository
+import com.autolink.sayaradz.util.RepositoryKey.*
 import com.autolink.sayaradz.viewmodel.*
-import com.google.android.gms.auth.api.credentials.IdToken
-import com.google.firebase.auth.FirebaseAuth
 
 inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, index:Int)->Unit){
 
@@ -64,15 +64,19 @@ fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
                 .getRepository(type)
             @Suppress("UNCHECKED_CAST")
             return when(type){
-                RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
-                RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
-                RepositoryKey.MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
+                USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
+                BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+                MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
+                VERSIONS_REPOSITORY ->  VersionsViewModel(repo as VersionsRepository) as T
+                TARIFF_REPOSITORY -> TariffViewModel(repo as TariffRepository) as T
             }
         }
     })[when(type){
-        RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
-        RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
-        RepositoryKey.MODELS_REPOSITORY -> ModelsViewModel::class.java
+        USER_REPOSITORY ->UserViewModel::class.java
+        BRANDS_REPOSITORY -> BrandsViewModel::class.java
+        MODELS_REPOSITORY -> ModelsViewModel::class.java
+        VERSIONS_REPOSITORY -> VersionsViewModel::class.java
+        TARIFF_REPOSITORY -> TariffViewModel::class.java
     }]
 }
 
@@ -84,15 +88,19 @@ fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryK
                 .getRepository(type)
             @Suppress("UNCHECKED_CAST")
             return when(type){
-                RepositoryKey.USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
-                RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
-                RepositoryKey.MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
+                USER_REPOSITORY -> UserViewModel(repo as UserRepository) as T
+                BRANDS_REPOSITORY -> BrandsViewModel(repo as BrandsRepository) as T
+                MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
+                VERSIONS_REPOSITORY ->  VersionsViewModel(repo as VersionsRepository) as T
+                TARIFF_REPOSITORY -> TariffViewModel(repo as TariffRepository) as T
             }
         }
     })[when(type){
-        RepositoryKey.USER_REPOSITORY ->UserViewModel::class.java
-        RepositoryKey.BRANDS_REPOSITORY -> BrandsViewModel::class.java
-        RepositoryKey.MODELS_REPOSITORY -> ModelsViewModel::class.java
+        USER_REPOSITORY ->UserViewModel::class.java
+        BRANDS_REPOSITORY -> BrandsViewModel::class.java
+        MODELS_REPOSITORY -> ModelsViewModel::class.java
+        VERSIONS_REPOSITORY -> VersionsViewModel::class.java
+        TARIFF_REPOSITORY -> TariffViewModel::class.java
     }]
 
 }

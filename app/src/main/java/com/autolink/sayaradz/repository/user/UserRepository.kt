@@ -26,9 +26,9 @@ class UserRepository(val context: Context,
 
 
     lateinit var compositeDisposable: CompositeDisposable
-    val tokenListener = FirebaseAuth.IdTokenListener {
+    private val tokenListener = FirebaseAuth.IdTokenListener {auth->
         Log.d(TAG,"token is updated")
-        it.currentUser?.getIdToken(false)?.addOnCompleteListener {
+        auth.currentUser?.getIdToken(false)?.addOnCompleteListener {
             Log.d(TAG,"updating the token in the shared preferences")
             context.writeToSharedPreference(USER_TOKEN_KEY,it.result?.token.toString())
         }
