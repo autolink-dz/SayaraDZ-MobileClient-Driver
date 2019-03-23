@@ -27,11 +27,21 @@ interface SayaraDzApi{
                         @Path("code")code:String):Observable<Tariff>
 
     @GET("vehicules/{id_marque}")
-    fun getVehicule(@Path("id_marque")brandId:String,
-                    @Query("modele") modelCode:String,
-                    @Query("version") versionCode:String,
-                    @Query("couleur") colorCode:String,
-                    @Query("options") optionsList:String? = null):Observable<ResponseListing<Vehicle>>
+    fun getVehicle(@Path("id_marque")brandId:String,
+                   @Query("modele") modelCode:String,
+                   @Query("version") versionCode:String,
+                   @Query("couleur") colorCode:String,
+                   @Query("disponible") available:Boolean = true,
+                   @Query("options") optionsList:String? = null):Observable<ResponseListing<Vehicle>>
+
+    @FormUrlEncoded
+    @POST("commandes/")
+    fun setOrder(@Field("id_automobiliste")uid:String,
+                 @Field("id_marque")brandId: String,
+                 @Field("id_vehicule") vehicleId:String,
+                 @Field("prix") vehiclePrice:Float,
+                 @Field("versement")payment:Float=0F):Observable<Order>
+
 
 
 

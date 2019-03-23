@@ -23,10 +23,13 @@
     <string name="options_list_title">Options</string>
     <string name="colors_list_title">Couleurs</string>
     <string name="order_title">commander</string>
+    <string name="order_non_available_title">non disponible</string>
     <string name="follow_title">Suivre</string>
     <string name="color_price_title">Prix Couleur</string>
     <string name="version_price_title">Prix Version</string>
     <string name="full_price_title">Prix Totale</string>
+    <string name="order_success_message">Votre commande est envoyeé</string>
+    <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
 
 
 </resources>

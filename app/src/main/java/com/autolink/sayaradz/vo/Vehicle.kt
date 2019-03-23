@@ -12,5 +12,6 @@ data class Vehicle(
     val versionCode: String,
     @SerializedName("marque")
     val brandId:String,
+    @SerializedName("num_chassi")
     val id:String
 )

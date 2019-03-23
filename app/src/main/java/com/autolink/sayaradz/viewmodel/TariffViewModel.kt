@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.autolink.sayaradz.repository.tariff.TariffRepository
+import com.autolink.sayaradz.repository.utils.Status
+import com.autolink.sayaradz.util.Event
+import com.autolink.sayaradz.vo.Order
 import com.autolink.sayaradz.vo.Vehicle
 import com.autolink.sayaradz.vo.Version
 import io.reactivex.disposables.CompositeDisposable
@@ -14,20 +17,26 @@ import io.reactivex.disposables.CompositeDisposable
 class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(){
 
      private val compositeDisposable = CompositeDisposable()
-     private val vehicle = MutableLiveData<List<Vehicle>>()
+     private val vehicle = MutableLiveData<MutableList<Vehicle>>()
      private val colorPrice = MutableLiveData<Float>()
      private val versionPrice = MutableLiveData<Float>()
+     private val orderState:MutableLiveData<Event<Status>> = MutableLiveData()
+
      private lateinit var mVersion:Version
 
      val colorPriceLiveData  = Transformations.map(colorPrice){
-        it.toInt()
+        it
     }
      val versionPriceLiveData = Transformations.map(versionPrice){
-        it.toInt()
+        it
     }
-     val orderState:LiveData<Boolean> = Transformations.map(vehicle){
+     val vehicleAvailability:LiveData<Boolean> = Transformations.map(vehicle){
+         Log.d("TAG","cheking the list")
          it.isNotEmpty()
      }
+     val orderStateLiveData:LiveData<Event<Status>> = Transformations.map(orderState){
+        it
+    }
 
      init {
         tariffRepository.compositeDisposable = compositeDisposable
@@ -49,7 +58,7 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
     @SuppressLint("CheckResult")
     fun setColorCode(colorCode: String){
 
-        vehicle.postValue(listOf())
+        vehicle.postValue(mutableListOf())
 
         tariffRepository.getItemPrice(TariffRepository.Item.Colors, mVersion.brandId,mVersion.modelCode,colorCode)
             .flatMap {
@@ -57,11 +66,29 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
                 tariffRepository.getVehicule(mVersion.brandId,mVersion.modelCode,mVersion.code,colorCode)
             }
             .subscribe({
-                vehicle.postValue(it.data)
+                vehicle.postValue(it.data.toMutableList())
             },{
-                vehicle.postValue(listOf())
+                vehicle.postValue(mutableListOf())
             })
     }
+
+
+    @SuppressLint("CheckResult")
+    fun setOrder(){
+        tariffRepository.setOrder(mVersion.brandId, vehicle.value!![0].id, (colorPriceLiveData.value!! + versionPriceLiveData.value!!))
+            .subscribe({
+
+                val updatedList = vehicle.value!!
+                updatedList.removeAt(0)
+                vehicle.postValue(updatedList)
+
+                orderState.postValue(Event(Status.SUCCESS))
+            },{
+                Log.d("TAG","an error occured ${it.message}")
+                orderState.postValue(Event(Status.FAILED))
+            })
+    }
+
 
     override fun onCleared() {
         super.onCleared()

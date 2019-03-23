@@ -21,11 +21,14 @@ import android.util.Log
 import android.R.string
 import androidx.transition.TransitionInflater
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.transition.ChangeBounds
 import com.autolink.sayaradz.databinding.FragmentVersionProfileBinding
+import com.autolink.sayaradz.repository.utils.Status
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.TariffViewModel
+import com.google.android.material.snackbar.Snackbar
 
 
 class VersionProfileFragment:Fragment(){
@@ -64,9 +67,21 @@ class VersionProfileFragment:Fragment(){
 
         mBinding.setLifecycleOwner(this)
         mBinding.tariffviewmodel = mTariffViewModel
+
         setUpProfile()
 
+        mTariffViewModel.orderStateLiveData.observe(this, Observer { status ->
+            status.getContentIfNotHandled()?.let { // Only proceed if the event has never been handled //
 
+                val message = if(status.peekContent() == Status.SUCCESS)
+                    R.string.order_success_message
+                else
+                    R.string.order_failure_message
+
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        })
     }
 
 
@@ -77,6 +92,7 @@ class VersionProfileFragment:Fragment(){
         Glide.with(context!!)
             .load(mVersion.photoURL)
             .into(version_image)
+
         activity?.findViewById<TextView>(R.id.toolbar_title)?.text = mVersion.name
 
 
@@ -139,5 +155,14 @@ class VersionProfileFragment:Fragment(){
 
             mTariffViewModel.setColorCode(color.code)
         }
+
+        order_button.setOnClickListener {
+            mTariffViewModel.setOrder()
+        }
+
+
     }
+
+
+
 }
