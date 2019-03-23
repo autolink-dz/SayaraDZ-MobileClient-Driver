@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    <com.facebook.shimmer.ShimmerFrameLayout android:id="@+id/brands_shimmer_container"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+            <include layout="@layout/item_list_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/brand_swipe_to_refresh_layout"
             android:layout_width="match_parent"
-            android:background="@android:color/white"
             android:layout_height="match_parent">
 
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/brands_recycler_view"
-            app:fastScrollPopupBgColor="@color/colorPrimary"
-            app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-            app:fastScrollThumbColor="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/brands_recycler_view"
+                app:fastScrollPopupBgColor="@color/colorPrimary"
+                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                app:fastScrollThumbColor="@color/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</FrameLayout>
 

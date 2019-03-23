@@ -19,7 +19,7 @@ companion object {
         val client =  OkHttpClient
             .Builder()
             .addInterceptor {
-                val token  = context.readFromSharedPreference(UserRepository.USER_TOKEN_KEY)
+                val token  = FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.result?.token
 
                 val request  = it.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")

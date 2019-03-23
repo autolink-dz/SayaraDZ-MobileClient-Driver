@@ -26,19 +26,7 @@ class UserRepository(val context: Context,
 
 
     lateinit var compositeDisposable: CompositeDisposable
-    private val tokenListener = FirebaseAuth.IdTokenListener {auth->
-        Log.d(TAG,"token is updated")
-        auth.currentUser?.getIdToken(false)?.addOnCompleteListener {
-            Log.d(TAG,"updating the token in the shared preferences")
-            context.writeToSharedPreference(USER_TOKEN_KEY,it.result?.token.toString())
-        }
-    }
 
-    init {
-
-        FirebaseAuth.getInstance().addIdTokenListener(tokenListener)
-
-    }
 
 
     fun signInUser(credentials:AuthCredential):Maybe<CarDriver>{
@@ -75,6 +63,6 @@ class UserRepository(val context: Context,
     }
 
     override fun clear() {
-        FirebaseAuth.getInstance().removeIdTokenListener(tokenListener)
+
     }
 }

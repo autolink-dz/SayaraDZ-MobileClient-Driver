@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimary"
+            android:enabled="false"
+            android:id="@+id/suggested_option_state" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/suggested_option_title"/>
+    <TextView
+            android:text="Moteur"
+            style="@style/AppTheme.Intro.Text.content.medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" android:id="@+id/suggested_option_title"
+            app:layout_constraintStart_toEndOf="@+id/suggested_option_state"/>
+    <TextView
+            android:text="2000 DA"
+            style="@style/AppTheme.Intro.Text.content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:id="@+id/suggested_option_price" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/suggested_option_title"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

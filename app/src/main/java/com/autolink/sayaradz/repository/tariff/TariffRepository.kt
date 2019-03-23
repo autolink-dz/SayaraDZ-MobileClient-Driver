@@ -24,16 +24,16 @@ class TariffRepository(private val api: SayaraDzApi,
 
 
     @SuppressLint("CheckResult")
-    fun getItemPrice(type:Item, brandId:String, modelCode:String, code:String)
+    fun getItemTariff(type:Item, brandId:String, modelCode:String, code:String)
             = api.getItemPrice(brandId,modelCode,type.value,code)
                 .subscribeOn(Schedulers.from(networkExecutor))
                 .observeOn(Schedulers.from(networkExecutor))
                 .doOnSubscribe { compositeDisposable.add(it) }
-                .map { it.price }
+                .map { it }
 
 
-    fun getVehicule(brandId: String,modelCode: String,versionCode:String,colorCode:String,option:List<Option>? = null )=
-        api.getVehicle(brandId,modelCode,versionCode,colorCode)
+    fun getVehicule(brandId: String,modelCode: String,versionCode:String,colorCode:String, option:List<Option> = listOf())=
+        api.getVehicle(brandId,modelCode,versionCode,colorCode,optionsList = option.mapRequestString(','))
             .subscribeOn(Schedulers.from(networkExecutor))
             .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe { compositeDisposable.add(it) }
@@ -46,5 +46,16 @@ class TariffRepository(private val api: SayaraDzApi,
 
 
     override fun clear() {
+    }
+
+
+    private fun  List<Option>.mapRequestString(divider:Char ):String{
+
+        val stringBuilder  = StringBuilder()
+        forEach {
+            stringBuilder.append(it.code).append(divider)
+        }
+
+        return stringBuilder.toString().dropLast(1)
     }
 }

@@ -4,11 +4,17 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.Interpolator
+import androidx.annotation.AnimRes
+import androidx.annotation.InterpolatorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat
 import com.autolink.sayaradz.repository.brand.BrandsRepository
 import com.autolink.sayaradz.repository.model.ModelsRepository
 import com.autolink.sayaradz.repository.tariff.TariffRepository
@@ -16,6 +22,8 @@ import com.autolink.sayaradz.repository.user.UserRepository
 import com.autolink.sayaradz.repository.version.VersionsRepository
 import com.autolink.sayaradz.util.RepositoryKey.*
 import com.autolink.sayaradz.viewmodel.*
+
+
 
 inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, index:Int)->Unit){
 
@@ -51,10 +59,6 @@ fun Context.readFromSharedPreference(key:String):String?{
     return PreferenceManager.getDefaultSharedPreferences(this)
         .getString(key,"")
 }
-
-
-
-
 
 fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
 
@@ -103,4 +107,26 @@ fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryK
         TARIFF_REPOSITORY -> TariffViewModel::class.java
     }]
 
+}
+
+private class AnimationListener(
+    private val onAnimationRepeat: () -> Unit,
+    private val onAnimationStart: () -> Unit,
+    private val onAnimationEnd: () -> Unit
+) : Animation.AnimationListener {
+    override fun onAnimationRepeat(p0: Animation?) = onAnimationRepeat()
+    override fun onAnimationStart(p0: Animation?) = onAnimationStart()
+    override fun onAnimationEnd(p0: Animation?) = onAnimationEnd()
+}
+
+fun View.playAnimation(
+    @AnimRes animResId: Int,
+    @InterpolatorRes interpolator:Int,
+    onAnimationRepeat: () -> Unit = {},
+    onAnimationStart: () -> Unit = {},
+    onAnimationEnd: () -> Unit = {}
+) = with(AnimationUtils.loadAnimation(context, animResId)) {
+    setAnimationListener(AnimationListener(onAnimationRepeat, onAnimationStart, onAnimationEnd))
+    startAnimation(this)
+    setInterpolator(context,interpolator)
 }

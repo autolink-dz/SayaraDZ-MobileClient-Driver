@@ -20,6 +20,7 @@ import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.ModelsViewModel
 import com.autolink.sayaradz.vo.Brand
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_brands.*
 import kotlinx.android.synthetic.main.fragment_models.*
 
 class ModelsFragment: Fragment(){
@@ -70,6 +71,13 @@ class ModelsFragment: Fragment(){
     private fun initSwipeToRefresh() {
         mModelsViewModel.refreshState.observe(this, Observer {
             model_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+            if(it == NetworkState.LOADING ){
+                models_shimmer_container.startShimmer()
+                models_shimmer_container.visibility = View.VISIBLE
+            } else {
+                models_shimmer_container.stopShimmer()
+                models_shimmer_container.visibility = View.GONE
+            }
         })
 
         model_swipe_to_refresh_layout.setOnRefreshListener {

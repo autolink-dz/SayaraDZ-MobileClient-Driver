@@ -16,9 +16,11 @@ import com.autolink.sayaradz.repository.utils.NetworkState
 import com.autolink.sayaradz.ui.adapter.version.VersionsAdapter
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
+import com.autolink.sayaradz.util.playAnimation
 import com.autolink.sayaradz.viewmodel.VersionsViewModel
 import com.autolink.sayaradz.vo.Model
 import com.bumptech.glide.Glide
+import com.google.android.material.animation.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_versions.*
 
 class VersionsFragment:Fragment(){
@@ -54,6 +56,7 @@ class VersionsFragment:Fragment(){
         versions_recycler_view.adapter = mVersionsAdapter
 
         val dividerItemDecoration = DividerItemDecoration(versions_recycler_view.context, RecyclerView.VERTICAL)
+
         versions_recycler_view.addItemDecoration(dividerItemDecoration)
 
         mVersionsViewModel.setModel(mModel)
@@ -65,13 +68,23 @@ class VersionsFragment:Fragment(){
 
 
         initSwipeToRefresh()
+
         activity?.findViewById<TextView>(R.id.toolbar_title)?.text = mModel.name
+
+
 
     }
 
     private fun initSwipeToRefresh() {
         mVersionsViewModel.refreshState.observe(this, Observer {
             version_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+            if(it == NetworkState.LOADING ){
+                versions_shimmer_container.startShimmer()
+                versions_shimmer_container.visibility = View.VISIBLE
+            } else {
+                versions_shimmer_container.stopShimmer()
+                versions_shimmer_container.visibility = View.GONE
+            }
         })
 
         version_swipe_to_refresh_layout.setOnRefreshListener {

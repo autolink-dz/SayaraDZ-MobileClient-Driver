@@ -2,6 +2,7 @@ package com.autolink.sayaradz.ui.fragment.newcar
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -65,6 +66,13 @@ class BrandsFragment: Fragment() {
     private fun initSwipeToRefresh() {
         mBrandsViewModel.refreshState.observe(this, Observer {
             brand_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+            if(it == NetworkState.LOADING ){
+                brands_shimmer_container.startShimmer()
+                brands_shimmer_container.visibility = View.VISIBLE
+            } else {
+                brands_shimmer_container.stopShimmer()
+                brands_shimmer_container.visibility = View.GONE
+            }
         })
 
         brand_swipe_to_refresh_layout.setOnRefreshListener {
