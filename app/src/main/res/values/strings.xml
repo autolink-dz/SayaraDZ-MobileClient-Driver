@@ -17,8 +17,7 @@
     <string name="facebook_app_id">355496821964693</string>
     <string name="fb_login_protocol_scheme">fb355496821964693</string>
 
-    <string name="options">%1$s Options</string>
-    <string name="colors">%1$s Couleurs</string>
+    <string name="currency_placeholder">%1$s DA</string>
     <string name="specs_list_title">Moteur et Véhicule</string>
     <string name="options_list_title">Options</string>
     <string name="colors_list_title">Couleurs</string>

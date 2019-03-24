@@ -42,6 +42,16 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
      val versionPriceLiveData: LiveData<Int> = Transformations.map(versionPrice){
         it.toInt()
     }
+
+    val suggestedOptionTotalPrice:LiveData<Int> = Transformations.map(suggestedOptionsState){
+        var total = 0
+        suggestedOptionsPrice.value?.filter {entry ->
+            it.containsKey(entry.key) && it[entry.key] == true
+        }?.forEach{
+            total+=it.value
+        }
+        total
+    }
      val vehicleAvailability:LiveData<Boolean> = Transformations.map(vehicle){
          Log.d("TAG","cheking the list")
          it.isNotEmpty()

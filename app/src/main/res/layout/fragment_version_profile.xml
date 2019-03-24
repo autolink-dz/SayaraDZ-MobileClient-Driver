@@ -169,7 +169,7 @@
 
 
         <TextView
-                android:text="@{String.valueOf((tariffviewmodel.colorPriceLiveData + tariffviewmodel.versionPriceLiveData)) + ` DA`}"
+                android:text="@{String.valueOf((tariffviewmodel.colorPriceLiveData + tariffviewmodel.versionPriceLiveData + tariffviewmodel.suggestedOptionTotalPrice )) + ` DA`}"
                 style="@style/AppTheme.Intro.Text.content"
                 android:textColor="@color/grey"
                 android:layout_width="wrap_content"

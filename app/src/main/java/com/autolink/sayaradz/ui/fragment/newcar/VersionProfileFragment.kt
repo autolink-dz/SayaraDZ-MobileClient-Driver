@@ -97,7 +97,7 @@ class VersionProfileFragment:Fragment(){
             it.forEach{
                 suggested_options_list_container.findViewWithTag<View>(it.key).apply {
                     this.suggested_option_state.isEnabled = true
-                    this.suggested_option_price.text  = it.value.toString()
+                    this.suggested_option_price.text  = context.getString(R.string.currency_placeholder, it.value.toString())
 
 
                 }
