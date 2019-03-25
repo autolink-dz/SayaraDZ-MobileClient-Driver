@@ -38,8 +38,8 @@ class TariffRepository(private val api: SayaraDzApi,
             .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe { compositeDisposable.add(it) }
 
-    fun setOrder(brandId:String,vehicleId:String,price:Float,payment:Float=0F)
-            = api.setOrder(FirebaseAuth.getInstance().currentUser!!.uid,brandId,vehicleId,price)
+    fun setOrder(brandId:String,versionId:String,vehicleId:String,price:Float,payment:Float=0F)
+            = api.setOrder(FirebaseAuth.getInstance().currentUser!!.uid,brandId,versionId,vehicleId,price)
                  .subscribeOn(Schedulers.from(networkExecutor))
                  .observeOn(Schedulers.from(networkExecutor))
                  .doOnSubscribe { compositeDisposable.add(it) }

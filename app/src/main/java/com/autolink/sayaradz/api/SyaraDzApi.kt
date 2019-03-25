@@ -3,6 +3,7 @@ package com.autolink.sayaradz.api
 import com.autolink.sayaradz.vo.*
 import com.google.gson.annotations.SerializedName
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -38,11 +39,15 @@ interface SayaraDzApi{
     @POST("commandes/")
     fun setOrder(@Field("id_automobiliste")uid:String,
                  @Field("id_marque")brandId: String,
+                 @Field("id_version")versionId: String,
                  @Field("id_vehicule") vehicleId:String,
                  @Field("prix") vehiclePrice:Float,
                  @Field("versement")payment:Float=0F):Observable<Order>
 
 
+    @FormUrlEncoded
+    @POST("notifications/tokens/{id}")
+    fun setUserInstanceIdToken(@Path("id")id:String,@Field("token")token:String):Call<Any>
 
 
     data class ResponseListing<T>(

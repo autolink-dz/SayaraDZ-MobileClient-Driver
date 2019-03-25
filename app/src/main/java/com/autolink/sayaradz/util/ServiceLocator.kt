@@ -64,7 +64,7 @@ open class DefaultServiceLocator(val context:Context):ServiceLocator{
     override fun getRepository(key: RepositoryKey): IRepository {
             return when(key){
                 USER_REPOSITORY -> UserRepository(
-                    context,
+                    getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()
                 )

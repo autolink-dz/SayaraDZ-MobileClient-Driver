@@ -34,6 +34,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
             },{
                 authError.postValue(it.message)
             })
+
     }
 
     fun getCarDriverLiveData():LiveData<CarDriver> = carDriver

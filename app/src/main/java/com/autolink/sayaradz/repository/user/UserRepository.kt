@@ -2,6 +2,7 @@ package com.autolink.sayaradz.repository.user
 
 import android.content.Context
 import android.util.Log
+import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.IRepository
 import com.autolink.sayaradz.util.writeToSharedPreference
 import com.autolink.sayaradz.vo.CarDriver
@@ -16,12 +17,11 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
 import javax.security.auth.Subject
 
-class UserRepository(val context: Context,
+class UserRepository(val api: SayaraDzApi,
                      override val networkExecutor: Executor,
                      override val diskExecutor: Executor) : IRepository {
     companion object {
         private const val TAG = "UserRepository"
-        const val USER_TOKEN_KEY  = "TOKEN"
     }
 
 
