@@ -3,4 +3,10 @@
     <item android:id="@+id/logout"
           android:title="Log out"
           app:showAsAction="never"/>
+
+    <item android:id="@+id/notification"
+          android:title=""
+          app:showAsAction="always"/>
+
+
 </menu>

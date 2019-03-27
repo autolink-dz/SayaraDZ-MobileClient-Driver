@@ -22,10 +22,10 @@ companion object {
         Log.d(TAG,"InstanceIdTokenUploadWorker is starting")
 
         val sayaraDzApi = ServiceLocator.instance(applicationContext).getSayaraDzApi()
-        val uid = inputData.getString(USER_UID_KEY) ?: return   Result.retry()
+        val uid = inputData.getString(USER_UID_KEY) ?: return Result.retry()
         val token  = applicationContext.readFromSharedPreference(FCMService.TOKEN_KEY) ?: return Result.retry()
 
-        Log.d(TAG,"sending the token $token to user $uid")
+        Log.d(TAG,"sending the instanceToken $token to user $uid")
         sayaraDzApi.setUserInstanceIdToken(uid,token).execute()
 
         return Result.success()

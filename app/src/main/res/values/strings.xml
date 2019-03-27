@@ -29,6 +29,9 @@
     <string name="full_price_title">Prix Totale</string>
     <string name="order_success_message">Votre commande est envoyeé</string>
     <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
+
+    <string name="subscription_failure_message">l\'inscription à %1$s a echouée</string>
+
     <string name="suggested_options_list_title">Options suggéreées</string>
 
 

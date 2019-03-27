@@ -47,7 +47,20 @@ interface SayaraDzApi{
 
     @FormUrlEncoded
     @POST("notifications/tokens/{id}")
-    fun setUserInstanceIdToken(@Path("id")id:String,@Field("token")token:String):Call<Any>
+    fun setUserInstanceIdToken(@Path("id")id:String,@Field("instance_token")token:String):Call<Any>
+
+    @FormUrlEncoded
+    @POST("notifications/{type}/{id}")
+    fun follow(@Path("type") type: String,@Path("id") id: String,@Field("id_automobiliste")uid: String):Observable<Any>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "notifications/{type}/{id}", hasBody = true)
+    fun unfollow(@Path("type") type: String,@Path("id") id: String,@Field("id_automobiliste")uid: String):Observable<Any>
+
+
+
+    @GET("automobilistes/{uid}")
+    fun getCarDriver(@Path("uid") uid:String):Observable<CarDriver>
 
 
     data class ResponseListing<T>(

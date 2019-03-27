@@ -71,6 +71,7 @@ class ModelsFragment: Fragment(){
     private fun initSwipeToRefresh() {
         mModelsViewModel.refreshState.observe(this, Observer {
             model_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+
             if(it == NetworkState.LOADING ){
                 models_shimmer_container.startShimmer()
                 models_shimmer_container.visibility = View.VISIBLE

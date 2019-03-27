@@ -20,7 +20,7 @@ class FCMService:FirebaseMessagingService(){
 
     override fun onNewToken(p0: String?) {
         super.onNewToken(p0)
-        Log.d(TAG, "a new token is generated")
+        Log.d(TAG, "a new instanceToken is generated")
         if(p0 != null )   writeToSharedPreference("INSTANCE_ID",p0)
     }
 }

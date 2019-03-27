@@ -52,25 +52,27 @@ class MainActivity: AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null) {
-            setupBottomNavigationBar()
-        } // Else, need to wait for onRestoreInstanceState
-
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.title = ""
-
-
         mUserViewModel = getViewModel(this, RepositoryKey.USER_REPOSITORY) as UserViewModel
 
 
+        if(mUserViewModel.isUserSignIn()){
 
+            mUserViewModel.initCarDriverProfile()
 
-        if(!mUserViewModel.isUserSignIn()){
+        }else{
             val intent = Intent(this,AuthActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
         }
+
+
+        if (savedInstanceState == null) {
+            setupBottomNavigationBar()
+        }
+
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.title = ""
 
 
 
@@ -89,9 +91,11 @@ class MainActivity: AppCompatActivity(),
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
+                return true
             }
+            else -> return  super.onOptionsItemSelected(item)
         }
-        return true
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

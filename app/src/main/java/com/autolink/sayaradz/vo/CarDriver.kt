@@ -8,5 +8,10 @@ data class CarDriver(
     val  name:String,
     val  email:String,
     val  photoURL:String,
-    val  token :String?=""
+    @SerializedName("instance_token")
+    val  instanceIdToken :String = "",
+    @SerializedName("modeles")
+    val  followedModels: MutableList<String> = mutableListOf(),
+    @SerializedName("versions")
+    val  followedVersions:MutableList<String> = mutableListOf()
 )

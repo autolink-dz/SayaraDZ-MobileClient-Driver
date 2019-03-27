@@ -56,7 +56,6 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
 
         mUserViewModel.getCarDriverLiveData().observe(this, Observer<CarDriver> {
               val intent = Intent(this,MainActivity::class.java)
-              Log.d(TAG,"I am here")
               intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
               initUserInstanceIdWorker(it.id)
               startActivity(intent)
