@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.fragment.oldcar.NewAnnouncementFragment">
+
+            <ImageView
+                    android:src="@drawable/ic_add_a_photo"
+                    android:layout_width="200sp"
+                    android:layout_height="200sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/carImage"/>
+            <TextView
+                    android:id="@+id/textView3"
+                    style="@style/txt_view_style1"/>
+            <EditText
+                    android:hint="@string/Marque"
+                    android:id="@+id/marque_editText"
+                    style="@style/edit_text_theme"
+            />
+            <EditText
+                    android:id="@+id/modele_editText"
+                    style="@style/edit_text_theme"
+                    android:hint="@string/Modele"/>
+            <EditText
+                    android:hint="@string/Version"
+                    android:id="@+id/editText3"
+                    style="@style/edit_text_theme"
+            />
+            <EditText
+                    android:hint="@string/Annee"
+                    android:inputType="date"
+                    android:id="@+id/editText4"
+                    style="@style/edit_text_theme"
+            />
+            <EditText
+                    android:hint="@string/Marche"
+                    android:inputType="number"
+                    android:id="@+id/editText5"
+                    style="@style/edit_text_theme"
+            />
+            <EditText
+                    android:hint="@string/Moteur"
+                    android:id="@+id/editText6"
+                    style="@style/edit_text_theme"
+            />
+            <View
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:layout_width="350dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/darker_gray"/>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/option_edtTxt"
+                        style="@style/edit_text_with_label"
+                        android:hint="@string/option"
+                        />
+
+                <TextView
+                        style="@style/txt_view_style2"
+                        android:text="Option"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                <EditText
+                        android:id="@+id/prix_edtTxt"
+                        style="@style/edit_text_with_label"
+                        android:hint="@string/prix"
+                        android:inputType="number"
+                />
+
+                <TextView
+                        style="@style/txt_view_style2"
+                        android:text="Prix"/>
+
+            </RelativeLayout>
+            <Button
+                    android:text="Ajouter"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10sp"
+                    android:layout_marginStart="290sp"
+                    android:id="@+id/confirm_btn"/>
+        </LinearLayout>
+    </ScrollView>
+</layout>

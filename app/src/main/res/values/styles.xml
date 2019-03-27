@@ -51,4 +51,49 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="edit_text_theme">
+        <item name="android:padding">10sp</item>
+        <item name="android:background">@drawable/edittextbackground</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textPersonName</item>
+        <item name="android:layout_marginBottom">20sp</item>
+        <item name="android:layout_marginStart">20sp</item>
+        <item name="android:layout_marginEnd">20sp</item>
+    </style>
+
+    <style name="edit_text_with_label">
+        <item name="android:padding">10sp</item>
+        <item name="android:background">@drawable/edittextbackground</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10sp</item>
+        <item name="android:layout_marginBottom">10sp</item>
+        <item name="android:layout_marginStart">20sp</item>
+        <item name="android:layout_marginEnd">20sp</item>
+
+    </style>
+
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@drawable/dialog_background</item>
+    </style>
+
+    <style name="txt_view_style1">
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:text">@string/Moteur_vehicule</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="txt_view_style2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
+
 </resources>

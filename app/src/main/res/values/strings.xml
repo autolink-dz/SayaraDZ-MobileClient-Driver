@@ -31,5 +31,17 @@
     <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
     <string name="suggested_options_list_title">Options suggéreées</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Moteur_vehicule">Moteur et Vehicule :</string>
+    <string name="Marque">Marque</string>
+    <string name="Version">Version</string>
+    <string name="Annee">Annèe</string>
+    <string name="Marche">Marche</string>
+    <string name="Moteur">Moteur</string>
+    <string name="Modele">Modèle</string>
+    <string name="option">Option</string>
+    <string name="prix">Prix</string>
+
 
 </resources>

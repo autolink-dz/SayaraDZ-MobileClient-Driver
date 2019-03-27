@@ -8,6 +8,12 @@
     <fragment
               android:id="@+id/announcementsFragment"
               android:name="com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFragment"
-              tools:layout="@layout/fragment_announcements"/>
+              tools:layout="@layout/fragment_announcements">
+        <action android:id="@+id/action_announcementsFragment_to_newAnnouncementFragment"
+                app:destination="@id/newAnnouncementFragment"/>
+    </fragment>
+    <fragment android:id="@+id/newAnnouncementFragment"
+              android:name="com.autolink.sayaradz.ui.fragment.oldcar.NewAnnouncementFragment"
+              android:label="fragment_new_announcement" tools:layout="@layout/fragment_new_announcement"/>
 
 </navigation>
