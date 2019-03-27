@@ -82,6 +82,7 @@ dependencies {
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.afollestad.material-dialogs:core:2.6.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 

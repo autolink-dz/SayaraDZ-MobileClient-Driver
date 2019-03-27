@@ -21,6 +21,7 @@ import androidx.transition.TransitionInflater
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.afollestad.materialdialogs.MaterialDialog
 import com.autolink.sayaradz.databinding.FragmentVersionProfileBinding
 import com.autolink.sayaradz.repository.utils.Status
 import com.autolink.sayaradz.util.RepositoryKey
@@ -207,7 +208,19 @@ class VersionProfileFragment:Fragment(){
         }
 
         order_button.setOnClickListener {
-            mTariffViewModel.setOrder()
+
+            MaterialDialog(context!!)
+                .title(R.string.order_dialog_title)
+                .message(text= context!!.getString(R.string.order_dialog_text,mVersion.name))
+                .show {
+                        positiveButton(R.string.order_title) { dialog ->
+                            mTariffViewModel.setOrder()
+                        }
+                        negativeButton(R.string.cancel_title) { dialog ->
+                            dialog.dismiss()
+                        }
+                }
+
         }
 
     }
