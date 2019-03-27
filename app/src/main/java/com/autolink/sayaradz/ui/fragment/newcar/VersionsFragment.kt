@@ -126,6 +126,7 @@ class VersionsFragment:Fragment(){
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         Log.d(TAG, "the data is ${ mUserViewModel.getCarDriverLiveData().value }")
+
         val carDriver = mUserViewModel.getCarDriverLiveData().value ?: return super.onPrepareOptionsMenu(menu)
         if (carDriver.followedModels.indexOf(mModel.id) != -1)
              menu[1].icon = context!!.getDrawable(R.drawable.ic_notifications_active)

@@ -92,7 +92,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
        val carDriver =  carDriver.value ?: return
        userRepository.setUserSubscriptionState(carDriver.id,UserRepository.Channel.Model,id,state)
            .subscribe({
-                if(state) carDriver.followedVersions.add(id) else carDriver.followedVersions.remove(id)
+                if(state) carDriver.followedModels.add(id) else carDriver.followedModels.remove(id)
                 this.carDriver.postValue(carDriver)
                subscriptionState.postValue(Event(Status.SUCCESS))
            },{
