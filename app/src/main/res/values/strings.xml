@@ -33,8 +33,27 @@
     <string name="cancel_title">Annuler</string>
     <string name="order_dialog_text">Commander une %1$s</string>
     <string name="subscription_failure_message">l\'inscription à %1$s a echouée</string>
-
     <string name="suggested_options_list_title">Options suggéreées</string>
+
+    <string name="notification_order_accepted_title">Commandes approuvée</string>
+    <string name="notification_order_rejected_title">Commandes rejetée</string>
+
+    <string name="notification_order_accepted_body">Félicitations, votre commande pour %1$s  a été approuvée</string>
+    <string name="notification_order_rejected_body">Malheureusement, votre commande pour %1$s a été rejetée</string>
+
+    <string-array name="notification_channel_titles">
+        <item>Commandes</item>
+        <item>Annonces</item>
+        <item>Offres</item>
+    </string-array>
+
+    <string-array name="notification_channel_description">
+        <item>vous recevrez des notifications de ce canal lorsque vos commandes seront traitées</item>
+        <item>vous recevrez des notifications de ce canal lorsque vos annonces reçoivent des offres</item>
+        <item>vous recevrez des notifications de ce canal lorsque vos offres seront traitées</item>
+    </string-array>
+
+
 
 
 </resources>

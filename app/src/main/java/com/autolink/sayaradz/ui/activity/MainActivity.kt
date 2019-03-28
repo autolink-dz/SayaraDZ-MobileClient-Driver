@@ -1,6 +1,10 @@
 package com.autolink.sayaradz.ui.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -74,7 +78,7 @@ class MainActivity: AppCompatActivity(),
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.title = ""
 
-
+        createNotificationChannel()
 
     }
 
@@ -161,4 +165,25 @@ class MainActivity: AppCompatActivity(),
         currentNavController?.value?.navigate(R.id.action_versionsFragment_to_versionProfileFragment,bundle,null,extras)
     }
 
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannelsTitles = resources.getStringArray(R.array.notification_channel_titles)
+            val notificationChannelsDescription = resources.getStringArray(R.array.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+
+            notificationChannelsTitles.forEachIndexed { id, name ->
+
+                val channel = NotificationChannel(id.toString(), name, importance).apply {
+                    description = notificationChannelsDescription[id]
+                }
+                // Register the channel with the system
+                val notificationManager: NotificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+            }
+
+        }
+    }
 }
