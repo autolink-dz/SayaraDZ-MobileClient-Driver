@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -8,42 +8,55 @@
               tools:context="com.autolink.sayaradz.ui.activity.MainActivity"
               android:background="@android:color/white">
 
-    <androidx.appcompat.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layout_gravity="center"
-            android:elevation="4dp"
-            android:theme="@style/AppTheme.ToolbarTheme"
-            app:popupTheme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
+        <androidx.appcompat.widget.Toolbar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@android:color/white"/>
+                android:elevation="4dp"
+                android:theme="@style/AppTheme.ToolbarTheme"
+                app:popupTheme="@android:style/ThemeOverlay.Material.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-    </androidx.appcompat.widget.Toolbar>
+            <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="sayaraDz"
+                    android:layout_gravity="center"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="sans-serif-condensed-medium" android:typeface="serif"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
 
     <FrameLayout
             android:id="@+id/nav_host_container"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"/>
+            android:layout_height="wrap_content"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
             android:id="@+id/navigation"
+            app:elevation="20dp"
+            android:layout_gravity="bottom"
             android:background="@android:color/white"
             app:menu="@menu/navigation"
     />
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

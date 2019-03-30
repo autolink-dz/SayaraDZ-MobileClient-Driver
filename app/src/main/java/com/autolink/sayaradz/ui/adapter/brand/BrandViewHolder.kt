@@ -39,6 +39,7 @@ class BrandViewHolder(view:View,
         with(o) {
             brandTitle.text = name
             glide.load(photoURL)
+                .placeholder(R.drawable.ic_placeholder)
                 .into(brandImage)
             view.tag = o
         }

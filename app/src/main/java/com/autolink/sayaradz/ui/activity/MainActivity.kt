@@ -4,21 +4,25 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.brand.BrandsAdapter
 import com.autolink.sayaradz.ui.adapter.model.ModelsAdapter
@@ -35,6 +39,7 @@ import com.autolink.sayaradz.vo.Brand
 import com.autolink.sayaradz.vo.Model
 import com.autolink.sayaradz.vo.Version
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity: AppCompatActivity(),
                     BrandsAdapter.OnBrandsClickListener,
@@ -77,7 +82,6 @@ class MainActivity: AppCompatActivity(),
 
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.title = ""
-
         createNotificationChannel()
 
     }
@@ -124,17 +128,29 @@ class MainActivity: AppCompatActivity(),
             R.navigation.nav_graph_old_cars,
             R.navigation.nav_graph_journal)
 
+        val callback  = {item:MenuItem->
+
+
+
+        }
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_container,
-            intent = intent
+            intent = intent,
+            callback = callback
         )
 
         controller.observe(this, Observer { navController ->
             setupWithToolBar(navController)
         })
+        controller.value?.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.versionProfileFragment -> hideBottomNavigation()
+                else -> showBottomNavigation()
+            }
+        }
         currentNavController = controller
     }
 
@@ -184,6 +200,28 @@ class MainActivity: AppCompatActivity(),
                 notificationManager.createNotificationChannel(channel)
             }
 
+        }
+    }
+
+    private fun hideBottomNavigation() {
+        // bottom_navigation is BottomNavigationView
+        with(navigation) {
+            if (visibility == View.VISIBLE && alpha == 1f) {
+                animate()
+                    .alpha(0f)
+                    .withEndAction { visibility = View.GONE }
+                    .duration = 200
+            }
+        }
+    }
+
+    private fun showBottomNavigation() {
+        // bottom_navigation is BottomNavigationView
+        with(navigation) {
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .duration = 200
         }
     }
 }
