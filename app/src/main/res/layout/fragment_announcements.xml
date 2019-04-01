@@ -13,7 +13,7 @@
                 android:src="@android:drawable/ic_input_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@android:color/white"
                 android:clickable="true"
                 android:id="@+id/announcement_fab"
                 app:layout_constraintStart_toStartOf="parent"

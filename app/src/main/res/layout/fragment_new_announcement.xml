@@ -5,8 +5,6 @@
 
     </data>
     <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-
-
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -22,37 +20,100 @@
             <TextView
                     android:id="@+id/textView3"
                     style="@style/txt_view_style1"/>
-            <EditText
-                    android:hint="@string/Marque"
-                    android:id="@+id/marque_editText"
-                    style="@style/edit_text_theme"
-            />
-            <EditText
-                    android:id="@+id/modele_editText"
-                    style="@style/edit_text_theme"
-                    android:hint="@string/Modele"/>
-            <EditText
-                    android:hint="@string/Version"
-                    android:id="@+id/editText3"
-                    style="@style/edit_text_theme"
-            />
-            <EditText
-                    android:hint="@string/Annee"
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/Marque">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/marque_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/Modele">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/modele_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="@string/Version">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/version_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:inputType="date"
-                    android:id="@+id/editText4"
-                    style="@style/edit_text_theme"
-            />
-            <EditText
-                    android:hint="@string/Marche"
-                    android:inputType="number"
-                    android:id="@+id/editText5"
-                    style="@style/edit_text_theme"
-            />
-            <EditText
-                    android:hint="@string/Moteur"
-                    android:id="@+id/editText6"
-                    style="@style/edit_text_theme"
-            />
+                    android:hint="@string/Annee">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/annee_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:inputType="date"
+                    android:hint="@string/Marche">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/marche_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:inputType="date"
+                    android:hint="@string/Moteur">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/moteur_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <View
                     android:layout_marginTop="10sp"
                     android:layout_marginBottom="10sp"
@@ -61,36 +122,41 @@
                     android:layout_gravity="center"
                     android:background="@android:color/darker_gray"/>
 
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                <EditText
-                        android:id="@+id/option_edtTxt"
-                        style="@style/edit_text_with_label"
-                        android:hint="@string/option"
-                        />
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:inputType="date"
+                    android:hint="@string/option">
 
-                <TextView
-                        style="@style/txt_view_style2"
-                        android:text="Option"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                <EditText
-                        android:id="@+id/prix_edtTxt"
-                        style="@style/edit_text_with_label"
-                        android:hint="@string/prix"
-                        android:inputType="number"
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/option_editText"
+                        style="@style/edit_text_theme"
                 />
 
-                <TextView
-                        style="@style/txt_view_style2"
-                        android:text="Prix"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            </RelativeLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="370sp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:inputType="date"
+                    android:hint="@string/prix">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/prix_editText"
+                        style="@style/edit_text_theme"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                     android:text="Ajouter"
                     android:layout_width="100dp"
@@ -99,5 +165,6 @@
                     android:layout_marginStart="290sp"
                     android:id="@+id/confirm_btn"/>
         </LinearLayout>
+
     </ScrollView>
 </layout>

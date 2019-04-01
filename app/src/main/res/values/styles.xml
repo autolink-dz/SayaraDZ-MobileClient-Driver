@@ -53,13 +53,9 @@
 
     <style name="edit_text_theme">
         <item name="android:padding">10sp</item>
-        <item name="android:background">@drawable/edittextbackground</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:inputType">textPersonName</item>
+        <item name="android:layout_height">55sp</item>
         <item name="android:layout_marginBottom">20sp</item>
-        <item name="android:layout_marginStart">20sp</item>
-        <item name="android:layout_marginEnd">20sp</item>
     </style>
 
     <style name="edit_text_with_label">
@@ -94,6 +90,5 @@
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:background">#ffffff</item>
     </style>
-
 
 </resources>
