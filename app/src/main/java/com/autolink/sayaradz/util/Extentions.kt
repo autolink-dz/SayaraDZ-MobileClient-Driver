@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat
+import com.autolink.sayaradz.repository.announcement.AnnouncementsRepository
 import com.autolink.sayaradz.repository.brand.BrandsRepository
 import com.autolink.sayaradz.repository.model.ModelsRepository
 import com.autolink.sayaradz.repository.tariff.TariffRepository
@@ -22,7 +23,7 @@ import com.autolink.sayaradz.repository.user.UserRepository
 import com.autolink.sayaradz.repository.version.VersionsRepository
 import com.autolink.sayaradz.util.RepositoryKey.*
 import com.autolink.sayaradz.viewmodel.*
-
+import com.bumptech.glide.Glide
 
 
 inline fun < reified T>  ViewGroup.forEachViewOfType(action:(childView: View, index:Int)->Unit){
@@ -73,6 +74,7 @@ fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
                 MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
                 VERSIONS_REPOSITORY ->  VersionsViewModel(repo as VersionsRepository) as T
                 TARIFF_REPOSITORY -> TariffViewModel(repo as TariffRepository) as T
+                ANNOUNCEMENT_REPOSITORY -> AnnouncementsViewModel(repo as AnnouncementsRepository) as T
             }
         }
     })[when(type){
@@ -81,6 +83,7 @@ fun Fragment.getViewModel(type: RepositoryKey): ViewModel {
         MODELS_REPOSITORY -> ModelsViewModel::class.java
         VERSIONS_REPOSITORY -> VersionsViewModel::class.java
         TARIFF_REPOSITORY -> TariffViewModel::class.java
+        ANNOUNCEMENT_REPOSITORY -> AnnouncementsViewModel::class.java
     }]
 }
 
@@ -97,6 +100,7 @@ fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryK
                 MODELS_REPOSITORY ->  ModelsViewModel(repo as ModelsRepository) as T
                 VERSIONS_REPOSITORY ->  VersionsViewModel(repo as VersionsRepository) as T
                 TARIFF_REPOSITORY -> TariffViewModel(repo as TariffRepository) as T
+                ANNOUNCEMENT_REPOSITORY -> AnnouncementsViewModel(repo as AnnouncementsRepository) as T
             }
         }
     })[when(type){
@@ -105,6 +109,7 @@ fun AppCompatActivity.getViewModel(activity: FragmentActivity, type: RepositoryK
         MODELS_REPOSITORY -> ModelsViewModel::class.java
         VERSIONS_REPOSITORY -> VersionsViewModel::class.java
         TARIFF_REPOSITORY -> TariffViewModel::class.java
+        ANNOUNCEMENT_REPOSITORY -> AnnouncementsViewModel::class.java
     }]
 
 }
@@ -129,4 +134,11 @@ fun View.playAnimation(
     setAnimationListener(AnimationListener(onAnimationRepeat, onAnimationStart, onAnimationEnd))
     startAnimation(this)
     setInterpolator(context,interpolator)
+}
+
+
+
+fun dp2px(context: Context, dp: Float): Int {
+    val scale = context.getResources().getDisplayMetrics().density
+    return (dp * scale + 0.5f).toInt()
 }

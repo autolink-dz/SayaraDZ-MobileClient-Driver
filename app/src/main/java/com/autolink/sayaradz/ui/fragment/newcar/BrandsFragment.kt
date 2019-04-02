@@ -16,8 +16,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_brands.*
 import com.autolink.sayaradz.R
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.autolink.sayaradz.util.OnScrollStateChangedListener
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
+
+
 
 
 class BrandsFragment: Fragment() {

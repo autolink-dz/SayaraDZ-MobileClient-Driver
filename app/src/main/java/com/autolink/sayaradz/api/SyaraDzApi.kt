@@ -3,6 +3,7 @@ package com.autolink.sayaradz.api
 import com.autolink.sayaradz.vo.*
 import com.google.gson.annotations.SerializedName
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -38,15 +39,44 @@ interface SayaraDzApi{
     @POST("commandes/")
     fun setOrder(@Field("id_automobiliste")uid:String,
                  @Field("id_marque")brandId: String,
+                 @Field("id_version")versionId: String,
                  @Field("id_vehicule") vehicleId:String,
                  @Field("prix") vehiclePrice:Float,
                  @Field("versement")payment:Float=0F):Observable<Order>
 
 
+    @FormUrlEncoded
+    @POST("notifications/tokens/{id}")
+    fun setUserInstanceIdToken(@Path("id")id:String,@Field("instance_token")token:String):Call<Any>
 
+    @FormUrlEncoded
+    @POST("notifications/{type}/{id}")
+    fun follow(@Path("type") type: String,@Path("id") id: String,@Field("id_automobiliste")uid: String):Observable<Any>
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "notifications/{type}/{id}", hasBody = true)
+    fun unfollow(@Path("type") type: String,@Path("id") id: String,@Field("id_automobiliste")uid: String):Observable<Any>
+
+    @GET("automobilistes/{uid}")
+    fun getCarDriver(@Path("uid") uid:String):Observable<CarDriver>
+
+    @GET("annonces")
+    fun getAnnouncements(@Query("next")key:String="0"):Observable<ResponseListing<CompactAnnouncement>>
 
     data class ResponseListing<T>(
             @SerializedName("next")
             val key:String,
-            val data:List<T>)
+            val data:List<T>,
+            val extras: Extras = Extras()
+    )
+
+    data class Extras(
+        @SerializedName("automobilistes")
+        val carDrivers:Map<String,CarDriver> = mapOf(),
+        @SerializedName("marques")
+        val brands:Map<String,Brand>  = mapOf(),
+        @SerializedName("modeles")
+        val models:Map<String,Model>  = mapOf(),
+        val versions:Map<String,Version> = mapOf()
+    )
 }

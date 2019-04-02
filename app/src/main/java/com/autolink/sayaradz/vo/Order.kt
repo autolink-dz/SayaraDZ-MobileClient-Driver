@@ -7,10 +7,13 @@ data class Order(
     val uid:String,
     @SerializedName("id_marque")
     val brandId: String,
+    @SerializedName("id_version")
+    val versionId: String,
     @SerializedName("id_vehicule")
     val vehicleId:String,
     @SerializedName("prix")
     val vehiclePrice:Float,
+
     @SerializedName("versement")
     val payment:Float=0F
 )

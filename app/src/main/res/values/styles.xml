@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:itemTextAppearance">@style/AppTheme.itemTextAppearance</item>
     </style>
@@ -28,16 +29,18 @@
         <item name="android:letterSpacing">0.1</item>
         <item name="android:lineSpacingExtra">1.5sp</item>
 
+
     </style>
 
     <style name="AppTheme.Intro.Text.content">
         <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textSize">18sp</item>
         <item name="android:lineSpacingExtra">0.8sp</item>
     </style>
 
     <style name="AppTheme.Intro.Text.content.medium">
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-condensed-medium</item>
         <item name="android:textSize">19sp</item>
         <item name="android:lineSpacingExtra">0.8sp</item>
     </style>

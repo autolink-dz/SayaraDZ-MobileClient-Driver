@@ -18,6 +18,7 @@ package com.autolink.sayaradz.util
 
 import android.content.Intent
 import android.util.SparseArray
+import android.view.MenuItem
 import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.fragment.app.FragmentManager
@@ -25,6 +26,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.autolink.sayaradz.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -37,7 +39,8 @@ fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
-    intent: Intent
+    intent: Intent,
+    callback : (MenuItem) -> Unit
 ): LiveData<NavController> {
 
     // Map of tags
@@ -86,6 +89,7 @@ fun BottomNavigationView.setupWithNavController(
 
     // When a navigation item is selected
     setOnNavigationItemSelectedListener { item ->
+        callback(item)
         // Don't do anything if the state is state has already been saved.
         if (fragmentManager.isStateSaved) {
             false
@@ -125,6 +129,9 @@ fun BottomNavigationView.setupWithNavController(
                 selectedItemTag = newlySelectedItemTag
                 isOnFirstFragment = selectedItemTag == firstFragmentTag
                 selectedNavController.value = selectedFragment.navController
+
+
+
                 true
             } else {
                 false

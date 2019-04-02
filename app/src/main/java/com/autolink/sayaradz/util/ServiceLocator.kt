@@ -4,6 +4,7 @@ import android.content.Context
 import com.autolink.sayaradz.api.ApiBuilder
 import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.IRepository
+import com.autolink.sayaradz.repository.announcement.AnnouncementsRepository
 import com.autolink.sayaradz.repository.brand.BrandsRepository
 import com.autolink.sayaradz.repository.model.ModelsRepository
 import com.autolink.sayaradz.repository.tariff.TariffRepository
@@ -19,7 +20,8 @@ enum class RepositoryKey{
         BRANDS_REPOSITORY,
         MODELS_REPOSITORY,
         VERSIONS_REPOSITORY,
-        TARIFF_REPOSITORY
+        TARIFF_REPOSITORY,
+        ANNOUNCEMENT_REPOSITORY
 }
 
 interface ServiceLocator{
@@ -64,7 +66,7 @@ open class DefaultServiceLocator(val context:Context):ServiceLocator{
     override fun getRepository(key: RepositoryKey): IRepository {
             return when(key){
                 USER_REPOSITORY -> UserRepository(
-                    context,
+                    getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()
                 )
@@ -84,6 +86,11 @@ open class DefaultServiceLocator(val context:Context):ServiceLocator{
                     getDiskIOExecutor()
                 )
                 TARIFF_REPOSITORY -> TariffRepository(
+                    getSayaraDzApi(),
+                    getNetworkExecutor(),
+                    getDiskIOExecutor()
+                )
+                ANNOUNCEMENT_REPOSITORY -> AnnouncementsRepository(
                     getSayaraDzApi(),
                     getNetworkExecutor(),
                     getDiskIOExecutor()

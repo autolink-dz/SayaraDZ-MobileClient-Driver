@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,7 +19,6 @@ import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.ModelsViewModel
 import com.autolink.sayaradz.vo.Brand
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_brands.*
 import kotlinx.android.synthetic.main.fragment_models.*
 
 class ModelsFragment: Fragment(){
@@ -71,6 +69,7 @@ class ModelsFragment: Fragment(){
     private fun initSwipeToRefresh() {
         mModelsViewModel.refreshState.observe(this, Observer {
             model_swipe_to_refresh_layout.isRefreshing = it == NetworkState.LOADING
+
             if(it == NetworkState.LOADING ){
                 models_shimmer_container.startShimmer()
                 models_shimmer_container.visibility = View.VISIBLE

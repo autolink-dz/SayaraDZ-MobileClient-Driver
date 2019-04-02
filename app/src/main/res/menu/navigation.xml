@@ -3,13 +3,13 @@
     <item
             android:id="@+id/new_cars"
             android:title="Neufs"
-            android:icon="@drawable/ic_new"/>
+            android:icon="@drawable/anim_new"/>
     <item
             android:id="@+id/old_cars"
             android:title="Occasions"
-            android:icon="@drawable/ic_occasion"/>
+            android:icon="@drawable/anim_occasion"/>
     <item
             android:id="@+id/journal"
             android:title="Journal"
-            android:icon="@drawable/ic_journal"/>
+            android:icon="@drawable/anim_journal"/>
 </menu>

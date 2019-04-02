@@ -15,6 +15,7 @@
             android:layout_width="100dp"
             android:layout_height="75dp"
             android:scaleType="centerCrop"
+            android:background="@color/placeholder"
             tools:srcCompat="@tools:sample/avatars[0]"
             android:id="@+id/model_image"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"

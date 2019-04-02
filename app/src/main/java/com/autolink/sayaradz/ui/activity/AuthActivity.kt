@@ -4,18 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import androidx.work.*
 import com.autolink.sayaradz.R
+import com.autolink.sayaradz.service.FCMService
 import com.autolink.sayaradz.ui.fragment.auth.AuthFragment
 import com.autolink.sayaradz.ui.fragment.auth.IntroFragment
 import com.autolink.sayaradz.util.*
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.autolink.sayaradz.vo.CarDriver
+import com.autolink.sayaradz.worker.InstanceIdTokenUploadWorker
 import com.facebook.AccessToken
 import com.github.paolorotolo.appintro.AppIntro
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import java.util.concurrent.TimeUnit
 
 class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
     AuthFragment.OnFacebookSignIn {
@@ -29,13 +33,14 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
 
 
     private lateinit var mUserViewModel:UserViewModel
-    val listner = object : PagerOnPageChangeListener(){
+    private val listener = object : PagerOnPageChangeListener(){
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             isProgressButtonEnabled = position != (INTRO_SLIDE_NUMBER-1)
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,6 +57,7 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
         mUserViewModel.getCarDriverLiveData().observe(this, Observer<CarDriver> {
               val intent = Intent(this,MainActivity::class.java)
               intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP shl Intent.FLAG_ACTIVITY_NEW_TASK)
+              initUserInstanceIdWorker(it.id)
               startActivity(intent)
               finish()
         })
@@ -71,7 +77,7 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
 
         setCustomTransformer(CostumePageTransformer())
 
-        getPager().addOnPageChangeListener(listner)
+        getPager().addOnPageChangeListener(listener)
     }
 
     private fun setUpIntroPosters(){
@@ -119,7 +125,27 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
 
     override fun onDestroy() {
         super.onDestroy()
-        getPager().removeOnPageChangeListener(listner)
+        getPager().removeOnPageChangeListener(listener)
+    }
+
+
+    private fun initUserInstanceIdWorker(uid:String){
+        Log.d(TAG, "initUserInstanceIdWorker")
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val userData = workDataOf(InstanceIdTokenUploadWorker.USER_UID_KEY to uid)
+
+
+        val instanceIdTokenUploadWorker = OneTimeWorkRequestBuilder<InstanceIdTokenUploadWorker>()
+            .setConstraints(constraints)
+            .setInitialDelay(30,TimeUnit.SECONDS)
+            .setInputData(userData)
+            .build()
+
+        WorkManager.getInstance().enqueue(instanceIdTokenUploadWorker)
+
     }
 
 

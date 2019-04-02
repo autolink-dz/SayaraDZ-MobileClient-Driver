@@ -3,11 +3,8 @@ package com.autolink.sayaradz.ui.adapter.model
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.autolink.sayaradz.ui.adapter.BaseAdapter
-import com.autolink.sayaradz.ui.adapter.brand.BrandViewHolder
-import com.autolink.sayaradz.vo.Brand
 import com.autolink.sayaradz.vo.Model
 import com.bumptech.glide.RequestManager
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 
 class ModelsAdapter(private val glide: RequestManager,
                     private val listener:OnModelClickListener): BaseAdapter<Model>(glide,MODEL_COMPARATOR){

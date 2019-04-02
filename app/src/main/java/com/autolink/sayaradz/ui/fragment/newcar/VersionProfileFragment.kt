@@ -3,9 +3,6 @@ package com.autolink.sayaradz.ui.fragment.newcar
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,15 +14,20 @@ import kotlinx.android.synthetic.main.item_list_default_option.view.*
 import kotlinx.android.synthetic.main.item_list_spec.view.*
 import android.content.res.ColorStateList
 import android.util.Log
+import android.view.*
 import android.widget.CheckBox
+import androidx.core.view.get
 import androidx.transition.TransitionInflater
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.afollestad.materialdialogs.MaterialDialog
 import com.autolink.sayaradz.databinding.FragmentVersionProfileBinding
 import com.autolink.sayaradz.repository.utils.Status
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.viewmodel.TariffViewModel
+import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.item_list_non_default_option.view.*
 
@@ -45,6 +47,12 @@ class VersionProfileFragment:Fragment(){
     private val mTariffViewModel by lazy {
         getViewModel(RepositoryKey.TARIFF_REPOSITORY) as TariffViewModel
     }
+    private val mUserViewModel by lazy {
+        activity?.run {
+            ViewModelProviders.of(this).get(UserViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+    }
+
 
     private lateinit var mBinding: FragmentVersionProfileBinding
 
@@ -52,6 +60,7 @@ class VersionProfileFragment:Fragment(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setHasOptionsMenu(true)
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(R.transition.move)
 
 
@@ -90,7 +99,20 @@ class VersionProfileFragment:Fragment(){
             }
         })
 
+        mUserViewModel.getCarDriverLiveData().observe(this, Observer {
+            activity!!.invalidateOptionsMenu()
+        })
 
+        mUserViewModel.subscriptionStateLiveData.observe(this, Observer { status ->
+            status.getContentIfNotHandled()?.let { // Only proceed if the event has never been handled //
+                if(status.peekContent() == Status.FAILED){
+
+                    Snackbar.make(view, context!!.getString(R.string.subscription_failure_message,mVersion.name), Snackbar.LENGTH_LONG)
+                        .show()
+                }
+
+            }
+        })
 
         mTariffViewModel.suggestedOptionsPriceLiveData.observe(this, Observer {
 
@@ -186,11 +208,47 @@ class VersionProfileFragment:Fragment(){
         }
 
         order_button.setOnClickListener {
-            mTariffViewModel.setOrder()
+
+            MaterialDialog(context!!)
+                .title(R.string.order_dialog_title)
+                .message(text= context!!.getString(R.string.order_dialog_text,mVersion.name))
+                .show {
+                        positiveButton(R.string.order_title) { dialog ->
+                            mTariffViewModel.setOrder()
+                        }
+                        negativeButton(R.string.cancel_title) { dialog ->
+                            dialog.dismiss()
+                        }
+                }
+
         }
 
     }
 
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        Log.d(TAG, "the data is ${ mUserViewModel.getCarDriverLiveData().value }")
+        val carDriver = mUserViewModel.getCarDriverLiveData().value ?: return super.onPrepareOptionsMenu(menu)
+        menu[1].isVisible = true
+        if (carDriver.followedVersions.indexOf(mVersion.id) != -1)
+            menu[1].icon = context!!.getDrawable(R.drawable.ic_notifications_active)
+        else
+            menu[1].icon = context!!.getDrawable(R.drawable.ic_notifications_none)
+
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG,"Sending the notification request")
+        if (item.itemId == R.id.notification){
+            val carDriver = mUserViewModel.getCarDriverLiveData().value ?: return  true
+            if (carDriver.followedVersions.indexOf(mVersion.id) != -1)
+                mUserViewModel.setUserSubscriptionToVersionState(false,mVersion.id)
+            else
+                mUserViewModel.setUserSubscriptionToVersionState(true,mVersion.id)
+        }
+        return true
+    }
 
 
 }

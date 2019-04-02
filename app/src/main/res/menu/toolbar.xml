@@ -3,4 +3,17 @@
     <item android:id="@+id/logout"
           android:title="Log out"
           app:showAsAction="never"/>
+
+    <item android:id="@+id/notification"
+          android:title=""
+          android:visible="false"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/filter"
+          android:title=""
+          android:icon="@drawable/ic_filter"
+          android:visible="false"
+          app:showAsAction="always"/>
+
+
 </menu>

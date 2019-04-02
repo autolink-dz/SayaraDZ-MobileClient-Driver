@@ -14,6 +14,6 @@
     </fragment>
     <fragment android:id="@+id/newAnnouncementFragment"
               android:name="com.autolink.sayaradz.ui.fragment.oldcar.NewAnnouncementFragment"
-              android:label="fragment_new_announcement" tools:layout="@layout/fragment_new_announcement"/>
+              tools:layout="@layout/fragment_new_announcement"/>
 
 </navigation>

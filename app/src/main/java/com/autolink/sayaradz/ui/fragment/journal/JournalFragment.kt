@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.autolink.sayaradz.R
+import com.autolink.sayaradz.util.GlideApp
 import com.autolink.sayaradz.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_journal.*
 
 class JournalFragment: Fragment() {
@@ -32,8 +34,9 @@ class JournalFragment: Fragment() {
         activity?.findViewById<TextView>(R.id.toolbar_title)?.text = resources.getString(R.string.app_name)
         mUserViewModel.getCarDriverLiveData().observe(this, Observer {
 
-            Glide.with(context!!)
+            GlideApp.with(context!!)
                 .load(it.photoURL)
+                .apply(RequestOptions.circleCropTransform())
                 .into(user_image)
 
             username_tv.text = it.name

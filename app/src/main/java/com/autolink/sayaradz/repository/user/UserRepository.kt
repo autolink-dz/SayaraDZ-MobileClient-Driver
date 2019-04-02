@@ -1,27 +1,30 @@
 package com.autolink.sayaradz.repository.user
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.util.Log
+import com.autolink.sayaradz.api.SayaraDzApi
 import com.autolink.sayaradz.repository.IRepository
-import com.autolink.sayaradz.util.writeToSharedPreference
 import com.autolink.sayaradz.vo.CarDriver
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import durdinapps.rxfirebase2.RxFirebaseAuth
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
-import javax.security.auth.Subject
 
-class UserRepository(val context: Context,
+class UserRepository(val api: SayaraDzApi,
                      override val networkExecutor: Executor,
                      override val diskExecutor: Executor) : IRepository {
     companion object {
         private const val TAG = "UserRepository"
-        const val USER_TOKEN_KEY  = "TOKEN"
+    }
+
+    enum class Channel(val value: String) {
+        Model("modeles"),
+        Version("versions"),
+
     }
 
 
@@ -45,14 +48,12 @@ class UserRepository(val context: Context,
                      .subscribeOn(Schedulers.from(networkExecutor))
                      .observeOn(Schedulers.from(networkExecutor))
                      .doOnSubscribe { compositeDisposable.add(it) }
-                     .map { it.currentUser}
-                     .map {
-                            CarDriver(it.uid,it.displayName!!,it.email!!,it.photoUrl.toString())
-                     }
+                     .map { it.currentUser?.uid }
+                     .flatMap {
+                         Log.d(TAG,"sending the request to get the user with uid $it")
+                         api.getCarDriver(it)}
 
     }
-
-
 
     fun signOutUser(){
         FirebaseAuth.getInstance().signOut()
@@ -60,6 +61,14 @@ class UserRepository(val context: Context,
 
     fun isUserSignIn():Boolean{
         return FirebaseAuth.getInstance().currentUser != null
+    }
+
+    @SuppressLint("CheckResult")
+    fun setUserSubscriptionState(uid:String, itemType:Channel, itemId:String, state:Boolean):Observable<Any>{
+        val request  = if(state) api.follow(itemType.value,itemId,uid) else api.unfollow(itemType.value,itemId,uid)
+        return request.subscribeOn(Schedulers.from(networkExecutor))
+               .observeOn(Schedulers.from(networkExecutor))
+               .doOnSubscribe { compositeDisposable.add(it) }
     }
 
     override fun clear() {

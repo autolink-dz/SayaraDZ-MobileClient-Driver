@@ -129,7 +129,7 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
 
     @SuppressLint("CheckResult")
     fun setOrder(){
-        tariffRepository.setOrder(mVersion.brandId, vehicle.value!![0].id, (colorPrice.value!! + versionPrice.value!!))
+        tariffRepository.setOrder(mVersion.brandId, mVersion.id,vehicle.value!![0].id, (colorPrice.value!! + versionPrice.value!!))
             .subscribe({
 
                 val updatedList = vehicle.value!!

@@ -8,7 +8,7 @@
 
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp" tools:srcCompat="@tools:sample/avatars[2]"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"

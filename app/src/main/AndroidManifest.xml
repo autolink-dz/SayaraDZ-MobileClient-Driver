@@ -11,7 +11,7 @@
                  android:supportsRtl="true"
                  android:theme="@style/AppTheme.main">
 
-        <activity android:name=".ui.activity.AuthActivity"></activity>
+        <activity android:name=".ui.activity.AuthActivity"/>
 
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
@@ -37,6 +37,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.FCMService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 
 

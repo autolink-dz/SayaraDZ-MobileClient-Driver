@@ -14,7 +14,7 @@
                 tools:context=".ui.fragment.oldcar.NewAnnouncementFragment">
 
             <ImageView
-                    android:src="@drawable/ic_add_a_photo"
+                    android:src="@drawable/ic_photo"
                     android:layout_width="200sp"
                     android:layout_height="200sp"
                     android:layout_gravity="center"

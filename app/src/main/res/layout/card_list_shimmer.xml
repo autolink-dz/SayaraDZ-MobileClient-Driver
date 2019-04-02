@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        app:strokeColor="#726D6D"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="5dp"
+        android:layout_width="match_parent" android:id="@+id/materialCardView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="397dp"
+                android:scaleType="centerCrop"
+                android:background="#dddddd"
+                android:id="@+id/announce_image_view"
+                android:layout_height="145dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/owner_image_view"
+                android:background="@drawable/circle_border_shape"
+                android:padding="3dp"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:id="@+id/vehicle_name_text_view"
+                android:textSize="18sp"
+                style="@style/AppTheme.Intro.Text.content.medium"
+                android:background="#dddddd"
+                app:layout_constraintStart_toEndOf="@+id/brand_image_view" android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/brand_image_view"
+                app:layout_constraintTop_toTopOf="@+id/brand_image_view"/>
+
+
+        <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"  android:background="#dddddd"
+                android:id="@+id/brand_image_view"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/announce_image_view"
+                android:layout_marginStart="8dp"/>
+
+
+        <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content" android:id="@+id/guideline2"
+                                                    app:layout_constraintGuide_begin="119dp"
+                                                    android:orientation="horizontal"/>
+
+        <TextView
+                android:layout_marginTop="2dp"
+                android:background="#dddddd"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:id="@+id/vehicle_distance_text_view"
+                style="@style/AppTheme.Intro.Text.content"
+                android:textSize="16sp"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="@+id/vehicle_name_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/vehicle_name_text_view" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+                android:background="#dddddd"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:id="@+id/vehicle_year_text_view"
+                android:textSize="16sp"
+                style="@style/AppTheme.Intro.Text.content"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toEndOf="@+id/vehicle_distance_text_view"
+                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_distance_text_view"
+        />
+        <TextView
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:background="#dddddd"
+                style="@style/AppTheme.Intro.Text.content"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:id="@+id/announce_date"
+                app:layout_constraintBaseline_toBaselineOf="@+id/vehicle_year_text_view"
+                app:layout_constraintEnd_toEndOf="@+id/owner_image_view"
+                app:layout_constraintStart_toEndOf="@+id/vehicle_year_text_view" android:layout_marginStart="8dp"
+                app:layout_constraintHorizontal_bias="1.0" android:layout_marginEnd="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
