@@ -17,6 +17,7 @@ import com.autolink.sayaradz.R
 import com.autolink.sayaradz.databinding.FragmentNewAnnouncementBinding
 import android.content.DialogInterface
 import android.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class NewAnnouncementFragment : Fragment() {
@@ -61,13 +62,14 @@ class NewAnnouncementFragment : Fragment() {
     }
 
     private fun confirmDialog() {
-        val builder = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+        val builder = MaterialAlertDialogBuilder(context)
         builder
+            .setTitle("Confirmation")
             .setMessage("Voulez vous confirmer l'annonce que vous venez de creéer ? ")
-            .setPositiveButton("Oui", DialogInterface.OnClickListener { dialog, id ->
+            .setPositiveButton("Confirmer", DialogInterface.OnClickListener { dialog, id ->
                 // Yes-code
             })
-            .setNegativeButton("Non", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+            .setNegativeButton("Annuler", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
             .show()
     }
 
