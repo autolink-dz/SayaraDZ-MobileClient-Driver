@@ -1,8 +1,11 @@
 package com.autolink.sayaradz.vo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class Announcement(
     val id:String,
     val photoURL:String,
@@ -13,7 +16,7 @@ data class Announcement(
     val owner:CarDriver,
     val brand:Brand,
     val model:Model,
-    val version:Version)
+    val version:Version): Parcelable
 
 
 data class CompactAnnouncement(

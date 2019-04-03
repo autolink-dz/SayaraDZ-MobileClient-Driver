@@ -1,5 +1,6 @@
 package com.autolink.sayaradz.ui.adapter.announcement
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.autolink.sayaradz.ui.adapter.BaseAdapter
@@ -30,7 +31,7 @@ class AnnouncementsAdapter( private val glide: RequestManager,
     }
 
     interface OnAnnouncementClickListener{
-        fun onAnnouncementClick(announcement: Announcement)
+        fun onAnnouncementClick(announcement: Announcement,sharedViews:Map<String,View>)
     }
 
 

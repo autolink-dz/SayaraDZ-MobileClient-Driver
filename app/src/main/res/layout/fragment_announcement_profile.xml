@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     android:fitsSystemWindows="true">
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/collapsingToolbar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
+            app:title="Annonce">
+
+        <ImageView
+                android:layout_width="423dp"
+                android:layout_height="300dp" tools:srcCompat="@tools:sample/backgrounds/scenic[16]"
+                android:id="@+id/profile_announce_image_view"
+                android:scaleType="centerCrop"/>
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/profile_time_text_view"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                    android:layout_width="81dp"
+                    android:layout_height="64dp" tools:srcCompat="@tools:sample/avatars[0]"
+                    android:id="@+id/profile_brand_image_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"/>
+
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_vehicle_name_text_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_brand_image_view"
+                    app:layout_constraintStart_toStartOf="@+id/profile_brand_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_brand_image_view"/>
+            <View
+                    android:layout_width="wrap_content"
+                    android:background="?attr/dividerVertical"
+                    android:layout_height="1dp"
+                    android:id="@+id/view5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_year_text_view"
+                    android:layout_marginTop="16dp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/distance_icone_image_view"
+                    tools:srcCompat="@drawable/ic_station_24px" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_schedule"
+                    android:id="@+id/time_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_beenhere"
+                    android:id="@+id/year_icone_image_view"
+                    app:layout_constraintStart_toEndOf="@+id/distance_icone_image_view" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/time_icone_image_view"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_distance_text_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/distance_icone_image_view"
+                    app:layout_constraintStart_toStartOf="@+id/distance_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/distance_icone_image_view"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_year_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/year_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/year_icone_image_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/year_icone_image_view"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView10" app:layout_constraintStart_toStartOf="@+id/time_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/time_icone_image_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/time_icone_image_view"/>
+            <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp" tools:srcCompat="@tools:sample/avatars[2]"
+                    android:id="@+id/profile_owner_image_view"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/view5" android:layout_marginTop="8dp"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_owner_text_view" app:layout_constraintStart_toStartOf="@+id/profile_owner_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_owner_image_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_owner_image_view"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/announce_desc_text_view" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/profile_owner_text_view"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/offer_button" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/announce_desc_text_view"
+                    android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

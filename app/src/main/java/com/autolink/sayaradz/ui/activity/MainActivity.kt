@@ -203,8 +203,15 @@ class MainActivity: AppCompatActivity(),
         currentNavController?.value?.navigate(R.id.action_versionsFragment_to_versionProfileFragment,bundle,null,extras)
     }
 
-    override fun onAnnouncementClick(announcement: Announcement) {
-
+    override fun onAnnouncementClick(announcement: Announcement,sharedViews:Map<String,View>) {
+        val bundle = Bundle()
+        val extras = FragmentNavigatorExtras(
+            sharedViews.getValue("brand_image_view") to "brand_image_view",
+            sharedViews.getValue("vehicle_name_text_view") to "vehicle_name_text_view",
+            sharedViews.getValue("owner_image_view") to "owner_image_view",
+            sharedViews.getValue("announce_image_view") to  "announce_image_view")
+        bundle.putParcelable("ANNOUNCEMENT_KEY",announcement)
+        currentNavController?.value?.navigate(R.id.action_announcementsFragment_to_announcementProfileFragment,bundle,null,extras)
     }
 
     private fun createNotificationChannel() {
