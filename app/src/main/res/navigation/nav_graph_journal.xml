@@ -8,6 +8,7 @@
     <fragment
               android:id="@+id/journalFragment"
               android:name="com.autolink.sayaradz.ui.fragment.journal.JournalFragment"
-              tools:layout="@layout/fragment_journal"/>
+              tools:layout="@layout/fragment_journal">
+    </fragment>
 
 </navigation>

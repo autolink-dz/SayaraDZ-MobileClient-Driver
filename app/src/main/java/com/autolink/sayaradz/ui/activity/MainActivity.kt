@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.TransitionInflater
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.announcement.AnnouncementsAdapter
 import com.autolink.sayaradz.ui.adapter.brand.BrandsAdapter
@@ -27,6 +29,8 @@ import com.autolink.sayaradz.ui.adapter.version.VersionsAdapter
 import com.autolink.sayaradz.ui.fragment.newcar.BrandsFragment
 import com.autolink.sayaradz.ui.fragment.newcar.VersionProfileFragment
 import com.autolink.sayaradz.ui.fragment.newcar.VersionsFragment
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementProfileFragment.Companion.ANNOUNCEMENT_OBJECT_ARG_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment
 import com.autolink.sayaradz.util.OnScrollStateChangedListener
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
@@ -52,6 +56,7 @@ class MainActivity: AppCompatActivity(),
     }
 
     private lateinit var mUserViewModel: UserViewModel
+    private lateinit var mAnnouncementsViewModel: AnnouncementsViewModel
 
     private var currentNavController: LiveData<NavController>? = null
 
@@ -67,6 +72,7 @@ class MainActivity: AppCompatActivity(),
         if(mUserViewModel.isUserSignIn()){
 
             mUserViewModel.initCarDriverProfile()
+            mAnnouncementsViewModel = getViewModel(this,RepositoryKey.ANNOUNCEMENT_REPOSITORY) as AnnouncementsViewModel
 
 
 
@@ -85,6 +91,7 @@ class MainActivity: AppCompatActivity(),
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.title = ""
         createNotificationChannel()
+
 
     }
 
@@ -109,6 +116,13 @@ class MainActivity: AppCompatActivity(),
                 finish()
                 return true
             }
+            R.id.filter -> {
+                val fragment =   AnnouncementsFilterSheetFragment()
+                fragment.show(supportFragmentManager, "bottomSheet")
+                return true
+            }
+
+
             else -> return  super.onOptionsItemSelected(item)
         }
 
@@ -155,16 +169,29 @@ class MainActivity: AppCompatActivity(),
             invalidateOptionsMenu()
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
+
                     R.id.versionProfileFragment -> {
                         hideBottomNavigation()
+                        create_post_fab.visibility = View.GONE
                     }
+
                     R.id.announcementsFragment -> {
                         create_post_fab.visibility = View.VISIBLE
+                        showBottomNavigation()
                         invalidateOptionsMenu()
                     }
+
+                    R.id.announcementProfileFragment->{
+                        hideBottomNavigation()
+                        create_post_fab.visibility = View.GONE
+                    }
+
                     R.id.newAnnouncementFragment ->{
                         invalidateOptionsMenu()
+                        create_post_fab.visibility = View.GONE
                     }
+
+
                     else -> {
                         create_post_fab.visibility = View.GONE
                         showBottomNavigation()
@@ -206,11 +233,13 @@ class MainActivity: AppCompatActivity(),
     override fun onAnnouncementClick(announcement: Announcement,sharedViews:Map<String,View>) {
         val bundle = Bundle()
         val extras = FragmentNavigatorExtras(
-            sharedViews.getValue("brand_image_view") to "brand_image_view",
-            sharedViews.getValue("vehicle_name_text_view") to "vehicle_name_text_view",
-            sharedViews.getValue("owner_image_view") to "owner_image_view",
-            sharedViews.getValue("announce_image_view") to  "announce_image_view")
-        bundle.putParcelable("ANNOUNCEMENT_KEY",announcement)
+              sharedViews.getValue("announce_image_view") to "announce_image_view_${announcement.id}",
+              sharedViews.getValue("brand_image_view") to "brand_image_view_${announcement.id}",
+              sharedViews.getValue("vehicle_name_text_view") to "vehicle_name_text_view_${announcement.id}")
+
+
+
+        bundle.putParcelable(ANNOUNCEMENT_OBJECT_ARG_KEY,announcement)
         currentNavController?.value?.navigate(R.id.action_announcementsFragment_to_announcementProfileFragment,bundle,null,extras)
     }
 

@@ -61,7 +61,20 @@ interface SayaraDzApi{
     fun getCarDriver(@Path("uid") uid:String):Observable<CarDriver>
 
     @GET("annonces")
-    fun getAnnouncements(@Query("next")key:String="0"):Observable<ResponseListing<CompactAnnouncement>>
+    fun getAnnouncements(@Query("next")key:String="0",@Query("disponible") available:Boolean = true):Observable<ResponseListing<CompactAnnouncement>>
+
+    @FormUrlEncoded
+    @POST("offres")
+    fun setOffer(@Field("id_annonce") announcementId:String,
+                 @Field("id_proprietaire")ownerID:String,
+                 @Field("id_client")clientId:String,
+                 @Field("prix")price:Float):Observable<Order>
+
+
+    @FormUrlEncoded
+    @PUT("offres/{id}")
+    fun setOfferState(@Path("id") offerId:String,
+                      @Field("etat")state:String):Call<Any>
 
     data class ResponseListing<T>(
             @SerializedName("next")

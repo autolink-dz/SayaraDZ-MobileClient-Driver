@@ -13,6 +13,7 @@ data class Announcement(
     val year:String,
     val date:Date,
     val distance:Float,
+    val description:String,
     val owner:CarDriver,
     val brand:Brand,
     val model:Model,
@@ -36,5 +37,6 @@ data class CompactAnnouncement(
     @SerializedName("annee")
     val year:String,
     val date:Date,
-    val distance:Float
+    val distance:Float,
+    val description:String
 )

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.BaseViewHolder
 import com.autolink.sayaradz.util.dp2px
@@ -37,14 +38,12 @@ class AnnouncementsViewHolder(view: View,
             val announcement  = it.tag as Announcement
 
             val map = mapOf<String,View>(
-                "brand_image_view" to mBrandImageView,
-                "vehicle_name_text_view" to mVehicleNameTextView,
-                "owner_image_view" to mOwnerImageView,
-                "announce_image_view" to mAnnounceImageView
+                  "announce_image_view" to it.findViewById<ImageView>(R.id.announce_image_view),
+                  "brand_image_view" to it.findViewById<ImageView>(R.id.profile_brand_image_view),
+                  "vehicle_name_text_view" to it.findViewById<TextView>(R.id.vehicle_name_text_view))
 
-            )
-
-            listener.onAnnouncementClick(announcement,map)
+            listener.onAnnouncementClick(announcement, map)
+            this.adapterPosition
         }
     }
 
@@ -69,10 +68,13 @@ class AnnouncementsViewHolder(view: View,
             mDistanceTextView.text = view.context.getString(R.string.distance_placeholder,distance.toInt().toString())+ " • "
             mVehicleYearTextView.text = year
 
-            glide.load(owner.photoURL).apply(RequestOptions().centerCrop().transform(RoundedCorners(dp2px(view.context,20F)))).into(mOwnerImageView)
+            glide.load(owner.photoURL).apply(RequestOptions().centerCrop().transform(RoundedCorners(dp2px(view.context,25F)))).into(mOwnerImageView)
             glide.load(brand.photoURL).into(mBrandImageView)
             glide.load(photoURL).into(mAnnounceImageView)
 
+            ViewCompat.setTransitionName(mAnnounceImageView,"announce_image_view_$id")
+            ViewCompat.setTransitionName(mBrandImageView,"brand_image_view_$id")
+            ViewCompat.setTransitionName(mVehicleNameTextView,"vehicle_name_$id")
 
             view.tag = o
         }

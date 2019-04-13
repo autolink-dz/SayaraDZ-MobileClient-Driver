@@ -4,6 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:clipChildren="true"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
@@ -43,8 +44,8 @@
                 android:layout_height="50dp" tools:srcCompat="@tools:sample/avatars[3]"
                 android:id="@+id/owner_image_view"
                 android:layout_marginEnd="8dp"
+                android:padding="2.5dp"
                 android:background="@drawable/circle_border_shape"
-                android:padding="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline2"/>
 

@@ -12,14 +12,13 @@
         <action android:id="@+id/action_announcementsFragment_to_newAnnouncementFragment"
                 app:destination="@id/newAnnouncementFragment"/>
         <action android:id="@+id/action_announcementsFragment_to_announcementProfileFragment"
-                app:destination="@id/announcementProfileFragment"/>
+                app:destination="@id/announcementProfileFragment" app:launchSingleTop="false"/>
     </fragment>
     <fragment android:id="@+id/newAnnouncementFragment"
               android:name="com.autolink.sayaradz.ui.fragment.oldcar.NewAnnouncementFragment"
               tools:layout="@layout/fragment_new_announcement"/>
     <fragment android:id="@+id/announcementProfileFragment"
               android:name="com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementProfileFragment"
-              android:label="AnnouncementProfileFragment"
               tools:layout="@layout/fragment_announcement_profile"  />
 
 </navigation>

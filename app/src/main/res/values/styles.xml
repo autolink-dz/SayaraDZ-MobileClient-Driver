@@ -9,6 +9,7 @@
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:itemTextAppearance">@style/AppTheme.itemTextAppearance</item>
+        <item name="md_corner_radius">10dp</item>
     </style>
 
     <!-- Intro screen style -->
@@ -50,9 +51,29 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.ToolbarTheme.light" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
     <style name="AppTheme.itemTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@android:color/black</item>
     </style>
+
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_shape</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 
     <style name="edit_text_theme">
         <item name="android:padding">10sp</item>

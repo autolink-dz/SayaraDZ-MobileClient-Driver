@@ -61,7 +61,7 @@ class VersionProfileFragment:Fragment(){
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(R.transition.move)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
 
 
@@ -210,8 +210,8 @@ class VersionProfileFragment:Fragment(){
         order_button.setOnClickListener {
 
             MaterialDialog(context!!)
-                .title(R.string.order_dialog_title)
-                .message(text= context!!.getString(R.string.order_dialog_text,mVersion.name))
+                .title(R.string.confirmation_dialog_title)
+                .message(text= context!!.getString(R.string.order_dialog_message,mVersion.name))
                 .show {
                         positiveButton(R.string.order_title) { dialog ->
                             mTariffViewModel.setOrder()

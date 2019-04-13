@@ -19,6 +19,7 @@
 
     <string name="currency_placeholder">%1$s DA</string>
     <string name="distance_placeholder">%1$s Km</string>
+
     <string name="specs_list_title">Moteur et Véhicule</string>
     <string name="options_list_title">Options</string>
     <string name="colors_list_title">Couleurs</string>
@@ -28,15 +29,31 @@
     <string name="color_price_title">Prix Couleur</string>
     <string name="version_price_title">Prix Version</string>
     <string name="full_price_title">Prix Totale</string>
+    <string name="confirmation_dialog_title">Confirmation</string>
+    <string name="cancel_title">Annuler</string>
+    <string name="suggested_options_list_title">Options suggéreées</string>
+    <string name="published_title">Publiée le %1$s</string>
+    <string name="notification_order_accepted_title">Commande approuvé</string>
+    <string name="notification_order_rejected_title">Commande rejetée</string>
+    <string name="notification_offer_accepted_title">Offre accepter</string>
+    <string name="notification_offer_rejected_title">Offre rejeté</string>
+    <string name="notification_offer_title">vous avez reçu une offre</string>
+    <string name="send_offer_title">Envoyer un offre</string>
+    <string name="send_title">Envoyer</string>
+    <string name="accept_title">Accepter</string>
+    <string name="reject_title">Refuser</string>
+
+
     <string name="order_success_message">Votre commande est envoyeé</string>
     <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
-    <string name="order_dialog_title">Confirmation</string>
-    <string name="cancel_title">Annuler</string>
-    <string name="order_dialog_text">Commander une %1$s</string>
+    <string name="offer_success_message">Votre offre est envoyeé</string>
+    <string name="offer_failure_message">Erreur lors de l\'envoi de la offre</string>
+    <string name="order_dialog_message">Commander une %1$s</string>
     <string name="subscription_failure_message">l\'inscription à %1$s a echouée</string>
-    <string name="suggested_options_list_title">Options suggéreées</string>
+    <string name="offer_dialog_message">le propriétaire a fixé le prix minimum à %1$s, essayez d’offrir un prix plus élevé pour avoir une meilleure chance</string>
+    <string name="non_valid_offer_error_message">une offre non valable</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="Moteur_vehicule">Moteur et Vehicule :</string>
     <string name="Marque">Marque</string>
     <string name="Version">Version</string>
@@ -45,12 +62,14 @@
     <string name="Moteur">Moteur</string>
     <string name="Modele">Modèle</string>
     <string name="option">Option</string>
-    <string name="prix">Prix</string>
-    <string name="notification_order_accepted_title">Commandes approuvée</string>
-    <string name="notification_order_rejected_title">Commandes rejetée</string>
+    <string name="price">Prix</string>
 
     <string name="notification_order_accepted_body">Félicitations, votre commande pour %1$s  a été approuvée</string>
     <string name="notification_order_rejected_body">Malheureusement, votre commande pour %1$s a été rejetée</string>
+    <string name="notification_offer_body">%1$s vous offre %2$s dinnars pour votre %3$s</string>
+    <string name="notification_offer_accepted_body">%1$s a accepter votre offre pour son %2$s, contacez lui par %3$s</string>
+    <string name="notification_offer_rejected_body">%1$s a rejeté votre offre pour son %2$ss</string>
+
 
     <string-array name="notification_channel_titles">
         <item>Commandes</item>

@@ -37,7 +37,9 @@ class AnnouncementsFragment : Fragment() {
 
 
     private val mAnnouncementsViewModel by lazy {
-        getViewModel(RepositoryKey.ANNOUNCEMENT_REPOSITORY) as AnnouncementsViewModel
+        activity?.run {
+            ViewModelProviders.of(this).get(AnnouncementsViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
     }
 
     private val mAnnouncementsAdapter by lazy {

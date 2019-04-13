@@ -11,8 +11,7 @@ import java.util.concurrent.Executor
 
 class TariffRepository(private val api: SayaraDzApi,
                        override val networkExecutor: Executor,
-                       override val diskExecutor: Executor
-): IRepository {
+                       override val diskExecutor: Executor): IRepository {
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -21,7 +20,6 @@ class TariffRepository(private val api: SayaraDzApi,
         Colors("couleurs"),
         Version("versions")
     }
-
 
     @SuppressLint("CheckResult")
     fun getItemTariff(type:Item, brandId:String, modelCode:String, code:String)

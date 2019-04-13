@@ -19,7 +19,7 @@ class OrdersNotificationManager(context:Context):NotificationManager(context){
     }
 
 
-    override fun setPayload(data: Map<String,String>) {
+    override fun setPayload(data: Map<String,String>):String {
 
         mNotificationBuilder = NotificationCompat.Builder(context,NotificationChannels.ORDERS_CHANNEL.key)
 
@@ -61,6 +61,6 @@ class OrdersNotificationManager(context:Context):NotificationManager(context){
                                 .bigText(Html.fromHtml("<strong>$body</strong><br/>$expendableText"))
                             )
 
-
+        return super.setPayload(data)
     }
 }

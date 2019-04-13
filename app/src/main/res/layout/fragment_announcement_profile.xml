@@ -4,62 +4,53 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:background="#f4f4f4"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent" android:id="@+id/coordinatorLayout">
 
-    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent"
-                                                     android:layout_height="wrap_content"
-                                                     android:fitsSystemWindows="true">
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/collapsingToolbar"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            app:title="Annonce">
-
-        <ImageView
-                android:layout_width="423dp"
-                android:layout_height="300dp" tools:srcCompat="@tools:sample/backgrounds/scenic[16]"
-                android:id="@+id/profile_announce_image_view"
-                android:scaleType="centerCrop"/>
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/profile_time_text_view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+            <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@android:color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/view5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="visible">
 
-
+            </FrameLayout>
             <ImageView
-                    android:layout_width="81dp"
-                    android:layout_height="64dp" tools:srcCompat="@tools:sample/avatars[0]"
-                    android:id="@+id/profile_brand_image_view" android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" tools:srcCompat="@tools:sample/avatars[0]"
+                    android:id="@+id/profile_brand_image_view"
+                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                    android:text="TextView"
+                    android:id="@+id/profile_vehicle_name_text_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/profile_vehicle_name_text_view" android:layout_marginTop="8dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+                    style="@style/AppTheme.Intro.Text.content.medium"
+                    android:text="adfsdfsdf"
                     app:layout_constraintTop_toBottomOf="@+id/profile_brand_image_view"
                     app:layout_constraintStart_toStartOf="@+id/profile_brand_image_view"
-                    app:layout_constraintEnd_toEndOf="@+id/profile_brand_image_view"/>
+                    app:layout_constraintEnd_toEndOf="@+id/profile_brand_image_view" android:layout_marginTop="4dp"/>
+
+
             <View
                     android:layout_width="wrap_content"
                     android:background="?attr/dividerVertical"
@@ -69,88 +60,154 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintTop_toBottomOf="@+id/profile_year_text_view"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="8dp"/>
             <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/distance_icone_image_view"
-                    tools:srcCompat="@drawable/ic_station_24px" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="44dp"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_money"
+                    android:id="@+id/price_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/year_icone_image_view" android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_schedule"
-                    android:id="@+id/time_icone_image_view"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"
+                    app:layout_constraintHorizontal_bias="0.7"/>
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" app:srcCompat="@drawable/ic_beenhere"
                     android:id="@+id/year_icone_image_view"
-                    app:layout_constraintStart_toEndOf="@+id/distance_icone_image_view" android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/time_icone_image_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"
+                    android:layout_marginTop="16dp"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@drawable/ic_station"
+                    android:id="@+id/imageView2"
+                    app:layout_constraintEnd_toStartOf="@+id/year_icone_image_view" android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"/>
+                    app:layout_constraintTop_toBottomOf="@+id/profile_vehicle_name_text_view"
+                    app:layout_constraintHorizontal_bias="0.3"/>
             <TextView
                     android:text="TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/profile_distance_text_view" android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/distance_icone_image_view"
-                    app:layout_constraintStart_toStartOf="@+id/distance_icone_image_view"
-                    app:layout_constraintEnd_toEndOf="@+id/distance_icone_image_view"/>
+                    android:textSize="14sp"
+                    style="@style/AppTheme.Intro.Text.content.medium"
+                    android:textColor="@color/grey"
+                    android:id="@+id/profile_distance_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="@+id/imageView2"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView2" android:layout_marginTop="8dp"/>
             <TextView
                     android:text="TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/AppTheme.Intro.Text.content.medium"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
                     android:id="@+id/profile_year_text_view"
                     app:layout_constraintStart_toStartOf="@+id/year_icone_image_view"
                     app:layout_constraintEnd_toEndOf="@+id/year_icone_image_view" android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/year_icone_image_view"/>
             <TextView
                     android:text="TextView"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView10" app:layout_constraintStart_toStartOf="@+id/time_icone_image_view"
-                    app:layout_constraintEnd_toEndOf="@+id/time_icone_image_view" android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/time_icone_image_view"/>
+                    style="@style/AppTheme.Intro.Text.content.medium"
+                    android:textColor="@color/grey"
+                    android:id="@+id/profile_price_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/price_icone_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/price_icone_image_view" android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/price_icone_image_view"/>
             <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp" tools:srcCompat="@tools:sample/avatars[2]"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" tools:srcCompat="@tools:sample/avatars[2]"
                     android:id="@+id/profile_owner_image_view"
+                    android:padding="1dp"
+                    android:background="@drawable/circle_border_shape_primary"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                     app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/view5" android:layout_marginTop="8dp"/>
+                    app:layout_constraintTop_toBottomOf="@+id/view5" android:layout_marginTop="8dp"
+            />
             <TextView
                     android:text="TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/profile_owner_text_view" app:layout_constraintStart_toStartOf="@+id/profile_owner_image_view"
+                    android:id="@+id/profile_owner_text_view"
+                    style="@style/AppTheme.Intro.Text.content.medium"
+                    app:layout_constraintStart_toStartOf="@+id/profile_owner_image_view"
                     app:layout_constraintEnd_toEndOf="@+id/profile_owner_image_view" android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/profile_owner_image_view"/>
             <TextView
-                    android:text="TextView"
-                    android:layout_width="wrap_content"
+                    android:text="Name were we at hope. Remainder household direction zealously the unwilling bed sex. Lose and gay ham sake met that. Stood her place one ten spoke yet. Head case knew ever set why over. Marianne returned of peculiar replying in moderate. Roused get enable garret estate old county. Entreaties you devonshire law dissimilar terminated."
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/announce_desc_text_view" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/announce_desc_text_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" android:textAlignment="center"
+                    app:layout_constraintHorizontal_bias="0.0" android:fontFamily="sans-serif-condensed"
+                    android:textSize="16sp"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/profile_owner_text_view"/>
 
             <com.google.android.material.button.MaterialButton
-                    android:text="Button"
+                    android:text="@string/send_offer_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/offer_button" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                    android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/announce_desc_text_view"
-                    android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:id="@+id/offer_button"
+                    android:layout_marginBottom="24dp" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/announce_desc_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/announce_desc_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_time_text_view" android:layout_marginTop="16dp"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_time_text_view"
+                    style="@style/AppTheme.Intro.Text.content"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@+id/announce_desc_text_view" android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/announce_desc_text_view"
+                    app:layout_constraintEnd_toEndOf="@+id/announce_desc_text_view"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:visibility="visible">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/collapsingToolbar"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:fitsSystemWindows="true"
+                android:background="@android:color/white"
+                app:contentScrim="@android:color/transparent"
+                app:expandedTitleGravity="top">
+
+            <ImageView
+                    android:layout_width="423dp"
+                    android:maxHeight="350dp"
+                    android:background="@android:color/black"
+                    android:minHeight="300dp"
+                    android:layout_height="wrap_content" tools:srcCompat="@tools:sample/backgrounds/scenic[16]"
+                    android:id="@+id/profile_announce_image_view"
+                    app:layout_collapseMode="parallax"
+                    android:scaleType="centerCrop"/>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

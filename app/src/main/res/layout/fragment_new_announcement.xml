@@ -148,7 +148,7 @@
                     android:background="@android:color/white"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:inputType="date"
-                    android:hint="@string/prix">
+                    android:hint="@string/price">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/prix_editText"

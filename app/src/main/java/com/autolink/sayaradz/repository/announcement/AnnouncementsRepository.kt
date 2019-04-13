@@ -1,5 +1,6 @@
 package com.autolink.sayaradz.repository.announcement
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,7 @@ import com.autolink.sayaradz.repository.utils.Listing
 import com.autolink.sayaradz.vo.Announcement
 import com.autolink.sayaradz.vo.Brand
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
 
 class AnnouncementsRepository(private val api: SayaraDzApi,
@@ -21,6 +23,11 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
 ): IRepository {
 
     lateinit var compositeDisposable: CompositeDisposable
+
+    enum class OfferState(val value:String){
+        ACCEPTED("2"),
+        REJECTED("0")
+    }
 
     companion object {
         private const val DEFAULT_PAGE_SIZE = 20
@@ -70,6 +77,14 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
 
 
     }
+
+    @SuppressLint("CheckResult")
+    fun setOffer(announcementId:String, ownerID:String, clientId:String, price:Float)
+            =api.setOffer(announcementId,ownerID,clientId,price)
+            .subscribeOn(Schedulers.from(networkExecutor))
+            .observeOn(Schedulers.from(networkExecutor))
+            .doOnSubscribe { compositeDisposable.add(it) }
+
 
     override fun clear() {
 

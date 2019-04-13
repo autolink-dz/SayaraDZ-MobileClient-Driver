@@ -33,8 +33,6 @@ class AnnouncementsDataSource(api: SayaraDzApi,
                 val data = listing.data
                 val extras = listing.extras
 
-                Log.d("CASE","extras $extras")
-                Log.d("CASE","data $data")
                 val announcements = data.map {
                   with(it){
                        Announcement(
@@ -44,6 +42,7 @@ class AnnouncementsDataSource(api: SayaraDzApi,
                             year,
                             date,
                             distance,
+                            description,
                             extras.carDrivers.getValue(ownerId),
                             extras.brands.getValue(brandId),
                             extras.models.getValue(modelId),
@@ -94,6 +93,7 @@ class AnnouncementsDataSource(api: SayaraDzApi,
                             year,
                             date,
                             distance,
+                            description,
                             extras.carDrivers.getValue(ownerId),
                             extras.brands.getValue(brandId),
                             extras.models.getValue(modelId),
@@ -115,4 +115,5 @@ class AnnouncementsDataSource(api: SayaraDzApi,
     }
 
     override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<String, Announcement>) {}
+
 }

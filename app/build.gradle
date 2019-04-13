@@ -84,8 +84,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
-    implementation 'com.afollestad.material-dialogs:core:2.6.0'
-
+    implementation 'com.afollestad.material-dialogs:core:2.7.0'
+    implementation 'com.afollestad.material-dialogs:input:2.7.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 

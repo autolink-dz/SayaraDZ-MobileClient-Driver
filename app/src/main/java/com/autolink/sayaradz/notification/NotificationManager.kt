@@ -8,7 +8,10 @@ abstract class NotificationManager(val context:Context){
 
     protected lateinit var mNotificationBuilder:NotificationCompat.Builder
 
-    abstract fun setPayload(data: Map<String,String >)
+    open fun setPayload(data: Map<String,String >):String{
+
+        return data.getValue("id")
+    }
 
     fun build() = mNotificationBuilder.build()
 }
