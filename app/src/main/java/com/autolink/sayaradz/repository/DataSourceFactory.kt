@@ -8,6 +8,12 @@ import com.autolink.sayaradz.repository.announcement.AnnouncementsDataSource
 import com.autolink.sayaradz.repository.brand.BrandsDataSource
 import com.autolink.sayaradz.repository.model.ModelsDataSource
 import com.autolink.sayaradz.repository.version.VersionsDataSource
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.BRANDS_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_PRICE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_PRICE_KEY
+import com.autolink.sayaradz.vo.Brand
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.Executor
 
@@ -19,11 +25,11 @@ enum class DataSourceKey  constructor(s: String) {
 }
 
 
-class DataSourceFactory<T:Any>(val api:SayaraDzApi,
-                               private val networkExecutor:Executor,
-                               private val dataSourceKey: DataSourceKey,
-                               private val compositeDisposable: CompositeDisposable,
-                               private val params:HashMap<String,String>? = null):DataSource.Factory<String,T>(){
+class DataSourceFactory<T:Any> (val api:SayaraDzApi,
+                                private val networkExecutor:Executor,
+                                private val dataSourceKey: DataSourceKey,
+                                private val compositeDisposable: CompositeDisposable,
+                                var params:Map<String,Any>? = null):DataSource.Factory<String,T>(){
 
     val dataSourceLiveData  = MutableLiveData<BaseDataSource<T>>()
 
@@ -31,9 +37,12 @@ class DataSourceFactory<T:Any>(val api:SayaraDzApi,
     override fun create(): DataSource<String, T> {
         val dataSource: BaseDataSource<T> = when(dataSourceKey){
             Brands -> BrandsDataSource(api,networkExecutor,compositeDisposable) as BaseDataSource<T>
-            Models -> ModelsDataSource(params!!["brandId"]!!,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
-            Versions ->  VersionsDataSource(params!!["modelId"]!!,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
-            Announcements -> AnnouncementsDataSource(api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Models -> ModelsDataSource(params!!["brandId"] as String,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Versions ->  VersionsDataSource(params!!["modelId"] as String,api,networkExecutor,compositeDisposable) as BaseDataSource<T>
+            Announcements -> AnnouncementsDataSource(Pair( params!![MIN_PRICE_KEY] as Float, params!![MAX_PRICE_KEY] as Float),
+                                                     Pair( params!![MIN_DISTANCE_KEY] as Float, params!![MAX_DISTANCE_KEY] as Float),
+                                                     params!![BRANDS_KEY] as List<Brand>,
+                                                     api,networkExecutor,compositeDisposable) as BaseDataSource<T>
         }
         dataSourceLiveData.postValue(dataSource)
         return dataSource

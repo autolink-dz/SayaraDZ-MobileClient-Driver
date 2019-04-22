@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.autolink.sayaradz.repository.utils.NetworkState
@@ -31,13 +32,13 @@ class BrandsFragment: Fragment() {
     }
 
     private val mBrandsViewModel by lazy {
-        getViewModel(RepositoryKey.BRANDS_REPOSITORY) as BrandsViewModel
+        activity?.run {
+            ViewModelProviders.of(this).get(BrandsViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
     }
-
     private val mBrandsAdapter by lazy {
         BrandsAdapter(Glide.with(context!!),context as BrandsAdapter.OnBrandsClickListener)
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
             = inflater.inflate(com.autolink.sayaradz.R.layout.fragment_brands,container,false)!!

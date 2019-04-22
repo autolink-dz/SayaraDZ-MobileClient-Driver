@@ -25,7 +25,7 @@ class BrandViewHolder(view:View,
     companion object {
         fun create(parent: ViewGroup, glide: RequestManager, listener: BrandsAdapter.OnBrandsClickListener): BrandViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_brand, parent, false)
+                .inflate(R.layout.item_list_brand, parent, false)
             return BrandViewHolder(view, glide,listener)
         }
     }

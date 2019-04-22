@@ -11,7 +11,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executor
 
-class AnnouncementsDataSource(api: SayaraDzApi,
+class AnnouncementsDataSource(private val priceRange: Pair<Float,Float>,
+                              private val distanceRange: Pair<Float,Float>,
+                              private val brands:List<Brand>,
+                              api: SayaraDzApi,
                               networkExecutor: Executor,
                               compositeDisposable: CompositeDisposable): BaseDataSource<Announcement>(api,networkExecutor,compositeDisposable){
 
@@ -20,6 +23,7 @@ class AnnouncementsDataSource(api: SayaraDzApi,
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
+        Log.d("TAG","re-creating the pagedd list with the max prices $priceRange")
 
 
         api.getAnnouncements()
@@ -33,22 +37,34 @@ class AnnouncementsDataSource(api: SayaraDzApi,
                 val data = listing.data
                 val extras = listing.extras
 
-                val announcements = data.map {
-                  with(it){
-                       Announcement(
-                            id,
-                            photoURL,
-                            price,
-                            year,
-                            date,
-                            distance,
-                            description,
-                            extras.carDrivers.getValue(ownerId),
-                            extras.brands.getValue(brandId),
-                            extras.models.getValue(modelId),
-                            extras.versions.getValue(versionId))
+                val announcements = data.filter {
+                        it.price in priceRange.first..priceRange.second
                     }
-                }
+                    .filter {
+                        it.distance in  distanceRange.first..distanceRange.second
+                    }
+                    .map {
+                              with(it){
+                                   Announcement(
+                                        id,
+                                        photoURL,
+                                        price,
+                                        year,
+                                        date,
+                                        distance,
+                                        description,
+                                        extras.carDrivers.getValue(ownerId),
+                                        extras.brands.getValue(brandId),
+                                        extras.models.getValue(modelId),
+                                        extras.versions.getValue(versionId))
+                              }
+                }.filter {
+                        if(brands.isEmpty())
+                            true
+                        else
+                            brands.contains(it.brand)
+                    }
+
 
                 retry = null
                 networkState.postValue(NetworkState.LOADED)
@@ -56,12 +72,12 @@ class AnnouncementsDataSource(api: SayaraDzApi,
                 callback.onResult(announcements,"0",key)
             },{
                 retry = {
-                    loadInitial(params,callback) }
+                    loadInitial(params,callback)
+                }
 
                 val error  = NetworkState.error(it.message)
                 networkState.postValue(error)
                 initialLoad.postValue(error)
-                Log.d("CASE","error ${it.message}")
             })
 
 
@@ -70,6 +86,9 @@ class AnnouncementsDataSource(api: SayaraDzApi,
     @SuppressLint("CheckResult")
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Announcement>) {
         networkState.postValue(NetworkState.LOADING)
+
+        val max  = priceRange.second
+        val min = priceRange.first
 
         api.getAnnouncements(params.key)
             .subscribeOn(Schedulers.from(networkExecutor))
@@ -84,23 +103,33 @@ class AnnouncementsDataSource(api: SayaraDzApi,
 
                 val extras = listing.extras
 
-                val announcements = data.map {
-                    with(it){
-                        Announcement(
-                            id,
-                            photoURL,
-                            price,
-                            year,
-                            date,
-                            distance,
-                            description,
-                            extras.carDrivers.getValue(ownerId),
-                            extras.brands.getValue(brandId),
-                            extras.models.getValue(modelId),
-                            extras.versions.getValue(versionId))
-                    }
+                val announcements = data.filter {
+                    it.price in priceRange.first..priceRange.second
                 }
-
+                    .filter {
+                        it.distance in  distanceRange.first..distanceRange.second
+                    }
+                    .map {
+                        with(it){
+                            Announcement(
+                                id,
+                                photoURL,
+                                price,
+                                year,
+                                date,
+                                distance,
+                                description,
+                                extras.carDrivers.getValue(ownerId),
+                                extras.brands.getValue(brandId),
+                                extras.models.getValue(modelId),
+                                extras.versions.getValue(versionId))
+                        }
+                    }.filter {
+                        if(brands.isEmpty())
+                            true
+                        else
+                            brands.contains(it.brand)
+                    }
                 retry = null
                 callback.onResult(announcements,key)
                 networkState.postValue(NetworkState.LOADED)

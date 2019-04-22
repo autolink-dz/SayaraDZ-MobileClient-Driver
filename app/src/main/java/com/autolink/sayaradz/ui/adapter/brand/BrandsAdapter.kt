@@ -6,6 +6,8 @@ import com.autolink.sayaradz.ui.adapter.BaseAdapter
 import com.autolink.sayaradz.vo.Brand
 import com.bumptech.glide.RequestManager
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+import java.lang.IllegalArgumentException
+
 
 class BrandsAdapter(private val glide: RequestManager,
                     private val listener:OnBrandsClickListener): BaseAdapter<Brand>(glide,BRAND_COMPARATOR),
@@ -34,6 +36,7 @@ class BrandsAdapter(private val glide: RequestManager,
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BrandViewHolder.create(parent,glide,listener)
+
 
 
 

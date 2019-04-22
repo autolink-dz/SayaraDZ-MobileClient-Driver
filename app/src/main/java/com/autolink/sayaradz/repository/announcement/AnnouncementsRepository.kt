@@ -11,6 +11,11 @@ import com.autolink.sayaradz.repository.DataSourceFactory
 import com.autolink.sayaradz.repository.DataSourceKey
 import com.autolink.sayaradz.repository.IRepository
 import com.autolink.sayaradz.repository.utils.Listing
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.BRANDS_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_PRICE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_PRICE_KEY
 import com.autolink.sayaradz.vo.Announcement
 import com.autolink.sayaradz.vo.Brand
 import io.reactivex.disposables.CompositeDisposable
@@ -23,14 +28,28 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
 ): IRepository {
 
     lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var mSourceFactory:DataSourceFactory<Announcement>
+
+    lateinit var priceRange:Pair<Float,Float>
+    lateinit var distanceRange:Pair<Float,Float>
+    lateinit var brands:List<Brand>
 
     enum class OfferState(val value:String){
         ACCEPTED("2"),
         REJECTED("0")
     }
 
+
     companion object {
         private const val DEFAULT_PAGE_SIZE = 20
+    }
+
+
+
+    fun setConstraints(priceRange:Pair<Float,Float>,distanceRange:Pair<Float,Float>,brands:List<Brand>){
+        this.priceRange = priceRange
+        this.distanceRange = distanceRange
+        this.brands = brands
     }
 
     fun getAnnouncements(pageSize: Int = DEFAULT_PAGE_SIZE): LiveData<Listing<Announcement>> {
@@ -39,44 +58,53 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
 
         Log.d("AnnouncementsRepository","getAnnouncements")
 
-        val sourceFactory = DataSourceFactory<Announcement>(
+        mSourceFactory =  DataSourceFactory(
             api,
             networkExecutor,
             DataSourceKey.Announcements,
-            compositeDisposable
-        )
+            compositeDisposable,
+            mapOf(
+                MIN_PRICE_KEY to priceRange.first,
+                MAX_PRICE_KEY to priceRange.second,
+                MIN_DISTANCE_KEY to distanceRange.first,
+                MAX_DISTANCE_KEY to distanceRange.second,
+                BRANDS_KEY to brands
+            ))
 
-        val livePagedList = sourceFactory.toLiveData(
+
+        val livePagedList = mSourceFactory.toLiveData(
             pageSize = pageSize,
-            // provide custom executor for network requests, otherwise it will default to
-            // Arch Components' IO pool which is also used for disk access
-            fetchExecutor = networkExecutor
-        )
+            fetchExecutor = networkExecutor)
 
-        val refreshState = Transformations.switchMap(sourceFactory.dataSourceLiveData) {
+        val refreshState = Transformations.switchMap(mSourceFactory.dataSourceLiveData) {
             it.initialLoad
         }
 
         listing.postValue(
             Listing(
                 pagedList = livePagedList,
-                networkState = Transformations.switchMap(sourceFactory.dataSourceLiveData) {
+                networkState = Transformations.switchMap(mSourceFactory.dataSourceLiveData) {
                     it.networkState
                 },
                 retry = {
-                    sourceFactory.dataSourceLiveData.value?.retryAllFailed()
+                    mSourceFactory.dataSourceLiveData.value?.retryAllFailed()
                 },
                 refresh = {
-                    sourceFactory.dataSourceLiveData.value?.invalidate()
+                    Log.d("TAG","setting the min price is to $priceRange")
+                    mSourceFactory.params=  mapOf(
+                        MIN_PRICE_KEY to priceRange.first,
+                        MAX_PRICE_KEY to priceRange.second,
+                        MIN_DISTANCE_KEY to distanceRange.first,
+                        MAX_DISTANCE_KEY to distanceRange.second,
+                        BRANDS_KEY to brands)
+                    mSourceFactory.dataSourceLiveData.value?.invalidate()
                 },
                 refreshState = refreshState
             )
         )
-
         return listing
-
-
     }
+
 
     @SuppressLint("CheckResult")
     fun setOffer(announcementId:String, ownerID:String, clientId:String, price:Float)

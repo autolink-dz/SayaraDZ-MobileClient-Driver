@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,7 +19,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.transition.TransitionInflater
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.announcement.AnnouncementsAdapter
 import com.autolink.sayaradz.ui.adapter.brand.BrandsAdapter
@@ -31,12 +29,22 @@ import com.autolink.sayaradz.ui.fragment.newcar.VersionProfileFragment
 import com.autolink.sayaradz.ui.fragment.newcar.VersionsFragment
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementProfileFragment.Companion.ANNOUNCEMENT_OBJECT_ARG_KEY
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.BRANDS_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_PRICE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_DISTANCE_KEY
+import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_PRICE_KEY
 import com.autolink.sayaradz.util.OnScrollStateChangedListener
 import com.autolink.sayaradz.util.RepositoryKey
 import com.autolink.sayaradz.util.getViewModel
 import com.autolink.sayaradz.util.setupWithNavController
-import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel
-import com.autolink.sayaradz.viewmodel.UserViewModel
+import com.autolink.sayaradz.viewmodel.*
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.DISTANCE_PREFIX
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.MAX_DISTANCE
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.MAX_PRICE
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.MIN_DISTANCE
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.MIN_PRICE
+import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.PRICE_PREFIX
 import com.autolink.sayaradz.vo.Announcement
 import com.autolink.sayaradz.vo.Brand
 import com.autolink.sayaradz.vo.Model
@@ -49,7 +57,8 @@ class MainActivity: AppCompatActivity(),
                     ModelsAdapter.OnModelClickListener,
                     VersionsAdapter.OnVersionClickListener,
                     OnScrollStateChangedListener,
-                    AnnouncementsAdapter.OnAnnouncementClickListener{
+                    AnnouncementsAdapter.OnAnnouncementClickListener,
+                    AnnouncementsFilterSheetFragment.OnFilterSubmittedListener{
 
     companion object {
         private const val TAG  = "MainActivity"
@@ -57,10 +66,11 @@ class MainActivity: AppCompatActivity(),
 
     private lateinit var mUserViewModel: UserViewModel
     private lateinit var mAnnouncementsViewModel: AnnouncementsViewModel
+    private lateinit var mBrandsViewModel:BrandsViewModel
+
+    private var mFilterAnnouncementsFragment = AnnouncementsFilterSheetFragment()
 
     private var currentNavController: LiveData<NavController>? = null
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +83,8 @@ class MainActivity: AppCompatActivity(),
 
             mUserViewModel.initCarDriverProfile()
             mAnnouncementsViewModel = getViewModel(this,RepositoryKey.ANNOUNCEMENT_REPOSITORY) as AnnouncementsViewModel
+            mAnnouncementsViewModel.setConstraints(Pair(MIN_PRICE, MAX_PRICE),Pair(MIN_DISTANCE, MAX_DISTANCE), mutableListOf())
+            mBrandsViewModel = getViewModel(this,RepositoryKey.BRANDS_REPOSITORY) as BrandsViewModel
 
 
 
@@ -117,8 +129,24 @@ class MainActivity: AppCompatActivity(),
                 return true
             }
             R.id.filter -> {
-                val fragment =   AnnouncementsFilterSheetFragment()
-                fragment.show(supportFragmentManager, "bottomSheet")
+
+                if( mFilterAnnouncementsFragment.isVisible) return true
+
+                val args = Bundle()
+                val priceRange = mAnnouncementsViewModel.getPriceConstraints()
+                val distanceRangeRange = mAnnouncementsViewModel.getDistanceConstraints()
+
+                args.putFloat(MIN_PRICE_KEY,priceRange.first / PRICE_PREFIX)
+                args.putFloat(MAX_PRICE_KEY, priceRange.second / PRICE_PREFIX)
+
+                args.putFloat(MIN_DISTANCE_KEY,distanceRangeRange.first/  DISTANCE_PREFIX)
+                args.putFloat(MAX_DISTANCE_KEY, distanceRangeRange.second / DISTANCE_PREFIX)
+
+                args.putParcelableArrayList(BRANDS_KEY, ArrayList(mAnnouncementsViewModel.getBrandsConstraints()))
+
+                mFilterAnnouncementsFragment = AnnouncementsFilterSheetFragment()
+                mFilterAnnouncementsFragment.arguments = args
+                mFilterAnnouncementsFragment.show(supportFragmentManager, "bottomSheet")
                 return true
             }
 
@@ -295,4 +323,20 @@ class MainActivity: AppCompatActivity(),
             create_post_fab.extend(true)
         }
     }
+
+    override fun onFilterSubmitted(brands: List<Brand>, priceRange: Pair<Float, Float>,distanceRange: Pair<Float, Float>) {
+
+        val price  = Pair(priceRange.first*PRICE_PREFIX, priceRange.second * PRICE_PREFIX)
+        val distance  = Pair(distanceRange.first* DISTANCE_PREFIX, distanceRange.second * DISTANCE_PREFIX)
+        mAnnouncementsViewModel.setConstraints(price,distance,brands)
+
+    }
+
+    override fun onFilterCleared() {
+        val priceRange  = Pair(MIN_PRICE, MAX_PRICE)
+        val distanceRange  = Pair(MIN_DISTANCE, MAX_DISTANCE)
+        mAnnouncementsViewModel.setConstraints(priceRange,distanceRange, mutableListOf())
+    }
+
+
 }

@@ -15,6 +15,7 @@ abstract class BaseDataSource<T>(protected val api:SayaraDzApi,
 
     // keep a function reference for the retry event
     protected var retry: (() -> Any)? = null
+
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
 
