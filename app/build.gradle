@@ -90,4 +90,5 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.github.Jay-Goo:RangeSeekBar:2.0.6'
 
+
 }

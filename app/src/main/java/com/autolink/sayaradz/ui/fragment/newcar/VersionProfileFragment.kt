@@ -32,7 +32,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.item_list_non_default_option.view.*
 
 
-//TODO: follow a version
 class VersionProfileFragment:Fragment(){
 
 
