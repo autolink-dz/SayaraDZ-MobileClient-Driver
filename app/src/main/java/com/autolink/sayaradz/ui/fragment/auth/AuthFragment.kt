@@ -62,7 +62,6 @@ class AuthFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         google_sign_in_button.setOnClickListener {
-            Log.d(TAG,"google_sign_in_button.setOnClickListener")
             (context as OnGoogleSignIn).onGoogleSignIn()
         }
 

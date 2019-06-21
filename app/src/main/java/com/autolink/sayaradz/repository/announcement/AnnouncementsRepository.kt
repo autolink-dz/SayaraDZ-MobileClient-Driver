@@ -56,7 +56,7 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
 
         val listing = MutableLiveData<Listing<Announcement>>()
 
-        Log.d("AnnouncementsRepository","getAnnouncements")
+
 
         mSourceFactory =  DataSourceFactory(
             api,
@@ -90,7 +90,6 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
                     mSourceFactory.dataSourceLiveData.value?.retryAllFailed()
                 },
                 refresh = {
-                    Log.d("TAG","setting the min price is to $priceRange")
                     mSourceFactory.params=  mapOf(
                         MIN_PRICE_KEY to priceRange.first,
                         MAX_PRICE_KEY to priceRange.second,
@@ -102,6 +101,7 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
                 refreshState = refreshState
             )
         )
+
         return listing
     }
 

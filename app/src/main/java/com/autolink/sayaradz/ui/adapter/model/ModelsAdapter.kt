@@ -7,10 +7,13 @@ import com.autolink.sayaradz.vo.Model
 import com.bumptech.glide.RequestManager
 
 class ModelsAdapter(private val glide: RequestManager,
-                    private val listener:OnModelClickListener): BaseAdapter<Model>(glide,MODEL_COMPARATOR){
+                    private val listener:OnModelClickListener,
+                    private val displayType:String = DEFAULT_LIST_KEY): BaseAdapter<Model>(glide,MODEL_COMPARATOR){
 
     companion object {
         private const val TAG  = "ModelsAdapter"
+        const val CARD_LIST_KEY = "CARD_LIST_KEY"
+        const val DEFAULT_LIST_KEY = "DEFAULT_LIST_KEY"
 
         val MODEL_COMPARATOR  = object : DiffUtil.ItemCallback<Model>(){
             override fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean {
@@ -28,7 +31,11 @@ class ModelsAdapter(private val glide: RequestManager,
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ModelViewHolder.create(parent,glide,listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when(displayType){
+        CARD_LIST_KEY -> ModelCardViewHolder.create(parent,glide,listener)
+        else -> ModelViewHolder.create(parent,glide,listener)
+    }
+
 
 
 

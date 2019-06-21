@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:layout_gravity="bottom"
+                                                   android:animateLayoutChanges="false"
+                                                   android:layout_height="wrap_content">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="@string/choose_brand_title"
+              style="@style/AppTheme.Intro.Text.content.medium" app:layout_constraintEnd_toEndOf="parent"
+              android:layout_marginEnd="16dp" app:layout_constraintStart_toStartOf="parent"
+              android:layout_marginTop="8dp"
+              app:layout_constraintTop_toTopOf="parent" android:id="@+id/vehicle_search_title"
+              android:layout_marginStart="16dp"/>
+
+    <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Intro.Text.content"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:id="@+id/vehicle_search_hint" app:layout_constraintStart_toStartOf="@+id/vehicle_search_title"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_search_title"
+            android:layout_marginTop="4dp" app:layout_constraintEnd_toEndOf="@+id/vehicle_search_title"/>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/light_grey"
+          app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+          android:id="@+id/divider"
+          app:layout_constraintTop_toBottomOf="@+id/vehicle_search_hint" android:layout_marginTop="16dp"/>
+
+
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+            android:id="@+id/vehicle_search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:dsv_orientation="horizontal"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_card_label_text_view"
+            style="@style/AppTheme.Intro.Text.content.medium"
+            android:textSize="18sp"
+            android:textColor="@color/grey"
+            app:layout_constraintTop_toBottomOf="@+id/vehicle_search_recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

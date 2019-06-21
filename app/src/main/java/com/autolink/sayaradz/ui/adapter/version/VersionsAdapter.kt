@@ -12,10 +12,13 @@ import com.bumptech.glide.RequestManager
 
 class VersionsAdapter(private val glide: RequestManager,
                       private val listener:OnVersionClickListener,
-                      private val model:Model): BaseAdapter<Version>(glide, VERSION_COMPARATOR){
+                      private val model:Model,
+                      private val displayType:String = DEFAULT_LIST_KEY): BaseAdapter<Version>(glide, VERSION_COMPARATOR){
 
     companion object {
         private const val TAG  = "ModelsAdapter"
+        const val CARD_LIST_KEY = "CARD_LIST_KEY"
+        const val DEFAULT_LIST_KEY = "DEFAULT_LIST_KEY"
 
         val VERSION_COMPARATOR  = object : DiffUtil.ItemCallback<Version>(){
             override fun areItemsTheSame(oldItem: Version, newItem: Version): Boolean {
@@ -33,7 +36,10 @@ class VersionsAdapter(private val glide: RequestManager,
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VersionViewHolder.create(parent,glide,listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when(displayType){
+        CARD_LIST_KEY -> VersionCardViewHolder.create(parent,glide,listener)
+        else -> VersionViewHolder.create(parent,glide,listener)
+    }
 
 
     override fun onBindViewHolder(viewHolder: BaseViewHolder<Version>, position: Int) {

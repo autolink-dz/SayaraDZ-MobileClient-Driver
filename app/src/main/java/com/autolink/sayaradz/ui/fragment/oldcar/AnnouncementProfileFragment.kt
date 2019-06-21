@@ -134,7 +134,6 @@ class AnnouncementProfileFragment:Fragment(){
 
             mDialogView.findViewById<TextView>(R.id.dialog_body_text_view).text = context!!.resources.getString(R.string.offer_dialog_message,mAnnouncement.price.toInt().toString())
             offer_button.setOnClickListener {
-                Log.d("TAG","I am here")
                 MaterialDialog(context!!).show {
                     customView(view = mDialogView)
                     noAutoDismiss()

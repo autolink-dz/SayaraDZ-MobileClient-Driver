@@ -94,7 +94,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
            .subscribe({
                 if(state) carDriver.followedModels.add(id) else carDriver.followedModels.remove(id)
                 this.carDriver.postValue(carDriver)
-               subscriptionState.postValue(Event(Status.SUCCESS))
+                subscriptionState.postValue(Event(Status.SUCCESS))
            },{
                Log.d(TAG,it.message)
                subscriptionState.postValue(Event(Status.FAILED))

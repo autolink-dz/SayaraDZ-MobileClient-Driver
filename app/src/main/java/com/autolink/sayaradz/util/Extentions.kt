@@ -14,6 +14,7 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import androidx.navigation.fragment.NavHostFragment
 import androidx.vectordrawable.graphics.drawable.AnimationUtilsCompat
 import com.autolink.sayaradz.repository.announcement.AnnouncementsRepository
 import com.autolink.sayaradz.repository.brand.BrandsRepository
@@ -141,4 +142,18 @@ fun View.playAnimation(
 fun dp2px(context: Context, dp: Float): Int {
     val scale = context.getResources().getDisplayMetrics().density
     return (dp * scale + 0.5f).toInt()
+}
+
+
+@Suppress("UNCHECKED_CAST")
+fun <F : Fragment> AppCompatActivity.getFragment(fragmentClass: Class<F>): F? {
+    val navHostFragment = this.supportFragmentManager.fragments.first() as NavHostFragment
+
+    navHostFragment.childFragmentManager.fragments.forEach {
+        if (fragmentClass.isAssignableFrom(it.javaClass)) {
+            return it as F
+        }
+    }
+
+    return null
 }

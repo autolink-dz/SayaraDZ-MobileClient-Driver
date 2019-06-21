@@ -1,13 +1,10 @@
 package com.autolink.sayaradz.ui.adapter.brand
 
-import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import com.autolink.sayaradz.R
 import com.autolink.sayaradz.ui.adapter.BaseViewHolder
 import com.autolink.sayaradz.ui.adapter.brand.SelectableBrandsAdapter.Companion.NON_SELECTED_VIEW_TYPE
@@ -67,7 +64,7 @@ class SelectableBrandViewHolder(view: View,
     companion object {
         fun create(parent: ViewGroup,viewType:Int, glide: RequestManager, listener: BrandsAdapter.OnBrandsClickListener): SelectableBrandViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_list_card_brand, parent, false)
+                .inflate(R.layout.item_list_selectable_card_brand, parent, false)
             return SelectableBrandViewHolder(view,viewType, glide,listener)
         }
     }
@@ -111,7 +108,6 @@ class SelectableBrandViewHolder(view: View,
 
         with(o) {
             glide.load(photoURL)
-                .placeholder(R.drawable.ic_placeholder)
                 .into(brandImage)
             view.tag = o
         }

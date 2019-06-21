@@ -10,11 +10,13 @@ import java.lang.IllegalArgumentException
 
 
 class BrandsAdapter(private val glide: RequestManager,
-                    private val listener:OnBrandsClickListener): BaseAdapter<Brand>(glide,BRAND_COMPARATOR),
-    FastScrollRecyclerView.SectionedAdapter{
+                    private val listener:OnBrandsClickListener,
+                    private val displayType:String = DEFAULT_LIST_KEY): BaseAdapter<Brand>(glide,BRAND_COMPARATOR), FastScrollRecyclerView.SectionedAdapter{
 
     companion object {
         private const val TAG  = "BrandsFragment"
+        const val CARD_LIST_KEY = "CARD_LIST_KEY"
+        const val DEFAULT_LIST_KEY = "DEFAULT_LIST_KEY"
 
         val BRAND_COMPARATOR  = object : DiffUtil.ItemCallback<Brand>(){
             override fun areItemsTheSame(oldItem: Brand, newItem: Brand): Boolean {
@@ -35,7 +37,10 @@ class BrandsAdapter(private val glide: RequestManager,
     override fun getSectionName(position: Int): String  = getItem(position)?.name?.substring(0,1).toString()
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BrandViewHolder.create(parent,glide,listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when(displayType){
+        CARD_LIST_KEY -> BrandCardViewHolder.create(parent,glide,listener)
+        else -> BrandViewHolder.create(parent,glide,listener)
+    }
 
 
 

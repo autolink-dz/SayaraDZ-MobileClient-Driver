@@ -97,7 +97,6 @@ class AuthActivity: AppIntro(), AuthFragment.OnGoogleSignIn,
 
             if (result.isSuccess){
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "Google sign in Succeeded")
                 mUserViewModel.signInUserWithGoogle(account)
             }else{
                 Log.w(TAG, "Google sign in failed "+result.status)

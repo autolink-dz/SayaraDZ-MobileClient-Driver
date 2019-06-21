@@ -27,7 +27,6 @@ class OrdersNotificationManager(context:Context):NotificationManager(context){
         var body = ""
         var expendableText = ""
 
-        Log.d(TAG,"setPayload $data " )
 
         if(data.getValue("validation").toBoolean()){
 

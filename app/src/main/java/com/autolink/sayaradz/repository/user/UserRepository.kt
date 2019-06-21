@@ -50,7 +50,6 @@ class UserRepository(val api: SayaraDzApi,
                      .doOnSubscribe { compositeDisposable.add(it) }
                      .map { it.currentUser?.uid }
                      .flatMap {
-                         Log.d(TAG,"sending the request to get the user with uid $it")
                          api.getCarDriver(it)}
 
     }

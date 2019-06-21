@@ -44,12 +44,17 @@
     <string name="reject_title">Refuser</string>
 
 
+    <string name="choose_brand_title">Choisir votre marque</string>
+    <string name="choose_model_title">Choisir votre modèle</string>
+    <string name="choose_version_title">Choisir votre version</string>
+
     <string name="order_success_message">Votre commande est envoyeé</string>
     <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
     <string name="offer_success_message">Votre offre est envoyeé</string>
     <string name="offer_failure_message">Erreur lors de l\'envoi de la offre</string>
     <string name="order_dialog_message">Commander une %1$s</string>
     <string name="subscription_failure_message">l\'inscription à %1$s a echouée</string>
+    <string name="subscription_success_message">l\'inscription à %1$s a réussie</string>
     <string name="offer_dialog_message">le propriétaire a fixé le prix minimum à %1$s, essayez d’offrir un prix plus élevé pour avoir une meilleure chance</string>
     <string name="non_valid_offer_error_message">une offre non valable</string>
 

@@ -23,8 +23,6 @@ class AnnouncementsDataSource(private val priceRange: Pair<Float,Float>,
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
 
-        Log.d("TAG","re-creating the pagedd list with the max prices $priceRange")
-
 
         api.getAnnouncements()
             .subscribeOn(Schedulers.from(networkExecutor))
@@ -36,6 +34,11 @@ class AnnouncementsDataSource(private val priceRange: Pair<Float,Float>,
                 val key = listing.key
                 val data = listing.data
                 val extras = listing.extras
+
+                Log.d("TRACK","the data is $data")
+                Log.d("TRACK","the price range is $priceRange")
+                Log.d("TRACK","the brands range is $brands")
+                Log.d("TRACK","the distnace range is $distanceRange")
 
                 val announcements = data.filter {
                         it.price in priceRange.first..priceRange.second
@@ -66,6 +69,7 @@ class AnnouncementsDataSource(private val priceRange: Pair<Float,Float>,
                     }
 
 
+
                 retry = null
                 networkState.postValue(NetworkState.LOADED)
                 initialLoad.postValue(NetworkState.LOADED)
@@ -86,9 +90,6 @@ class AnnouncementsDataSource(private val priceRange: Pair<Float,Float>,
     @SuppressLint("CheckResult")
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Announcement>) {
         networkState.postValue(NetworkState.LOADING)
-
-        val max  = priceRange.second
-        val min = priceRange.first
 
         api.getAnnouncements(params.key)
             .subscribeOn(Schedulers.from(networkExecutor))

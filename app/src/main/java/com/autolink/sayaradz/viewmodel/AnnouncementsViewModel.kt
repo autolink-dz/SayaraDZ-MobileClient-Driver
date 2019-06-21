@@ -2,6 +2,7 @@ package com.autolink.sayaradz.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.databinding.BaseObservable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -17,7 +18,6 @@ import io.reactivex.disposables.CompositeDisposable
 class AnnouncementsViewModel(private val announcementsRepository: AnnouncementsRepository):ViewModel(){
 
     private val compositeDisposable = CompositeDisposable()
-
     companion object {
         const val MAX_PRICE = 35000000F
         const val MIN_PRICE = 1000000F
@@ -30,9 +30,8 @@ class AnnouncementsViewModel(private val announcementsRepository: AnnouncementsR
 
     init {
         announcementsRepository.compositeDisposable  = compositeDisposable
-        announcementsRepository.setConstraints(Pair(MIN_PRICE, MAX_PRICE),Pair(MAX_DISTANCE, MIN_DISTANCE), mutableListOf())
+        announcementsRepository.setConstraints(Pair(MIN_PRICE, MAX_PRICE),Pair(MIN_DISTANCE,MAX_DISTANCE), mutableListOf())
     }
-
 
 
     private val repoResult = announcementsRepository.getAnnouncements()
@@ -40,24 +39,23 @@ class AnnouncementsViewModel(private val announcementsRepository: AnnouncementsR
 
 
     val announcementsList = Transformations.switchMap(repoResult) {
-         it.pagedList
-    }
-
+        it.pagedList
+    }!!
     val networkState = Transformations.switchMap(repoResult) {
-        it.networkState }
+        it.networkState }!!
     val refreshState = Transformations.switchMap(repoResult) {
         it.refreshState
-    }
-
+    }!!
     val offerStateLiveData:LiveData<Event<Status>> = Transformations.map(offerState){
         it
     }
 
 
+
+
     fun refresh() {
         repoResult.value?.refresh?.invoke()
     }
-
     fun retry() {
         val listing = repoResult.value
         listing?.retry?.invoke()
@@ -65,22 +63,21 @@ class AnnouncementsViewModel(private val announcementsRepository: AnnouncementsR
 
     @SuppressLint("CheckResult")
     fun setOffer(announcement:Announcement, carDriver: CarDriver, price:Float){
-        Log.d("Test","the object is ${announcement.owner}")
         announcementsRepository.setOffer(announcement.id,announcement.owner.id,carDriver.id,price)
             .subscribe({
                 offerState.postValue(Event(Status.SUCCESS))
             },{
-                Log.d("TAG","an error occured ${it.message}")
                 offerState.postValue(Event(Status.FAILED))
             })
 
     }
 
+
+
     fun setConstraints(priceRange:Pair<Float,Float>,distanceRange:Pair<Float,Float>,brands:List<Brand>){
         announcementsRepository.setConstraints(priceRange,distanceRange,brands)
         refresh()
     }
-
     fun getPriceConstraints() = announcementsRepository.priceRange
     fun getBrandsConstraints() = announcementsRepository.brands
     fun getDistanceConstraints() = announcementsRepository.distanceRange

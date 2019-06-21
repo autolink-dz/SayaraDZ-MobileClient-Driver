@@ -91,9 +91,13 @@ class VersionsFragment:Fragment(){
 
         mUserViewModel.subscriptionStateLiveData.observe(this, Observer { status ->
             status.getContentIfNotHandled()?.let { // Only proceed if the event has never been handled //
-                if(status.peekContent() == Status.FAILED){
+                if(status.peekContent() == Status.FAILED) {
 
-                    Snackbar.make(view, context!!.getString(R.string.subscription_failure_message,mModel.name), Snackbar.LENGTH_LONG)
+                    Snackbar.make(
+                        view,
+                        context!!.getString(R.string.subscription_failure_message, mModel.name),
+                        Snackbar.LENGTH_LONG
+                    )
                         .show()
                 }
 
@@ -125,10 +129,10 @@ class VersionsFragment:Fragment(){
 
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        Log.d(TAG, "the data is ${ mUserViewModel.getCarDriverLiveData().value }")
 
         val carDriver = mUserViewModel.getCarDriverLiveData().value ?: return super.onPrepareOptionsMenu(menu)
         menu[1].isVisible = true
+
         if (carDriver.followedModels.indexOf(mModel.id) != -1)
              menu[1].icon = context!!.getDrawable(R.drawable.ic_notifications_active)
         else
@@ -138,9 +142,10 @@ class VersionsFragment:Fragment(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG,"Sending the notification request")
+
         if (item.itemId == R.id.notification){
             val carDriver = mUserViewModel.getCarDriverLiveData().value ?: return  true
+
             if (carDriver.followedModels.indexOf(mModel.id) != -1)
                 mUserViewModel.setUserSubscriptionToModelState(false,mModel.id)
             else

@@ -49,6 +49,9 @@ class AnnouncementsFilterSheetFragment:RoundedBottomSheetDialogFragment(){
             ViewModelProviders.of(this).get(BrandsViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
     }
+
+
+
     private lateinit var  mBrandsAdapter:SelectableBrandsAdapter
 
     private var minPriceValue:Float = 0.0f
@@ -101,7 +104,6 @@ class AnnouncementsFilterSheetFragment:RoundedBottomSheetDialogFragment(){
         minDistanceValue = arguments?.getFloat(MIN_DISTANCE_KEY) ?: 0F
         maxDistanceValue = arguments?.getFloat(MAX_DISTANCE_KEY) ?: 0F
 
-        Log.d("TAG","distance is $maxDistanceValue")
 
         distance_range_seek_bar.setValue(minDistanceValue,maxDistanceValue)
         distance_range_seek_bar.setIndicatorTextDecimalFormat("0 milles km")

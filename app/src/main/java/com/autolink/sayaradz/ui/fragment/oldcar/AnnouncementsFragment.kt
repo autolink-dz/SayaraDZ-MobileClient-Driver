@@ -46,6 +46,10 @@ class AnnouncementsFragment : Fragment() {
         AnnouncementsAdapter(Glide.with(context!!),context as AnnouncementsAdapter.OnAnnouncementClickListener)
     }
 
+    companion object {
+        const val TAG = "AnnouncementsFragment"
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,12 +72,11 @@ class AnnouncementsFragment : Fragment() {
                         scrolling = false,
                         up = true
                     )
-                    else -> println("Scroll state")
+                    else -> {}
                 }
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                Log.d("SCROLL","$dy")
                 (context as OnScrollStateChangedListener).onScrollStateChanged(dy != 0,dy <= 0)
             }
         })

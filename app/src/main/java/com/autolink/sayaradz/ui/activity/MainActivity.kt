@@ -1,5 +1,7 @@
 package com.autolink.sayaradz.ui.activity
 
+import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -34,10 +36,9 @@ import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MAX_PRICE_KEY
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_DISTANCE_KEY
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_PRICE_KEY
-import com.autolink.sayaradz.util.OnScrollStateChangedListener
-import com.autolink.sayaradz.util.RepositoryKey
-import com.autolink.sayaradz.util.getViewModel
-import com.autolink.sayaradz.util.setupWithNavController
+import com.autolink.sayaradz.ui.fragment.oldcar.VehicleSelectionFragment
+import com.autolink.sayaradz.ui.fragment.oldcar.NewAnnouncementFragment
+import com.autolink.sayaradz.util.*
 import com.autolink.sayaradz.viewmodel.*
 import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.DISTANCE_PREFIX
 import com.autolink.sayaradz.viewmodel.AnnouncementsViewModel.Companion.MAX_DISTANCE
@@ -49,8 +50,13 @@ import com.autolink.sayaradz.vo.Announcement
 import com.autolink.sayaradz.vo.Brand
 import com.autolink.sayaradz.vo.Model
 import com.autolink.sayaradz.vo.Version
+import com.erikagtierrez.multiple_media_picker.Gallery
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
 
 class MainActivity: AppCompatActivity(),
                     BrandsAdapter.OnBrandsClickListener,
@@ -58,10 +64,16 @@ class MainActivity: AppCompatActivity(),
                     VersionsAdapter.OnVersionClickListener,
                     OnScrollStateChangedListener,
                     AnnouncementsAdapter.OnAnnouncementClickListener,
-                    AnnouncementsFilterSheetFragment.OnFilterSubmittedListener{
+                    AnnouncementsFilterSheetFragment.OnFilterSubmittedListener,
+                    NewAnnouncementFragment.OnSelectVehicleClickListener,
+                    VehicleSelectionFragment.OnVehicleSelectionCompletedListener,
+                    NewAnnouncementFragment.OnSelectPhotoClickListener{
+
 
     companion object {
         private const val TAG  = "MainActivity"
+        private const val PICK_ANNOUNCEMENT_PHOTO = 1
+        private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2
     }
 
     private lateinit var mUserViewModel: UserViewModel
@@ -69,9 +81,24 @@ class MainActivity: AppCompatActivity(),
     private lateinit var mBrandsViewModel:BrandsViewModel
 
     private var mFilterAnnouncementsFragment = AnnouncementsFilterSheetFragment()
+    private var mCarSelectionFragment = VehicleSelectionFragment()
 
     private var currentNavController: LiveData<NavController>? = null
 
+    private val mImagePicker = {
+
+        val intent = Intent(this, Gallery::class.java)
+        intent.putExtra("title", "Choisire une photo")
+        intent.putExtra("mode", 2)
+        intent.putExtra("maxSelection", 1)
+
+        startActivityForResult(intent, PICK_ANNOUNCEMENT_PHOTO)
+    }
+    private val mVisibleFragment = {
+        val  navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container)!!
+         navHostFragment.childFragmentManager.fragments[0]
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +109,9 @@ class MainActivity: AppCompatActivity(),
         if(mUserViewModel.isUserSignIn()){
 
             mUserViewModel.initCarDriverProfile()
+
             mAnnouncementsViewModel = getViewModel(this,RepositoryKey.ANNOUNCEMENT_REPOSITORY) as AnnouncementsViewModel
-            mAnnouncementsViewModel.setConstraints(Pair(MIN_PRICE, MAX_PRICE),Pair(MIN_DISTANCE, MAX_DISTANCE), mutableListOf())
+
             mBrandsViewModel = getViewModel(this,RepositoryKey.BRANDS_REPOSITORY) as BrandsViewModel
 
 
@@ -103,6 +131,10 @@ class MainActivity: AppCompatActivity(),
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.title = ""
         createNotificationChannel()
+
+        create_post_fab.setOnClickListener {
+            currentNavController?.value?.navigate(R.id.action_announcementsFragment_to_newAnnouncementFragment)
+        }
 
 
     }
@@ -144,7 +176,6 @@ class MainActivity: AppCompatActivity(),
 
                 args.putParcelableArrayList(BRANDS_KEY, ArrayList(mAnnouncementsViewModel.getBrandsConstraints()))
 
-                mFilterAnnouncementsFragment = AnnouncementsFilterSheetFragment()
                 mFilterAnnouncementsFragment.arguments = args
                 mFilterAnnouncementsFragment.show(supportFragmentManager, "bottomSheet")
                 return true
@@ -216,6 +247,7 @@ class MainActivity: AppCompatActivity(),
 
                     R.id.newAnnouncementFragment ->{
                         invalidateOptionsMenu()
+                        hideBottomNavigation()
                         create_post_fab.visibility = View.GONE
                     }
 
@@ -336,6 +368,56 @@ class MainActivity: AppCompatActivity(),
         val priceRange  = Pair(MIN_PRICE, MAX_PRICE)
         val distanceRange  = Pair(MIN_DISTANCE, MAX_DISTANCE)
         mAnnouncementsViewModel.setConstraints(priceRange,distanceRange, mutableListOf())
+    }
+
+    override fun onSelectVehicleClicked() {
+        if( mCarSelectionFragment.isVisible) return
+        mCarSelectionFragment.show(supportFragmentManager,"bottomSheet")
+
+    }
+
+    override fun onVehicleSelectionCompleted(version: Version, brand: Brand) {
+        val fragment = mVisibleFragment() as NewAnnouncementFragment
+        fragment.setVehicleProviderCredential(brand,version)
+    }
+
+    override fun onSelectPhotoClicked() {
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+        }else{
+            mImagePicker()
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    mImagePicker()
+                }
+                return
+            }
+            else -> { }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_ANNOUNCEMENT_PHOTO) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val selectionResult = data.getStringArrayListExtra("result")
+                val fragment = mVisibleFragment() as NewAnnouncementFragment
+                fragment.setVehiclePhoto(selectionResult[0])
+
+            }
+        }
     }
 
 

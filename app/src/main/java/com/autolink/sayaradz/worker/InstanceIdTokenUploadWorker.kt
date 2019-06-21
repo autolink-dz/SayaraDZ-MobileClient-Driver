@@ -25,7 +25,6 @@ companion object {
         val uid = inputData.getString(USER_UID_KEY) ?: return Result.retry()
         val token  = applicationContext.readFromSharedPreference(FCMService.TOKEN_KEY) ?: return Result.retry()
 
-        Log.d(TAG,"sending the instanceToken $token to user $uid")
         sayaraDzApi.setUserInstanceIdToken(uid,token).execute()
 
         return Result.success()

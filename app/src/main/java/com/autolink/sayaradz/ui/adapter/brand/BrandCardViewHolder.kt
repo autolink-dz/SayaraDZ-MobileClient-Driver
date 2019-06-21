@@ -10,10 +10,9 @@ import com.autolink.sayaradz.ui.adapter.BaseViewHolder
 import com.autolink.sayaradz.vo.Brand
 import com.bumptech.glide.RequestManager
 
-
-class BrandViewHolder(view:View,
-                      glide:RequestManager,
-                      val listener:BrandsAdapter.OnBrandsClickListener): BaseViewHolder<Brand>(view,glide) {
+class BrandCardViewHolder(view: View,
+                          glide: RequestManager,
+                          val listener:BrandsAdapter.OnBrandsClickListener): BaseViewHolder<Brand>(view,glide) {
 
     init {
         view.setOnClickListener {
@@ -23,21 +22,19 @@ class BrandViewHolder(view:View,
     }
 
     companion object {
-        fun create(parent: ViewGroup, glide: RequestManager, listener: BrandsAdapter.OnBrandsClickListener): BrandViewHolder {
+        fun create(parent: ViewGroup, glide: RequestManager, listener: BrandsAdapter.OnBrandsClickListener): BrandCardViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_list_brand, parent, false)
-            return BrandViewHolder(view, glide,listener)
+                .inflate(R.layout.item_list_card_image, parent, false)
+            return BrandCardViewHolder(view, glide,listener)
         }
     }
 
 
-    val brandImage: ImageView = view.findViewById(R.id.brand_image)
-    val brandTitle: TextView = view.findViewById(R.id.brand_name)
+    val brandImage: ImageView = view.findViewById(R.id.item_image_view)
 
 
     override fun bindTo(o: Brand) {
         with(o) {
-            brandTitle.text = name
             glide.load(photoURL)
                 .into(brandImage)
             view.tag = o

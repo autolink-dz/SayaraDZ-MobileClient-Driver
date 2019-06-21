@@ -53,7 +53,6 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
         total
     }
      val vehicleAvailability:LiveData<Boolean> = Transformations.map(vehicle){
-         Log.d("TAG","cheking the list")
          it.isNotEmpty()
      }
      val orderStateLiveData:LiveData<Event<Status>> = Transformations.map(orderState){
@@ -85,7 +84,7 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
                 suggestedOptionsPrice.postValue(suggestedOptionsPriceMap)
 
             },{
-                Log.d("TAG","an error occured ${it.message}")
+                Log.d("TAG","an error  ${it.message}")
             })
     }
 
@@ -138,7 +137,7 @@ class TariffViewModel(private val tariffRepository: TariffRepository):ViewModel(
 
                 orderState.postValue(Event(Status.SUCCESS))
             },{
-                Log.d("TAG","an error occured ${it.message}")
+                Log.d("TAG","an error ${it.message}")
                 orderState.postValue(Event(Status.FAILED))
             })
     }
