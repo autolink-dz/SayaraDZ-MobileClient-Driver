@@ -64,6 +64,19 @@ interface SayaraDzApi{
     fun getAnnouncements(@Query("next")key:String="0",@Query("disponible") available:Boolean = true):Observable<ResponseListing<CompactAnnouncement>>
 
     @FormUrlEncoded
+    @POST("annonces")
+    fun setAnnouncement(
+        @Field("id_proprietaire") ownerId:String,
+        @Field("id_marque") brandId:String,
+        @Field("id_modele") modelId:String,
+        @Field("id_version") versionId:String,
+        @Field("prix_min") price:Float,
+        @Field("annee") year:String,
+        @Field("distance") distance:Float,
+        @Field("description") description:String):Observable<CompactAnnouncement>
+
+
+    @FormUrlEncoded
     @POST("offres")
     fun setOffer(@Field("id_annonce") announcementId:String,
                  @Field("id_proprietaire")ownerID:String,

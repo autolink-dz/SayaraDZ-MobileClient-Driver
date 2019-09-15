@@ -50,6 +50,8 @@
 
     <string name="order_success_message">Votre commande est envoyeé</string>
     <string name="order_failure_message">Erreur lors de l\'envoi de la commande</string>
+    <string name="announcement_success_message">Votre annonce est publiée</string>
+    <string name="announcement_failure_message">Erreur lors de l\'envoi de l\'annonce</string>
     <string name="offer_success_message">Votre offre est envoyeé</string>
     <string name="offer_failure_message">Erreur lors de l\'envoi de la offre</string>
     <string name="order_dialog_message">Commander une %1$s</string>

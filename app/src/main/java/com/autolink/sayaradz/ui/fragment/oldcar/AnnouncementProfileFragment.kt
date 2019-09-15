@@ -96,6 +96,8 @@ class AnnouncementProfileFragment:Fragment(){
             }
         })
 
+        offer_button.isEnabled = mAnnouncement.owner.id != mUserViewModel.getCarDriverLiveData().value?.id
+
         }
 
 

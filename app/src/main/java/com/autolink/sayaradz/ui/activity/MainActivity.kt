@@ -67,7 +67,8 @@ class MainActivity: AppCompatActivity(),
                     AnnouncementsFilterSheetFragment.OnFilterSubmittedListener,
                     NewAnnouncementFragment.OnSelectVehicleClickListener,
                     VehicleSelectionFragment.OnVehicleSelectionCompletedListener,
-                    NewAnnouncementFragment.OnSelectPhotoClickListener{
+                    NewAnnouncementFragment.OnSelectPhotoClickListener,
+                    NewAnnouncementFragment.OnAnnouncementSubmittedListener{
 
 
     companion object {
@@ -392,6 +393,12 @@ class MainActivity: AppCompatActivity(),
 
     }
 
+    override fun onAnnouncementSubmitted() {
+        val user = mUserViewModel.getCarDriverLiveData().value ?: return
+        mAnnouncementsViewModel.setAnnouncement(user)
+
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -414,6 +421,7 @@ class MainActivity: AppCompatActivity(),
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val selectionResult = data.getStringArrayListExtra("result")
                 val fragment = mVisibleFragment() as NewAnnouncementFragment
+
                 fragment.setVehiclePhoto(selectionResult[0])
 
             }

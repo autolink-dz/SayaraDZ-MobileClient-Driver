@@ -5,7 +5,7 @@
 
     <data>
         <variable
-                name="viewmodel"
+                name="announcementviewmodel"
                 type="com.autolink.sayaradz.viewmodel.AnnouncementsViewModel" />
     </data>
 
@@ -117,8 +117,10 @@
                                                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                                                    android:id="@+id/description_input_layout"
                                                                    android:layout_marginStart="16dp">
-                <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
-                                                                         android:layout_height="wrap_content"/>
+                <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={announcementviewmodel.newAnnouncementDescription}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +137,9 @@
             >
 
                 <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
-                                                                         android:layout_height="wrap_content"/>
+                                                                         android:layout_height="wrap_content"
+                                                                         android:inputType="number"
+                                                                         android:text="@={`` +announcementviewmodel.newAnnouncementYear}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp"
@@ -151,7 +155,9 @@
                                                                    app:layout_constraintHorizontal_bias="0.0">
 
                 <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
-                                                                         android:layout_height="wrap_content"/>
+                                                                         android:layout_height="wrap_content"
+                                                                         android:inputType="number"
+                                                                         android:text="@={`` +announcementviewmodel.newAnnouncementDistance}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp"
@@ -166,7 +172,8 @@
                                                                    app:layout_constraintTop_toBottomOf="@+id/data_input_layout">
                 <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
                                                                          android:inputType="number"
-                                                                         android:layout_height="wrap_content"/>
+                                                                         android:layout_height="wrap_content"
+                                                                         android:text="@={`` +announcementviewmodel.newAnnouncementPrice}"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,7 +183,6 @@
                                                                android:layout_height="wrap_content"
                                                                android:text="Annoncer"
                                                                android:paddingTop="8dp"
-                                                               android:enabled="false"
                                                                android:paddingBottom="8dp"
                                                                android:layout_marginTop="32dp"
                                                                android:id="@+id/submit_announce_button"
@@ -184,6 +190,7 @@
                                                                app:layout_constraintBottom_toBottomOf="parent"
                                                                app:layout_constraintStart_toStartOf="parent"
                                                                android:layout_marginStart="16dp"
+                                                               android:enabled="@{announcementviewmodel.newAnnouncementPrice >0 &amp;&amp; announcementviewmodel.newAnnouncementYear > 2004 &amp;&amp; announcementviewmodel.newAnnouncementPhotoUrl != null &amp;&amp; announcementviewmodel.newAnnouncementDescription != null &amp;&amp; announcementviewmodel.newAnnouncementVersion != null }"
                                                                app:layout_constraintEnd_toEndOf="parent"
                                                                android:layout_marginEnd="16dp"/>
             <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.autolink.sayaradz.repository.announcement
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +19,13 @@ import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment
 import com.autolink.sayaradz.ui.fragment.oldcar.AnnouncementsFilterSheetFragment.Companion.MIN_PRICE_KEY
 import com.autolink.sayaradz.vo.Announcement
 import com.autolink.sayaradz.vo.Brand
+import com.autolink.sayaradz.vo.CompactAnnouncement
+import com.google.firebase.storage.FirebaseStorage
+import durdinapps.rxfirebase2.RxFirebaseStorage
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import java.util.concurrent.Executor
 
 class AnnouncementsRepository(private val api: SayaraDzApi,
@@ -112,6 +118,32 @@ class AnnouncementsRepository(private val api: SayaraDzApi,
             .subscribeOn(Schedulers.from(networkExecutor))
             .observeOn(Schedulers.from(networkExecutor))
             .doOnSubscribe { compositeDisposable.add(it) }
+
+
+
+    fun setAnnouncement(announcement: CompactAnnouncement): Observable<Any> {
+
+        return api.setAnnouncement(
+            ownerId = announcement.ownerId,
+            brandId = announcement.brandId,
+            modelId = announcement.modelId,
+            versionId = announcement.versionId,
+            price = announcement.price,
+            year = announcement.year,
+            distance = announcement.distance,
+            description = announcement.description
+
+        )
+            .subscribeOn(Schedulers.from(networkExecutor))
+            .observeOn(Schedulers.from(networkExecutor))
+            .doOnSubscribe { compositeDisposable.add(it) }
+            .flatMap {
+                val ref = FirebaseStorage.getInstance().reference
+                return@flatMap RxFirebaseStorage.putFile(ref.child("images/annonces/${it.id}"),Uri.fromFile( File( announcement.photoURL))).toObservable()
+
+            }
+    }
+
 
 
     override fun clear() {

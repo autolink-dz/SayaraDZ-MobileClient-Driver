@@ -61,6 +61,7 @@ dependencies {
     // optional - RxJava2 support
     implementation "androidx.work:work-rxjava2:$work_version"
 
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
     testImplementation 'junit:junit:4.12'
     testImplementation "androidx.paging:paging-common-ktx:$paging_version" // For Kotlin use paging-common-ktx
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
